@@ -1,7 +1,7 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Netflix Clone de Guayerd",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js"
@@ -19,5 +19,14 @@
     "mongoose": "^6.2.3",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jpromanonet/guayerd_netflixClone.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jpromanonet/guayerd_netflixClone/issues"
+  },
+  "homepage": "https://github.com/jpromanonet/guayerd_netflixClone#readme"
 }
