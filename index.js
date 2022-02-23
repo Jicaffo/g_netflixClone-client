@@ -3,7 +3,7 @@ const connectDB = require('./config/db')
 const app = express()
 const dotenv = require('dotenv')
 
-dotenv.config();
+dotenv.config({path: 'variables.env'});
 connectDB();
 
 app.use(express.json({ extender: true}))
@@ -21,4 +21,9 @@ app.listen(PORT, () =>{
 
     console.log(`Server running on port ${PORT}`)
 })
+
+
+
+
+
 

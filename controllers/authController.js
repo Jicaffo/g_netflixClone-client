@@ -25,10 +25,10 @@ exports.authUser = async (req, res) => {
         }
 
         //Checking password on Db
-        console.log(user.password)
-        console.log(password)
+        // console.log(user.password)
+        // console.log(password)
         const rightPassword = await bcryptjs.compare(password,user.password)
-        console.log(rightPassword)
+        // console.log(rightPassword)
         if (!rightPassword) {
             return res.status(400).json({msg: 'Incorrect password'})
         }
