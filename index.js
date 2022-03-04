@@ -3,7 +3,7 @@ const connectDB = require('./config/db')
 const app = express()
 const dotenv = require('dotenv')
 
-dotenv.config({path: 'variables.env'});
+dotenv.config({path: '.env'});
 connectDB();
 
 app.use(express.json({ extender: true}))
