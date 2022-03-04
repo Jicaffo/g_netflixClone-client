@@ -16,11 +16,7 @@ router.get('/',
 
 
 
-router.get('/',
- //First checking authentication, then get all  from this user
-              
-    movieControllers.getMovies
-)
+
 module.exports = router;
 
 
