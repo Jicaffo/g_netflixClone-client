@@ -15,7 +15,7 @@ exports.getMovies = async(req,res) => {
         const moviesAndSeries = await MoviesAndSeries.find()
  
         res.json({moviesAndSeries})
-        //console.log(moviesAndSeries)
+        console.log(moviesAndSeries)
 
 
 

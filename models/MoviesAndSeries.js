@@ -12,7 +12,7 @@ const MovieSchema = mongoose.Schema(
     // imgSmall: {type: String},
     // trailer: {type: String},
     // year: {type: String},
-    // genre: {type: String},
+    genre: {type: String},
     // time: {type: Number},
     // director: {type: String},
     // cast: {type: Array},
