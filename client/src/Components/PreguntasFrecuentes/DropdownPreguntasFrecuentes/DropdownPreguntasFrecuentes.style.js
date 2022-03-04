@@ -1,42 +1,29 @@
 
 import { makeStyles } from '@material-ui/core/styles';
 
-const colors = {
-    darkgrey: "#303030",
-    white: "white",
-    black: "black",
-    red: "red"
-}
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    background: colors.darkgrey,
-    color: colors.white,
+    width: '100%',
+    marginBottom: '4px'
     
   },
   divider: {
     background: "black !important",
     height: '1.5px !important'
   },
-  container: {
-    marginBottom: '4px'
+  accordion: {
+    background: theme.palette.background.card,
+    color: theme.palette.background.input,
   },
-  align:{
-      display: 'flex',
-  },
-  media: {
-    height: 0,
-    paddingTop: '56.25%', // 16:9
+  icon: {
+    color: theme.palette.background.input,
+    fontSize: "30px",
+    transform: 'rotate(45deg)'
   },
   expand: {
     transform: 'rotate(0deg)',
     marginLeft: 'auto',
-    color: colors.white,
-    
-  },
-  expandOpen: {
-    transform: 'rotate(45deg)',
-    color: colors.white
   },
 }));
 
