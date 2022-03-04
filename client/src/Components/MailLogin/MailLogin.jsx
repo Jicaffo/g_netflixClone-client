@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStyles } from './MailLogin.styles';
-import { Box, Typography, TextField, Button } from "@material-ui/core";
+import { Typography, TextField, Button } from "@material-ui/core";
 import { useFormik, FormikProvider } from "formik";
 import * as yup from "yup";
 

@@ -1,0 +1,14 @@
+.feature {
+    border-bottom: 8px solid #222;
+    padding: 70px 0;
+}
+
+.feature-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.feature-container.reverse {
+    flex-direction: row-reverse;
+}
