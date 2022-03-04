@@ -1,9 +1,13 @@
 import React from 'react'
+import { Welcome, FeatureGroup, SeccionPreguntasFrecuentes } from '../../Components'
 
 const Home = () => {
   return (
-    <h1>Home</h1>
-    
+    <>
+      <Welcome/>
+      <FeatureGroup/>
+      <SeccionPreguntasFrecuentes/>
+    </>  
   )
 }
 
