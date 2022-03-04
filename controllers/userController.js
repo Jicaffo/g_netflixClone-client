@@ -15,7 +15,7 @@ exports.makeUser = async(req,res) => {
     
     try {
 
-        let user = await User.findOne({ email })
+        let user =  await User.findOne({ email })
         if(user) {
             return res.status(400).json({ msg: 'This user already exist'})
 
@@ -24,6 +24,8 @@ exports.makeUser = async(req,res) => {
         user = new User(req.body) 
         
          //This command will hash the password and if some password are the same, the hash will be diferent
+
+
          const salt = await bcryptjs.genSaltSync(10)
          console.log(salt)
          user.password = await bcryptjs.hash(password, salt)
@@ -35,6 +37,6 @@ exports.makeUser = async(req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(400).send('Something wrong')
+        res.status(500).send('Something wrong')
     }
 }

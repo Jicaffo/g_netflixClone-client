@@ -10,9 +10,12 @@ app.use(express.json({ extender: true}))
 
 const PORT = process.env.PORT || 4000;
 
-app.use('/api/users', require('./routes/users'))
+
 app.use('/api/auth', require('./routes/auth'))
 
+app.use('/api/users', require('./routes/users'))
+
+app.use('/api/MoviesAndSeries', require('./routes/moviesAndSeries'))
 // app.use('/api/projects', require('./routes/projects'))
 // app.use('/api/tasks', require('./routes/tasks'))
 

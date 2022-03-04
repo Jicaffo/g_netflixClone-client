@@ -27,6 +27,8 @@ exports.authUser = async (req, res) => {
         //Checking password on Db
         // console.log(user.password)
         // console.log(password)
+
+
         const rightPassword = await bcryptjs.compare(password,user.password)
         // console.log(rightPassword)
         if (!rightPassword) {
@@ -37,5 +39,6 @@ exports.authUser = async (req, res) => {
 
      } catch (error) {
          console.log(error)
+         res.status(500).send('Internal server error')
      }
 }
