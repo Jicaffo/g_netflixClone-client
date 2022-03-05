@@ -4,7 +4,7 @@ const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 
 
-//This function will get everything from moviesAndSeries collection.
+//This function will get everything by an especific genre from moviesAndSeries collection.
 
 exports.getSearchByGenre = async(req,res) => {
 
@@ -25,8 +25,6 @@ exports.getSearchByGenre = async(req,res) => {
  
          res.json({'right': 'okay'})
          console.log(moviesByGenre)
-
-
 
     } catch (error) {
         console.log(error)
