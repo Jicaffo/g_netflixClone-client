@@ -3,6 +3,8 @@ const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 
+//This function will check an exist user from users collection.
+
 //LOGIN
 exports.authUser = async (req, res) => {
      
@@ -21,7 +23,7 @@ exports.authUser = async (req, res) => {
          //Finding user by email on DB
         let user = await User.findOne({ email })
         if (!user) {
-            return res.status(400).json({msg: 'User doesnt exist'})
+            return res.status(400).json({msg: "User doesn't exist"})
         }
 
         //Checking password on Db
