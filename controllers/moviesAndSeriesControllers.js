@@ -3,10 +3,10 @@ const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 
-
 //This function will get everything from moviesAndSeries collection.
 
-exports.getMovies = async(req,res) => {
+// exports.getMovies = async(req,res) => {
+    exports.getMoviesAndSeries = async(req,res) => { 
 
     // console.log(req)
     // console.log(res)
@@ -51,8 +51,7 @@ exports.makeMovie = async(req,res) => {
  
         
         await MoviesAndSeries.save()
-        return res.status(200).json({ msg: 'Movie has been created correctly'})
-
+        return res.status(200).json({ msg: 'Movies has been created correctly'})      
 
     } catch (error) {
         console.log(error)
