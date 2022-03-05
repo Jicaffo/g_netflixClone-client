@@ -17,6 +17,7 @@ const theme = createTheme({
     },
     sectionBorder: "#222",
     contrastText: "white",
+    errorText: "#ffa00a",
   }
 });
 

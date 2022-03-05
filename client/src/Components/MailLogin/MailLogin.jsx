@@ -2,14 +2,11 @@ import React from 'react';
 //import { useStyles } from './MailLogin.styles'; //Utilizandolo desde esta forma, desde un archivo separado, por algún motivo no funciona.
 import { Typography, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { useFormik, FormikProvider } from "formik";
+import { useFormik, FormikProvider, ErrorMessage } from "formik";
 import * as yup from "yup";
 
 
-const useStyles = makeStyles((theme) => {
-	console.log('MLstyles', theme);
-
-	return {
+const useStyles = makeStyles((theme) => ({
 		root: {
 			paddingTop: '0.85rem',
             textAlign: 'center'
@@ -17,7 +14,7 @@ const useStyles = makeStyles((theme) => {
 		text: {
 			color: theme.palette.contrastText,
 			fontSize: 'large',
-			margin: '15px'
+			margin: '15px auto'
 		},
 		input: {
 			backgroundColor: theme.palette.background.input,
@@ -26,7 +23,23 @@ const useStyles = makeStyles((theme) => {
 			padding: '0px',
 			height: '60px',
 			boxSizing: 'border-box',
-			paddingLeft: '10px'
+			paddingLeft: '10px',
+            //borderBottom: `2px solid ${theme.palette.errorText}`, //Debería poder aplicarse solo de tener un hijo con clase "Mui-error".        
+            "& .MuiFormLabel-root": {
+                color: theme.palette.secondary.main,
+                fontWeight: "bold",
+            },
+            "& .MuiFormLabel-root[data-shrink='false']": {
+                fontWeight: "normal",
+            },
+            "& .MuiFormHelperText-root": {
+                marginTop: "20px",
+                fontSize: "14px",
+            },
+            "& .MuiFormHelperText-root.Mui-error": {
+                color: theme.palette.errorText,
+            },
+
 		},
 		button: {
 			borderRadius: '2px',
@@ -42,8 +55,7 @@ const useStyles = makeStyles((theme) => {
 				backgroundColor: theme.palette.primary.light
 			}
 		}
-	};
-});
+}));
 
 const MailLogin = () => {
 
@@ -66,7 +78,7 @@ const MailLogin = () => {
 
     return (
         <FormikProvider value={formik}>
-            <form action="#" onSubmit={formik.handleSubmit} className={classes.root}>
+            <form onSubmit={formik.handleSubmit} className={classes.root}>
 
                 <Typography
                     className={classes.text}>¿Quieres ver Netflix ya? Ingresa tu email para crear una cuenta o reiniciar tu membresía de Netflix.
@@ -78,11 +90,16 @@ const MailLogin = () => {
                     name="mail"
                     value={formik.values.mail}
                     onChange={formik.handleChange}
-                    helperText={formik.errors.mail}
+                    helperText={formik.errors.mail ? <ErrorMessage name="mail"/> : "" }
                     error={formik.errors.mail}
                     className={classes.input}
                     InputProps={{ disableUnderline: true }}
                     InputLabelProps={{ color: "secondary" }}
+                    // FormHelperTextProps={{   // Funciona, a investigar, pasado a la clase input de makeStyles como subclase.
+                    //     style: {
+                    //         marginTop: "20px",
+                    //         fontSize: "14px",
+                    //     } }}
                 />
 
                 <Button
@@ -90,6 +107,7 @@ const MailLogin = () => {
                     variant="contained"
                     disableElevation
                     onClick={formik.handleSubmit}
+                    type="submit"
                 >
                     Comenzar &gt;
                 </Button>

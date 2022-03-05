@@ -66,18 +66,19 @@ const DropdownPreguntasFrecuentes = () => {
           expandIcon={<ClearIcon className={classes.icon}/>}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
+          className={classes.withPadding}
         >
           <Typography variant="h5" className={classes.heading}>
             {heading}
           </Typography>
         </AccordionSummary>
         <Divider className={classes.divider}/>
-        <AccordionDetails>
+        <AccordionDetails className={classes.withPadding}>
           <Typography variant="h5">
             {content}
           </Typography>
         </AccordionDetails>
-        <AccordionDetails>
+        <AccordionDetails className={classes.withPadding}>
           <Typography variant="h5">
             {content2}
           </Typography>
