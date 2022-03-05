@@ -3,8 +3,9 @@ const bcryptjs = require('bcryptjs');
 const { validationResult } = require('express-validator')
 const jwt = require('jsonwebtoken')
 
-exports.makeUser = async(req,res) => {
+//This function will create a new user from users collection.
 
+exports.makeUser = async(req,res) => {
 
     //Checking Errors
     const errors = validationResult(req);
