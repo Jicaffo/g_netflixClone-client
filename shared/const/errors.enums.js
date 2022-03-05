@@ -1,14 +1,17 @@
-export const httpErrors = {
-    BadRequest: "Bad request",
-    forbidden: "Forbidden",
-    notFound: "Not Found",
-    serverError: "Server Error"
+export const HttpErrors = {
+    BAD_REQUEST: "Bad request",
+    FORBIDDEN: "Forbidden",
+    NOT_FOUND: "Not Found",
+    SERVER_ERROR: "Server Error"
 }
 
-export const tokenErrors = {
-    noProvide: "Token no proporcionado",
-    notFound: "Usuario no encontrado",
-    invalid: "Token invalido"
+Object.freeze(HttpErrors)
+
+export const TokenErrors = {
+    NO_PROVIDE: "Token no proporcionado",
+    NOT_FOUND: "Usuario no encontrado",
+    INVALID: "Token invalido"
 }
 
+Object.freeze(TokenErrors)
 
