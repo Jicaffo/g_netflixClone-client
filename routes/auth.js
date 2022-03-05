@@ -3,10 +3,8 @@ const router = express.Router()
 const { check } = require('express-validator')
 const authController = require('../controllers/authController')
 
-
-//Create an user
-//Endpoint: api/users
-
+//User authentication 
+//Endpoint: api/auth
 
 router.post('/', 
     [
