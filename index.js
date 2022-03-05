@@ -10,6 +10,9 @@ app.use(express.json({ extender: true}))
 
 const PORT = process.env.PORT || 4000;
 
+
+
+
 // Autentificación (Login)
 app.use('/api/auth', require('./routes/auth'))
 
@@ -19,21 +22,21 @@ app.use('/api/users', require('./routes/users'))
 // Obtiene todas las series y peliculas
 app.use('/api/moviesAndSeries', require('./routes/moviesAndSeries'))
 
-// Obtiene todas las peliculas
-app.use('/api/movies', require('./routes/movies'))
-
-// Obtiene todas las series
-app.use('/api/series', require('./routes/series'))
+//Obtiene todas las series o peliculas
+app.use('/api/searchByType', require('./routes/searchByType'))
 
 // Obtiene peliculas o series por un genero determinado
 app.use('/api/search/genre', require('./routes/searchByGenre'))
+
+// Obtiene peliculas recomendadas
+app.use('/api/recommendations', require('./routes/recommendations'))
 
 app.listen(PORT, () =>{
 
     console.log(`Server running on port ${PORT}`)
 })
 
-
+//i need to post the document and then search and find wich movies will be almost similar for the client
 
 
 

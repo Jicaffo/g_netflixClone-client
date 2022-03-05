@@ -6,14 +6,17 @@ const jwt = require('jsonwebtoken')
 
 //This function will get only movies from moviesAndSeries collection.
 
-exports.getMovies = async(req,res) => {
+exports.getSearchByType = async(req,res) => {
 
-    try {
-        
-        const movies = await MoviesAndSeries.find({type: 'movie'})
-  
-        res.json({movies})
-        // res.status(200).send(SuccessMessage.SEND_MOVIES)
+const { type } = req.body
+
+try {
+    const search = await MoviesAndSeries.find({type})
+
+        res.json({search})
+        console.log(search)
+
+        //res.status(200).send(successMessage.sendMovies)
         //Ver de retornar un array con strings para que no se rompa el front
 
     } catch (error) {
