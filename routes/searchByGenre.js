@@ -3,9 +3,8 @@ const router = express.Router()
 const { check } = require('express-validator')
 const searchByGenreController = require('../controllers/searchByGenreController')
 
-//Get all movies by genre
+//Get all movies and series by genre
 //Endpoint: /api/movies/genre
-
 
 router.get('/',
  
