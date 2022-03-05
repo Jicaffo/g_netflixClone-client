@@ -1,21 +1,16 @@
 const express = require('express')
 const router = express.Router()
 const { check } = require('express-validator')
-const movieControllers = require('../controllers/movieControllers')
+const moviesAndSeriesControllers = require('../controllers/moviesAndSeriesControllers')
 
-
-//Create an user
-//Endpoint: api/users
-
+// Get all movies and series
+//Endpoint: api/moviesAndSeries
 
 router.get('/',
- //First checking authentication, then get all projects from this user
               
-    movieControllers.getMovies
+    moviesAndSeriesControllers.getMoviesAndSeries
+    
 )
-
-
-
 
 module.exports = router;
 
