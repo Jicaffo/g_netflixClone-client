@@ -13,11 +13,17 @@ const theme = createTheme({
     background: {
         main: "black",
         input: "white",
+        input2: "#333",
         card: "#303030"
     },
     sectionBorder: "#222",
     contrastText: "white",
     errorText: "#ffa00a",
+    linkText:"#0071eb",
+    gray1: "#B3B3B3",
+    gray2: "#8C8C8C",
+    gray3: "#737373",
+
   }
 });
 
