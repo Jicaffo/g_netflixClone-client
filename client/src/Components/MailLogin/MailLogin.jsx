@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
             "& .MuiFormLabel-root": {
                 color: theme.palette.secondary.main,
                 fontWeight: "bold",
+                marginLeft: "10px",
             },
             "& .MuiFormLabel-root[data-shrink='false']": {
                 fontWeight: "normal",

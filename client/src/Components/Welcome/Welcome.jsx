@@ -3,7 +3,6 @@ import React from 'react';
 import { Box, Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { MailLogin } from '..';
-import "../../Styles/Welcome.css"
 
 const useStyles = makeStyles( (theme) => ({
   root: {
