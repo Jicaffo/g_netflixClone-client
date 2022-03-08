@@ -1,6 +1,0 @@
-label {
-    /*TOFIX: No está bueno usarlo así pero no encontré forma de pasar los estilos del label por MUI sin usar el theme. 
-    No están funcionando color ni font-weight aplicadas directamente acá*/
-    margin-left: 10px;
-    /* margin-top: 5px; */
-}
