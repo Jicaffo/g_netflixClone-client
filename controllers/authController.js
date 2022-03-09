@@ -19,9 +19,10 @@ exports.authUser = async (req, res) => {
      const { email, password } = req.body;
     
      try {
-        
+    
          //Finding user by email on DB
         let user = await User.findOne({ email })
+        console.log(user)
         if (!user) {
             return res.status(400).json({msg: "User doesn't exist"})
         }

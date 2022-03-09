@@ -23,6 +23,7 @@ exports.makeUser = async(req,res) => {
         }
 
         user = new User(req.body) 
+
         
          //This command will hash the password and if some password are the same, the hash will be diferent
 
