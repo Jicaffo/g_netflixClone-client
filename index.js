@@ -29,7 +29,11 @@ app.use('/api/searchByType', require('./routes/searchByType'))
 app.use('/api/search/genre', require('./routes/searchByGenre'))
 
 // Obtiene peliculas recomendadas
-app.use('/api/recommendations', require('./routes/recommendations'))
+// app.use('/api/recommendations', require('./routes/recommendations')) //ANALIZAR EL TIPO DE VERBO DEBE SER
+
+
+ app.use('/api/myList', require('./routes/myList'))
+
 
 app.listen(PORT, () =>{
 
