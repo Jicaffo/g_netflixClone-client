@@ -12,6 +12,12 @@ router.get('/',
     
 )
 
+router.post('/',
+              
+    moviesAndSeriesControllers.makeMovie
+    
+)
+
 module.exports = router;
 
 
