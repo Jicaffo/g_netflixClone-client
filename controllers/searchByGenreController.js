@@ -10,6 +10,14 @@ exports.getSearchByGenre = async(req,res) => {
 
     // console.log(req)
     // console.log(res)
+
+
+    // {
+    //     "genre": "drama",
+    //     "type": "serie"
+        
+    // }
+
     const { genre, type } = req.body
 
     try {
@@ -23,7 +31,8 @@ exports.getSearchByGenre = async(req,res) => {
         
         })
  
-         res.json({'right': 'okay'})
+         res.json({moviesByGenre})
+         res.status(200).send('movies or series have been sendend correctly')
          console.log(moviesByGenre)
 
     } catch (error) {

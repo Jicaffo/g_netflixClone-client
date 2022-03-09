@@ -17,7 +17,8 @@ const MovieSchema = mongoose.Schema(
     director: {type: String},
     // cast: {type: Array},
     audienceClasification: {type: String},
-    type: {type: String, require: true}    //Type: Serie or movie       Inicio(Default)
+    type: {type: String, require: true}    //Type: Serie or movie       Inicio(Default),
+   
 },
 { timestamps: true }
 

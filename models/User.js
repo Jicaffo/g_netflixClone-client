@@ -17,8 +17,12 @@ const SchemaUsers = mongoose.Schema({
         type: String,
         require: true,
         trim: true,
-    }
-   
+    },
+    
+    myList: {
+        type: [Object]
+    },
+    
 
 });
 
