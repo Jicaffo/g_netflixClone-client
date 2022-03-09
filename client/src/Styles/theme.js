@@ -19,6 +19,7 @@ const theme = createTheme({
     sectionBorder: "#222",
     contrastText: "white",
     errorText: "#ffa00a",
+    errorText2: "#e87c03",
     linkText:"#0071eb",
     gray1: "#B3B3B3",
     gray2: "#8C8C8C",
