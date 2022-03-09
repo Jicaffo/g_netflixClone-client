@@ -31,7 +31,7 @@ app.use('/api/search/genre', require('./routes/searchByGenre'))
 // Obtiene peliculas recomendadas
 // app.use('/api/recommendations', require('./routes/recommendations')) //ANALIZAR EL TIPO DE VERBO DEBE SER
 
-
+// Obtiene la lista de peliculas/series del usuario
  app.use('/api/myList', require('./routes/myList'))
 
 
