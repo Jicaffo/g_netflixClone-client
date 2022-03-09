@@ -37,7 +37,7 @@ exports.makeMovie = async(req,res) => {
     if(!errors.isEmpty()) {
         return res.status(400).json({errors: errors.array() })
     }
-    const { title } = req.body
+    const { title, type, genre } = req.body
     
     try {
 
@@ -48,9 +48,9 @@ exports.makeMovie = async(req,res) => {
         }
 
         Title = new MoviesAndSeries(req.body) 
- 
+        // console.log(Title)
         
-        await MoviesAndSeries.save()
+        await Title.save()
         return res.status(200).json({ msg: 'Movies has been created correctly'})      
 
     } catch (error) {
