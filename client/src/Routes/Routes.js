@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
-import { Home, Login } from '../Pages';
+import { Home, Login, Profile } from '../Pages';
 
 function Routes() {
   return (
@@ -10,6 +10,7 @@ function Routes() {
         <Switch>
             <Route exact component={Home} path="/" />
             <Route exact component={Login} path="/login" />
+            <Route exact component={Profile} path="/profile" />
         </Switch>
       </Layout>
     </BrowserRouter>
