@@ -89,7 +89,7 @@ exports.getMovieAndSeriesToMyList = async(req,res) => {
     //TEST 
 
     // "_id": "622688d1f74a99351141bf64"
-
+    // "_id": "622938f3bc1698dc1415e886" (nuevo)
 
 
 
