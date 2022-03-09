@@ -148,10 +148,38 @@ const UserLogin = () => {
     const [remember, setRemember] = useState(false);
     
     const validations = yup.object({
+        // user: yup
+        //     .string("Debe ingresar un mail o teléfono.") 
+        //     .email("Debe ingresar un mail válido")
+        //     .required("Ingresa un email o un número de teléfono válido."),
+
+        // user: yup
+        //         .string().when("isEmail", {
+        //             is: '1',
+        //             then: yup.string()
+        //                 .email("Debe ingresar un mail válido")
+        //                 .required("email cannot be empty"),
+        //             otherwise: yup.string()
+        //                 .typeError("Ingrese un número valido")
+        //                 .required("Ingresa un email o un número de teléfono válido.")
+        //                 .min(6, 'Ingresa un numero correcto'),
+        //     }),
+
         user: yup
-            .string("Debe ingresar un mail o teléfono.") 
-            .email("Debe ingresar un mail válido")
-            .required("Ingresa un email o un número de teléfono válido."),
+                .number("Debe ingresar un mail o teléfono.")
+                // .email("Enter a valid email")
+                .required("Ingresa un email o un número de teléfono válido.")
+                .test('test-name', 'Ingresa un email o un número de teléfono válido.', 
+                    function(value) {
+                        const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+                        const phoneRegex = /^(\+91-|\+91|0)?\d{10}$/; // Change this regex based on requirement
+                        let isValidEmail = emailRegex.test(value);
+                        let isValidPhone = phoneRegex.test(value);
+                        if (!isValidEmail && !isValidPhone ){
+                        return false;
+                        }
+                        return true;
+                    }),
         pass: yup
             .string("La contraseña debe tener entre 4 y 60 caracteres.")
             .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
@@ -177,7 +205,7 @@ const UserLogin = () => {
             <Container maxWidth="md">
                 <Paper className={classes.paper}>
                     <FormikProvider value={formik}>
-                        <form onSubmit={formik.handleSubmit}>
+                        <form onSubmit={formik.handleSubmit} noValidate>
                             <Typography variant="h4" className={classes.title}>Inicia sesión</Typography>
                             <Box className={classes.columnContent}>
                                 <TextField
@@ -185,14 +213,17 @@ const UserLogin = () => {
                                     variant="filled"
                                     label="Email o número de teléfono"
                                     name="user"
-                                    value={formik.values.user}
+                                    value={formik.values.user || ""}
                                     onChange={formik.handleChange}
+                                    // onBlur={()=>{console.log(formik.touched.user)}}
                                     //Funciona si pongo un string o "formik.errors.user" pero no usando "<ErrorMessage name="user" className="formError"/>"
                                     // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
-                                    helperText={formik.errors.user ? formik.errors.user : "" }
                                     //debería poder agregar formik.touched.user para que cada campo se valide sólo en caso de haber sido clickeado,
                                     //pero el objeto no se actualiza al clickear un campo como debería (idem componente siguiente).
-                                    error={formik.errors.user}
+                                    //error={ formik.touched.user && Boolean(formik.errors.user) }
+                                    error={ formik.errors.user }
+                                    //helperText={ formik.touched.user && formik.errors.user }
+                                    helperText={  formik.errors.user }
                                     InputProps={{ disableUnderline: true }}
                                 />
                                 <TextField
@@ -204,7 +235,9 @@ const UserLogin = () => {
                                     value={formik.values.pass}
                                     onChange={formik.handleChange}
                                     helperText={formik.errors.pass ? formik.errors.pass : "" }
+                                    //helperText={ formik.touched.pass && formik.errors.pass }
                                     error={formik.errors.pass}
+                                    //error={ formik.touched.pass && Boolean(formik.errors.pass) }
                                     InputProps={{ disableUnderline: true }}
                                 />
                                 <Button 
