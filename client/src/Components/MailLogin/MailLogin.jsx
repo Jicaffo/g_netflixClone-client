@@ -62,9 +62,9 @@ const MailLogin = () => {
 
     const validations = yup.object({
         mail: yup
-          .string("No registramos un mail válido")
-          .email("Debe ingresar un mail válido")
-          .required("Es necesario completar este campo")
+          .string("Escribe una dirección de email válida.")
+          .email("Escribe una dirección de email válida.")
+          .required("El email es obligatorio.")
     });
     
     const formik = useFormik({
@@ -84,7 +84,8 @@ const MailLogin = () => {
                 <Typography
                     className={classes.text}>¿Quieres ver Netflix ya? Ingresa tu email para crear una cuenta o reiniciar tu membresía de Netflix.
                 </Typography>
-
+                
+                <ErrorMessage name="mail"/>
                 <TextField
                     variant="standard"
                     label="Email"
