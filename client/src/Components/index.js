@@ -4,6 +4,7 @@ import MailLogin from './MailLogin/MailLogin';
 import FeatureGroup from './FeatureGroup/FeatureGroup';
 import SeccionPreguntasFrecuentes from './PreguntasFrecuentes/SeccionPreguntasFrecuentes/SeccionPreguntasFrecuentes';
 import UserLogin from './UserLogin/UserLogin';
-import UserProfile from './UserProfile/UserProfile';
+import UserProfiles from './UserProfiles/UserProfiles';
+import UserBrowse from './UserBrowse/UserBrowse';
 
-export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserLogin, Header, UserProfile };
+export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserLogin, Header, UserProfiles, UserBrowse };

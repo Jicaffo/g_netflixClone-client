@@ -166,7 +166,7 @@ const UserLogin = () => {
         //     }),
 
         user: yup
-                .number("Debe ingresar un mail o teléfono.")
+                .string("Debe ingresar un mail o teléfono.")
                 // .email("Enter a valid email")
                 .required("Ingresa un email o un número de teléfono válido.")
                 .test('test-name', 'Ingresa un email o un número de teléfono válido.', 
@@ -193,7 +193,10 @@ const UserLogin = () => {
             pass: "",
         },
         validationSchema: validations,
-        onSubmit: (values) => console.log("Formulario enviado: ", values)
+        onSubmit: (values) => {
+            console.log("Formulario enviado: ", values);
+            window.location.href = "/profiles";
+        }
     });
 
     const handleChangeRemember = () => {
