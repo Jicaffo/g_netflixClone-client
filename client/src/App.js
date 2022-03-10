@@ -1,4 +1,4 @@
-import Routes from './Routes/Routes';
+import Layout from "./Layouts/Layout"
 import "./Styles/index.css"
 import { ThemeProvider, StylesProvider } from "@material-ui/core/styles";
 import theme from "./Styles/theme";
@@ -10,7 +10,7 @@ function App() {
       {/*SI Funciona para priorizar los estilos definidos en archivos .css e importados en el componente.*/}
       {/*NO Funciona para priorizar los estilos definidos en archivos .styles.js, exportados como useStyles e importados en el componente.*/}
       <StylesProvider injectFirst>
-        <Routes />
+        <Layout/>
       </StylesProvider>
     </ThemeProvider>
   );
