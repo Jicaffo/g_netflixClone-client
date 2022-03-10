@@ -39,7 +39,7 @@ const exampleMediaList = [
         imgPreviewUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABSL1eCLKJlSXctXwGwE1tMT5sVoyIImwkpnzopOZp7nuYVVSX187dKbT58aQAFjvYPFCdGQ4psIHis0vHn5yK345Gr-AhAuHcPAivWKlwRKkPWjsvkuTu2vXv3A_.jpg?r=bfd",
     },
 ];
-const swipers = [
+const sweepers = [
     {
         listTitle: "Mi Lista",
         mediaList: exampleMediaList,
