@@ -6,5 +6,7 @@ import SeccionPreguntasFrecuentes from './PreguntasFrecuentes/SeccionPreguntasFr
 import UserLogin from './UserLogin/UserLogin';
 import UserProfiles from './UserProfiles/UserProfiles';
 import UserBrowse from './UserBrowse/UserBrowse';
+import Footer from './Footer/Footer';
+import LanguageSelector from './LanguageSelector/LanguageSelector';
 
-export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserLogin, Header, UserProfiles, UserBrowse };
+export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserLogin, Header, UserProfiles, UserBrowse, Footer, LanguageSelector };
