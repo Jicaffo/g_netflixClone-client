@@ -11,7 +11,6 @@ const useStyles = makeStyles( (theme) => ({
       backgroundSize: "cover",  
       color: theme.palette.contrastText,
       borderBottom: `8px solid ${theme.palette.sectionBorder}`,
-      fontFamily: "'Netflix Sans','Helvetica Neue',Helvetica,Arial,sans-serif",
       paddingBlock: "200px"
   },
   container: {
