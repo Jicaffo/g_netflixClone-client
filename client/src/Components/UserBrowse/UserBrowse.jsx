@@ -3,6 +3,7 @@ import { Box, Container, Typography, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import SwiperBrowse from "../SwiperBrowse/SwiperBrowse"
 
 // Ejemplos de película destacada, listado de películas y listado de listas de películas para utilizar temporalmente
 const highlightedMovie = {
@@ -157,8 +158,9 @@ const UserBrowse = () => {
                     </Box>
                 </Box>
                 <Box>
-                    {/* TODO: Componentes de sweeper / slider a mapear
-                        <Sweeper title={sweepers[0].listTitle} itemList={swipers[0].mediaList} />
+                    <SwiperBrowse/>
+                    {/* TODO: Componentes de swiper / slider a mapear
+                        <Swiper title={swipers[0].listTitle} itemList={swipers[0].mediaList} />
                     */}
                 </Box>
             </Container>
