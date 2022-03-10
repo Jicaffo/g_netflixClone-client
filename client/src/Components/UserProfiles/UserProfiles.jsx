@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-const UserProfile = () => {
+const UserProfiles = () => {
   const classes = useStyles();
 
   const profiles = [
@@ -107,7 +107,7 @@ const UserProfile = () => {
           const {profileUser,nameUser,imgUser} = avatarProfiles
           return (
             <Box className={classes.itemsProfiles}>
-              <a href= {`http://localhost:3001/${profileUser}`} target={`http://localhost:3001/${profileUser}`}>
+              <a href= {`/${profileUser}`} >
                 <img className={classes.itemsGrid} src={imgUser} alt={imgUser}/>
               </a>
               <Typography variant="h6" className={classes.titleProfiles}>{nameUser}</Typography>
@@ -120,4 +120,4 @@ const UserProfile = () => {
   );
 }
 
-export default UserProfile
+export default UserProfiles

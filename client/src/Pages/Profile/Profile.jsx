@@ -1,12 +1,12 @@
 import React from 'react'
-import { UserProfile } from '../../Components'
+import { UserProfiles } from '../../Components'
 
-const Profile = () => {
+const Profiles = () => {
   return (
     <>
-      <UserProfile/>
+      <UserProfiles/>
     </>
   )
 }
 
-export default Profile
+export default Profiles

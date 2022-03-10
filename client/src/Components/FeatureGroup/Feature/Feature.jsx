@@ -24,7 +24,7 @@ const Feature = ({title, description, imgURL, reverse}) => {
               </Typography>
             </Box>
             <Box>
-              <img src={imgURL} alt="Picture representing the feature" />
+              <img src={imgURL} alt="Representation of the feature" />
             </Box>
           </Container>
       </Box>

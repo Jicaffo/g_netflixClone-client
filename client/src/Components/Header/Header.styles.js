@@ -3,7 +3,7 @@ import Logo from '../../Assets/Images/logo.svg';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        backgroundColor: 'transparent',
+        backgroundColor: 'transparent !important',
         position: 'absolute',
         boxShadow: 'none',
     },

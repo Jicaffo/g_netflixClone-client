@@ -14,7 +14,15 @@ const theme = createTheme({
         main: "black",
         input: "white",
         input2: "#333",
-        card: "#303030"
+        card: "#303030",
+        primaryButton:{
+          main: "white",
+          hover: "rgba(255, 255, 255, 0.75)",
+        },
+        secondaryButton:{
+          main: "rgba(109, 109, 110, 0.7)",
+          hover: "rgba(109, 109, 110, 0.4)",
+        },
     },
     sectionBorder: "#222",
     contrastText: "white",
@@ -24,7 +32,6 @@ const theme = createTheme({
     gray1: "#B3B3B3",
     gray2: "#8C8C8C",
     gray3: "#737373",
-
   }
 });
 

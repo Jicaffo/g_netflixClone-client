@@ -1,5 +1,6 @@
 import Home from './Home/Home';
 import Login from './Login/Login';
-import Profile from './Profile/Profile';
+import Profiles from './Profile/Profile';
+import Browse from './Browse/Browse';
 
-export { Home, Login, Profile };
+export { Home, Login, Profiles, Browse };
