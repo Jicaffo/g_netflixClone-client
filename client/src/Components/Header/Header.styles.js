@@ -41,6 +41,10 @@ const useStyles = makeStyles((theme) => ({
         height: '2.25rem',
         border: 'none'
     },
+    rightContent: {
+        display: "flex",
+        gap: "2rem"
+    }
 
     
 }))

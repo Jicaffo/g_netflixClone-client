@@ -1,11 +1,12 @@
-import React from 'react'
+import React from 'react';
 import { Header, Footer } from '../Components';
+import Routes from "../Routes/Routes"
 
-const Layout = ({children}) => {
+const Layout = () => {
   return (
     <>
       <Header />
-      {children}
+      <Routes />
       <Footer />
     </>
   )

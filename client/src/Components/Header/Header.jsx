@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
+import React from 'react';
+import {AppBar, Toolbar, Box} from '@material-ui/core/';
 import { useStyles } from './Header.styles';
 import { Link, useLocation } from 'react-router-dom';
+import { LanguageSelector } from '..';
 
 const Header = () => {
 
     const classes = useStyles();
-
     const location = useLocation();
 
     return (
@@ -16,8 +15,12 @@ const Header = () => {
                 <Toolbar className={classes.toolbar}>
                     <Link to={{ pathname: '/' }}>
                         <svg className={classes.logo} />
-                     </Link>
-                    {location.pathname === "/" && <Link to={{ pathname: '/login' }} className={classes.iniciarSesion}>Iniciar sesion</Link>}                   
+                    </Link>
+                    {location.pathname === "/" &&
+                        <Box className={classes.rightContent}>
+                            <LanguageSelector/>
+                            <Link to={{ pathname: '/login' }} className={classes.iniciarSesion}>Iniciar sesion</Link>
+                        </Box>}
                 </Toolbar>
             </AppBar>
         </div>
