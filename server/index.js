@@ -3,15 +3,15 @@ const connectDB = require('./config/db')
 const app = express()
 const dotenv = require('dotenv')
 
+// Configuración a la Base de datos
 dotenv.config({path: '.env'});
 connectDB();
 
+// Establece comunicación cliente/servidor en formato JSON
 app.use(express.json({ extender: true}))
 
+// Setea la variable de entorno como prioridad
 const PORT = process.env.PORT || 4000;
-
-
-
 
 // Autentificación (Login)
 app.use('/api/auth', require('./routes/auth'))
