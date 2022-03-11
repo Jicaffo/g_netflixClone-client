@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {AppBar, Toolbar, Box} from '@material-ui/core/';
 import { useStyles } from './Header.styles';
 import { Link, useLocation } from 'react-router-dom';
-import LanguageSelector from '../LanguageSelector/LanguageSelector';
+import { LanguageSelector } from '..';
 
 const Header = () => {
 
@@ -15,7 +15,7 @@ const Header = () => {
                 <Toolbar className={classes.toolbar}>
                     <Link to={{ pathname: '/' }}>
                         <svg className={classes.logo} />
-                     </Link>
+                    </Link>
                     {location.pathname === "/" &&
                         <Box className={classes.rightContent}>
                             <LanguageSelector/>

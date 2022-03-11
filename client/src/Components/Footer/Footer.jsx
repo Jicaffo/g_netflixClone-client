@@ -60,8 +60,6 @@ const Footer = () => {
                 <LanguageSelector className={classes.languageSelector}/>
                 <Typography variant="body2"> <a href="#">Netflix Argentina</a> </Typography>
             </Container>
-        
-        
     )
 }
 
