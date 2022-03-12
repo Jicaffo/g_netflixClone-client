@@ -97,7 +97,9 @@ const MailLogin = () => {
                     className={classes.input}
                     InputProps={{ disableUnderline: true }}
                     InputLabelProps={{ color: "secondary" }}
-                    // FormHelperTextProps={{   // Funciona, a investigar, pasado a la clase input de makeStyles como subclase.
+                    // // También funciona, pasa un objeto con las props a pasar al componente InputLabel
+                    // // En este caso contiene una sola prop "style", cuyo valor es el objeto que contiene los estilos.
+                    // FormHelperTextProps={{   
                     //     style: {
                     //         marginTop: "20px",
                     //         fontSize: "14px",

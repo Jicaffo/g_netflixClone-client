@@ -59,6 +59,7 @@ const DropdownPreguntasFrecuentes = () => {
       const {id,heading,content,content2} = accordion
       return (
         <Accordion 
+        key={id} 
         className={classes.accordion} 
         expanded={expanded === id} 
         onChange={handleChange(id)}>

@@ -121,7 +121,7 @@ const SwiperBrowse = () => {
         {movies.map(dataMovies => {
           const {title, img} = dataMovies
           return (
-          <SwiperSlide className={classes.swiperSlide}><img className={classes.swiperSlideImg} src={dataMovies.img} alt={dataMovies.title}/></SwiperSlide>
+          <SwiperSlide key={title} className={classes.swiperSlide}><img className={classes.swiperSlideImg} src={dataMovies.img} alt={dataMovies.title}/></SwiperSlide>
           )
         })}
       </Swiper>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Container, Paper, Grid, Avatar, Box, Button} from '@material-ui/core';
+import { Typography, Container, Box, Button} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -106,7 +106,7 @@ const UserProfiles = () => {
         {profiles.map(avatarProfiles => {
           const {profileUser,nameUser,imgUser} = avatarProfiles
           return (
-            <Box className={classes.itemsProfiles}>
+            <Box key={nameUser} className={classes.itemsProfiles}>
               <a href= {`/${profileUser}`} >
                 <img className={classes.itemsGrid} src={imgUser} alt={imgUser}/>
               </a>

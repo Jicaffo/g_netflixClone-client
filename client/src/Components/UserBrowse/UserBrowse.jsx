@@ -6,12 +6,12 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 import SwiperBrowse from "../SwiperBrowse/SwiperBrowse"
 
 // Ejemplos de película destacada, listado de películas y listado de listas de películas para utilizar temporalmente
-const highlightedMovie = {
+const highlightedMedia = {
     backgroundImgUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABb9zrJZCzWWOWP5CIL2SdDpBx-4JLVaJO0LJ-u8_BDW_sdIxq5b-lKooj4SSP9QwVBtXSkk-EKTaM6flxnHsKq6DMMZw.jpg?r=be2",
     titleImgUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABZKs5-soLOHmu6m6EyWtdg0guNI5VwLCHQOqn7U7tlAHroNHELlws9qCxOOgf1Xq-6nCkCG-2VjtQ08DzHAsDb545N2vMCdtjzCbNzZzM9zPa1AbCBdEoQfUo4NMj-ZVNhtd5lHVo_ASMH6zcy6BorxtccPuDN1EnZz9OxAz2WHXJA.png?r=05f",
     subtitleText: "Nº2 en Argentina hoy",
     descriptionText: "Cuando un violento ataque en su pueblo saca a la luz amenazas ocultas y secretos mortales, una mujer comienza a descifrar el oscuro pasado de su madre.",
-    movieLink: "https://www.netflix.com/watch/81056342?trackId=254015180&tctx=0%2C0%2C45a78b47-5bdd-4b40-a53d-4e39cce5f9ce-235618663%2C30449431-79ca-4fb7-927a-f9fae0dc8c03_49811758X20XX1646873762874%2C30449431-79ca-4fb7-927a-f9fae0dc8c03_ROOT%2C%2C%2C",
+    link: "https://www.netflix.com/watch/81056342?trackId=254015180&tctx=0%2C0%2C45a78b47-5bdd-4b40-a53d-4e39cce5f9ce-235618663%2C30449431-79ca-4fb7-927a-f9fae0dc8c03_49811758X20XX1646873762874%2C30449431-79ca-4fb7-927a-f9fae0dc8c03_ROOT%2C%2C%2C",
 };
 const exampleMediaList = [
     {
@@ -39,7 +39,7 @@ const exampleMediaList = [
         imgPreviewUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABSL1eCLKJlSXctXwGwE1tMT5sVoyIImwkpnzopOZp7nuYVVSX187dKbT58aQAFjvYPFCdGQ4psIHis0vHn5yK345Gr-AhAuHcPAivWKlwRKkPWjsvkuTu2vXv3A_.jpg?r=bfd",
     },
 ];
-const sweepers = [
+const sweeperArray = [
     {
         listTitle: "Mi Lista",
         mediaList: exampleMediaList,
@@ -73,7 +73,7 @@ const useStyles = makeStyles( (theme) => ({
                 rgba(0,0,0,0) 85%,
                 rgba(0,0,0,.5) 90%,
                 rgba(0,0,0,8) 100%),
-            url("${highlightedMovie.backgroundImgUrl}")`,
+            url("${highlightedMedia.backgroundImgUrl}")`,
         backgroundSize: "cover",  
         height: "56.23vw", //Ratio calculado de las dimensiones de la imagen para que se vea el alto completo (alto = 56.23% del ancho)
         color: theme.palette.contrastText,
@@ -128,19 +128,19 @@ const UserBrowse = () => {
         <Box className={classes.root} >
             <Container maxWidth="xl">
                 <Box className={classes.highlightedMovie}>
-                    <img src={highlightedMovie.titleImgUrl} alt="" />
+                    <img src={highlightedMedia.titleImgUrl} alt="" />
                     <Typography variant="h5" className={classes.title}>
-                        {highlightedMovie.subtitleText}
+                        {highlightedMedia.subtitleText}
                     </Typography>
                     <Typography variant="h5" className={classes.title}>
-                        {highlightedMovie.descriptionText}
+                        {highlightedMedia.descriptionText}
                     </Typography>
                     <Box>
                         <Button
                             variant="contained"
                             className={classes.button}
                             startIcon={<PlayArrowIcon className={classes.btnIcon}/>}
-                            href={highlightedMovie.movieLink}
+                            href={highlightedMedia.link}
                             disableElevation
                         >
                             Reproducir
