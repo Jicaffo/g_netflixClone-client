@@ -148,11 +148,14 @@ const UserLogin = () => {
     const [remember, setRemember] = useState(false);
     
     const validations = yup.object({
-        // user: yup
-        //     .string("Debe ingresar un mail o teléfono.") 
-        //     .email("Debe ingresar un mail válido")
-        //     .required("Ingresa un email o un número de teléfono válido."),
 
+        // // No funciona, valida en forma excluyente cada uno, y no se puede encadenar .number() y .string().email()
+        // user: yup
+        //     .string("Ingresa un string válido") 
+        //     .email("Ingresa un mail válido")
+        //     .required("El campo es requerido"),
+
+        // // Método de yup a investigar (validación condicional, excluyente)
         // user: yup
         //         .string().when("isEmail", {
         //             is: '1',
@@ -163,28 +166,31 @@ const UserLogin = () => {
         //                 .typeError("Ingrese un número valido")
         //                 .required("Ingresa un email o un número de teléfono válido.")
         //                 .min(6, 'Ingresa un numero correcto'),
-        //     }),
+        // }),
 
+        // Validación mediante 2 expresiones regulares que el contenido sea un mail O un número de teléfono
         user: yup
                 .string("Debe ingresar un mail o teléfono.")
                 // .email("Enter a valid email")
-                .required("Ingresa un email o un número de teléfono válido.")
+                .required("Ingresa un email o un número de teléfono.")
                 .test('test-name', 'Ingresa un email o un número de teléfono válido.', 
                     function(value) {
+                        /* eslint-disable no-useless-escape */
                         const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                        const phoneRegex = /^(\+91-|\+91|0)?\d{10}$/; // Change this regex based on requirement
+                        const phoneRegex = /^(\+54-|\+54|0)?\d{10}$/; // Change this regex based on requirement
+                        /* eslint-enable no-useless-escape */
                         let isValidEmail = emailRegex.test(value);
                         let isValidPhone = phoneRegex.test(value);
                         if (!isValidEmail && !isValidPhone ){
                         return false;
                         }
                         return true;
-                    }),
+        }),
         pass: yup
-            .string("La contraseña debe tener entre 4 y 60 caracteres.")
-            .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
-            .max(60, "La contraseña debe tener entre 4 y 60 caracteres.")
-            .required("La contraseña debe tener entre 4 y 60 caracteres."),
+                .string("La contraseña debe tener entre 4 y 60 caracteres.")
+                .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
+                .max(60, "La contraseña debe tener entre 4 y 60 caracteres.")
+                .required("La contraseña debe tener entre 4 y 60 caracteres."),
     });
     
     const formik = useFormik({
@@ -208,40 +214,37 @@ const UserLogin = () => {
             <Container maxWidth="md">
                 <Paper className={classes.paper}>
                     <FormikProvider value={formik}>
-                        <form onSubmit={formik.handleSubmit} noValidate>
+                        <form onSubmit={formik.handleSubmit}>
                             <Typography variant="h4" className={classes.title}>Inicia sesión</Typography>
                             <Box className={classes.columnContent}>
                                 <TextField
-                                    className={classes.input}
                                     variant="filled"
-                                    label="Email o número de teléfono"
+                                    className={classes.input}
+                                    InputProps={{ disableUnderline: true }}
                                     name="user"
+                                    label="Email o número de teléfono"
                                     value={formik.values.user || ""}
                                     onChange={formik.handleChange}
-                                    // onBlur={()=>{console.log(formik.touched.user)}}
-                                    //Funciona si pongo un string o "formik.errors.user" pero no usando "<ErrorMessage name="user" className="formError"/>"
+                                    // Necesitamos usar formik.handleBlur en el evento onBlur para poder utilizar el objeto formik.touched,
+                                    // ya que el contenido este objeto se populan desde el método handleBlur. De lo contrario queda vacío.
+                                    onBlur={formik.handleBlur}
+                                    // Funciona usando un string o "formik.errors.user" pero no usando "<ErrorMessage name="user" className="formError"/>"
                                     // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
-                                    //debería poder agregar formik.touched.user para que cada campo se valide sólo en caso de haber sido clickeado,
-                                    //pero el objeto no se actualiza al clickear un campo como debería (idem componente siguiente).
-                                    //error={ formik.touched.user && Boolean(formik.errors.user) }
-                                    error={ formik.errors.user }
-                                    //helperText={ formik.touched.user && formik.errors.user }
-                                    helperText={  formik.errors.user }
-                                    InputProps={{ disableUnderline: true }}
+                                    helperText={ formik.touched.user && formik.errors.user }
+                                    error={ formik.touched.user && Boolean(formik.errors.user) }
                                 />
                                 <TextField
-                                    className={classes.input}
                                     variant="filled"
+                                    className={classes.input}
+                                    InputProps={{ disableUnderline: true }}
                                     type="password"
-                                    label="Contraseña"
                                     name="pass"
+                                    label="Contraseña"
                                     value={formik.values.pass}
                                     onChange={formik.handleChange}
-                                    helperText={formik.errors.pass ? formik.errors.pass : "" }
-                                    //helperText={ formik.touched.pass && formik.errors.pass }
-                                    error={formik.errors.pass}
-                                    //error={ formik.touched.pass && Boolean(formik.errors.pass) }
-                                    InputProps={{ disableUnderline: true }}
+                                    onBlur={formik.handleBlur}
+                                    helperText={ formik.touched.pass && formik.errors.pass }
+                                    error={ formik.touched.pass && Boolean(formik.errors.pass) }
                                 />
                                 <Button 
                                     className={classes.button}

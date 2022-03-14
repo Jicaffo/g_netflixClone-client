@@ -2,7 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import { Box, Container, Typography } from '@material-ui/core';
 import { LanguageSelector } from '..';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const useStyles = makeStyles( (theme) => ({
     root: {
@@ -39,6 +39,8 @@ const Footer = () => {
         location.pathname === "/" &&
         
             <Container maxWidth="md" className={classes.root}>
+                {/* De generar error el # se debería poder deshabilitar temporalmente el warning desde eslintConfig del package.json con:
+                 "rules": { "jsx-a11y/anchor-is-valid": "off"}*/}
                 <Typography>¿Preguntas? Llama al <a href="#">0-800-666-2803</a> </Typography>
                 <Box className={classes.linksNav}>
                     <Typography variant="body2"> <a href="#">Preguntas frecuentes</a> </Typography>
