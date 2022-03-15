@@ -36,8 +36,7 @@ const Footer = () => {
     const location = useLocation();
 
     return (
-        location.pathname === "/" &&
-        
+        (location.pathname === "/" || location.pathname === "/login" || location.pathname === "/browse") &&   
             <Container maxWidth="md" className={classes.root}>
                 {/* De generar error el # se debería poder deshabilitar temporalmente el warning desde eslintConfig del package.json con:
                  "rules": { "jsx-a11y/anchor-is-valid": "off"}*/}
