@@ -3,6 +3,8 @@ const connectDB = require('./config/db')
 const app = express()
 const dotenv = require('dotenv')
 
+const frontRoutes = require('../client/src/Routes/Routes')
+
 // Configuración a la Base de datos
 dotenv.config({path: '.env'});
 connectDB();
@@ -27,6 +29,12 @@ app.use('/api/searchByType', require('./routes/searchByType'))
 
 // Obtiene peliculas o series por un genero determinado
 app.use('/api/search/genre', require('./routes/searchByGenre'))
+
+const client = app.use(frontRoutes);
+console.log(client)
+console.log(frontRoutes)
+
+app.use(client.Login)
 
 // Obtiene peliculas recomendadas
 // app.use('/api/recommendations', require('./routes/recommendations')) //ANALIZAR EL TIPO DE VERBO DEBE SER
