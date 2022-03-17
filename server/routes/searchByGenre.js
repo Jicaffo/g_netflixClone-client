@@ -1,17 +1,18 @@
-const express = require('express')
-const router = express.Router()
-const { check } = require('express-validator')
-const searchByGenreController = require('../controllers/searchByGenreController')
+import { Router } from 'express'
+import { check } from 'express-validator'
+import { getSearchByGenre } from '../controllers/searchByGenreController.js'
+
+const router = Router()
 
 //Get all movies and series by genre
 //Endpoint: /api/movies/genre
 
 router.get('/',
  
-     searchByGenreController.getSearchByGenre
+     getSearchByGenre
     
 )
 
-module.exports = router;
+export { router };
 
 

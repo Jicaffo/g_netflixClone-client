@@ -1,7 +1,8 @@
-const express = require('express')
+import express from 'express';
+import { check } from 'express-validator';
+import * as myListControllers from '../controllers/myListControllers.js';
+
 const router = express.Router()
-const { check } = require('express-validator')
-const myListControllers = require('../controllers/myListControllers')
 
 // Get all movies and series
 //Endpoint: api/moviesAndSeries
@@ -18,7 +19,8 @@ router.get('/',
    myListControllers.getMovieAndSeriesToMyList
     
 )
-module.exports = router;
+
+export { router };
 
 
 

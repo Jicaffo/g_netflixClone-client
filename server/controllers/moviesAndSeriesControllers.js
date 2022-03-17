@@ -1,12 +1,12 @@
-const MoviesAndSeries = require('../models/MoviesAndSeries')
-const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator')
-const jwt = require('jsonwebtoken')
+import MoviesAndSeries from '../models/MoviesAndSeries.js';
+import bcryptjs from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 //This function will get everything from moviesAndSeries collection.
 
 // exports.getMovies = async(req,res) => {
-    exports.getMoviesAndSeries = async(req,res) => { 
+    const getMoviesAndSeries = async (req,res) => { 
 
     // console.log(req)
     // console.log(res)
@@ -29,7 +29,7 @@ const jwt = require('jsonwebtoken')
 
 
 
-exports.makeMovie = async(req,res) => {
+const makeMovie = async (req,res) => {
 
 
     //Checking Errors
@@ -58,3 +58,5 @@ exports.makeMovie = async(req,res) => {
         res.status(500).send('Internal server Error')
     }
 }
+
+export { getMoviesAndSeries, makeMovie };

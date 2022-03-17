@@ -25,6 +25,7 @@
     "type": "git",
     "url": "git+https://github.com/jpromanonet/guayerd_netflixClone.git"
   },
+  "type":"module",
   "bugs": {
     "url": "https://github.com/jpromanonet/guayerd_netflixClone/issues"
   },

@@ -1,12 +1,12 @@
-const MoviesAndSeries = require('../models/MoviesAndSeries')
-const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator')
-const jwt = require('jsonwebtoken')
+import MoviesAndSeries from '../models/MoviesAndSeries.js';
+import bcryptjs from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 //const successMessage = require('../shared/const/success.enums')
 
 //This function will get only movies from moviesAndSeries collection.
 
-exports.getSearchByType = async(req,res) => {
+const getSearchByType = async (req,res) => {
 
 const { type } = req.body
 
@@ -25,3 +25,4 @@ try {
     }
 }
 
+export { getSearchByType };

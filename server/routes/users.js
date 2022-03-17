@@ -1,8 +1,8 @@
-const express = require('express')
+import express from 'express';
+import * as userController from '../controllers/userController.js';
+import { check } from 'express-validator';
 
 const router = express.Router()
-const userController = require('../controllers/userController')
-const { check } = require('express-validator')
 
 // Create new User
 //Endpoint: api/users
@@ -16,4 +16,4 @@ router.post('/',
     userController.makeUser
 
 );
-module.exports = router
+export { router }

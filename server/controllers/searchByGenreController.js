@@ -1,21 +1,18 @@
-const MoviesAndSeries = require('../models/MoviesAndSeries')
-const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator')
-const jwt = require('jsonwebtoken')
+import MoviesAndSeries from '../models/MoviesAndSeries.js';
+import bcryptjs from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 
 //This function will get everything by an especific genre from moviesAndSeries collection.
 
-exports.getSearchByGenre = async(req,res) => {
+const getSearchByGenre = async (req,res) => {
 
     // console.log(req)
     // console.log(res)
-
-
     // {
     //     "genre": "drama",
     //     "type": "serie"
-        
     // }
 
     const { genre, type } = req.body
@@ -28,7 +25,6 @@ exports.getSearchByGenre = async(req,res) => {
         const moviesByGenre = await MoviesAndSeries.find({
             type,
             genre
-        
         })
  
          res.json({moviesByGenre})
@@ -42,3 +38,4 @@ exports.getSearchByGenre = async(req,res) => {
 }
 
 
+export { getSearchByGenre }

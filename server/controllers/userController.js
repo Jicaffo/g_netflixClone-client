@@ -1,11 +1,11 @@
-const User = require('../models/User')
-const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator')
-const jwt = require('jsonwebtoken')
+import User from '../models/User.js';
+import bcryptjs from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 //This function will create a new user from users collection.
 
-exports.makeUser = async(req,res) => {
+const makeUser = async(req,res) => {
 
     //Checking Errors
     const errors = validationResult(req);
@@ -42,3 +42,5 @@ exports.makeUser = async(req,res) => {
         res.status(500).send('Something wrong')
     }
 }
+
+export { makeUser };

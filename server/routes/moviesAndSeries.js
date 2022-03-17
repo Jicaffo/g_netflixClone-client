@@ -1,7 +1,8 @@
-const express = require('express')
+import express from 'express';
+import { check } from 'express-validator';
+import * as moviesAndSeriesControllers from '../controllers/moviesAndSeriesControllers.js';
+
 const router = express.Router()
-const { check } = require('express-validator')
-const moviesAndSeriesControllers = require('../controllers/moviesAndSeriesControllers')
 
 // Get all movies and series
 //Endpoint: api/moviesAndSeries
@@ -18,7 +19,7 @@ router.post('/',
     
 )
 
-module.exports = router;
+export { router } ;
 
 
 

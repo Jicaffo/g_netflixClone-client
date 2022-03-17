@@ -1,16 +1,16 @@
-// const express = require('express')
-// const router = express.Router()
-// const { check } = require('express-validator')
-// const recommedantionsControllers = require('../controllers/recommendationsControllers')
+// import { Router } from 'express'
+// import { check } from 'express-validator'
+// import { findRecommendations } from '../controllers/recommendationsControllers.js'
 
+// const router = Router()
 
 
 // router.post('/',
 // //First checking authentication, then get all recommedantions for this user
              
-//     recommedantionsControllers.findRecommendations
+//     findRecommendations
 // )
 
 
-// module.exports = router;
+// export default router;
 
