@@ -4,7 +4,7 @@ import * as moviesAndSeriesControllers from '../controllers/moviesAndSeriesContr
 
 const router = express.Router()
 
-// Get all movies and series
+// Get all movies and series (Base URL: /api/moviesAndSeries/)
 //Endpoint: api/moviesAndSeries
 
 router.get('/',
@@ -15,7 +15,13 @@ router.get('/',
 
 router.post('/',
               
-    moviesAndSeriesControllers.makeMovie
+    moviesAndSeriesControllers.makeMovie,
+    
+)
+
+router.delete('/:id',
+              
+    (req, res) => moviesAndSeriesControllers.deleteMedia(req, res, req.params.id)
     
 )
 
