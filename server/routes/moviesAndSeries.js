@@ -1,9 +1,10 @@
-const express = require('express')
-const router = express.Router()
-const { check } = require('express-validator')
-const moviesAndSeriesControllers = require('../controllers/moviesAndSeriesControllers')
+import express from 'express';
+import { check } from 'express-validator';
+import * as moviesAndSeriesControllers from '../controllers/moviesAndSeriesControllers.js';
 
-// Get all movies and series
+const router = express.Router()
+
+// Get all movies and series (Base URL: /api/moviesAndSeries/)
 //Endpoint: api/moviesAndSeries
 
 router.get('/',
@@ -14,11 +15,17 @@ router.get('/',
 
 router.post('/',
               
-    moviesAndSeriesControllers.makeMovie
+    moviesAndSeriesControllers.makeMovie,
     
 )
 
-module.exports = router;
+router.delete('/:id',
+              
+    (req, res) => moviesAndSeriesControllers.deleteMedia(req, res, req.params.id)
+    
+)
+
+export { router } ;
 
 
 

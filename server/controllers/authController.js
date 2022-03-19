@@ -1,14 +1,13 @@
-const User = require('../models/User')
-const bcryptjs = require('bcryptjs');
-const { validationResult } = require('express-validator')
-const jwt = require('jsonwebtoken')
+import User from '../models/User.js';
+import bcryptjs from 'bcryptjs';
+import { validationResult } from 'express-validator';
+import jwt from 'jsonwebtoken';
 
 //This function will check an exist user from users collection.
 
 //LOGIN
-exports.authUser = async (req, res) => {
+const authUser = async (req, res) => {
      
-    
      //Checking Errors
      const errors = validationResult(req);
      //Looking for errors
@@ -22,7 +21,7 @@ exports.authUser = async (req, res) => {
     
          //Finding user by email on DB
         let user = await User.findOne({ email })
-        console.log(user)
+        //console.log(user)
         if (!user) {
             return res.status(400).json({msg: "User doesn't exist"})
         }
@@ -45,3 +44,5 @@ exports.authUser = async (req, res) => {
          res.status(500).send('Internal server error')
      }
 }
+
+export { authUser };

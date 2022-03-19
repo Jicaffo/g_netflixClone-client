@@ -1,19 +1,19 @@
-// const MoviesAndSeries = require('../models/MoviesAndSeries')
-// const bcryptjs = require('bcryptjs');
-// const { validationResult } = require('express-validator')
-// const jwt = require('jsonwebtoken')
+// import { aggregate } from '../models/MoviesAndSeries.js';
+// import bcryptjs from 'bcryptjs';
+// import { validationResult } from 'express-validator';
+// import jwt from 'jsonwebtoken';
 
 
 // //This function will get everything from moviesAndSeries collection.
 
-// exports.findRecommendations = async(req,res) => {
+// const findRecommendations = async(req,res) => {
 
   
 //     const { genre, type, audienceClasification, director } = req.body
 
 //     try {
 
-//         const recommend = await MoviesAndSeries.aggregate ({
+//         const recommend = await aggregate ({
 //             $project: { highmarks: { $filter: { input: "$marks", as: "marks", cond: { $gt: [ "$$marks", 10 ] } } } } 
         
 //         } )
@@ -41,3 +41,4 @@
 // }
 
 
+// export { findRecommendations };
