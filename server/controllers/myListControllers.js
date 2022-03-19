@@ -46,7 +46,7 @@ const getMovieAndSeriesToMyList = async(req,res) => {
        
     try {
        
-        const search = await findById({_id})
+        const search = await User.findById({_id})
     
         const myList = search.myList
             res.json({myList})
