@@ -1,13 +1,23 @@
 import express from 'express';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
+import path from 'path';
 import { router as authRouter } from './routes/auth.js';
 import { router as userRouter} from './routes/users.js';
 import { router as moviesAndSeriesRouter } from './routes/moviesAndSeries.js';
 import { router as searchByGenreRouter } from './routes/searchByGenre.js';
 import { router as searchByTypeRouter } from './routes/searchByType.js';
 import { router as myListRouter, router } from './routes/myList.js';
-import frontRoutes from '../client/src/Routes/Routes';
+// TOFIX ERROR: import React from 'react' SyntaxError: Cannot use import statement outside a module
+//import frontRoutes from '../client/src/Routes/Routes.js'; 
+
+import {fileURLToPath} from 'url';
+const __filename = fileURLToPath(import.meta.url);
+// 👇️ "/home/john/Desktop/javascript"
+const __dirname = path.dirname(__filename);
+//console.log('directory-name 👉️', __dirname);
+// 👇️ "/home/borislav/Desktop/javascript/dist/index.html"
+//console.log(path.join(__dirname, '/dist', 'index.html'));
 
 const app = express()
 
@@ -43,10 +53,15 @@ app.use('/api/search/genre', searchByGenreRouter)
 // console.log(client)
 // console.log(frontRoutes)
 // app.use(client.Login)
-
 // TODO: trae hardcodeada la URL, ver como traer dinámicamente las rutas ya creadas desde React 
-app.use('/browse', (req, res) => {
-   res.send("Browse!")
+// Para cualquier otra ruta trae el index.html generado por React
+app.use('*', (req, res) => {
+    console.log(path.join(__dirname, '../client/public', 'index.html'))
+    //res.sendFile(path.resolve('http://localhost:3000/', 'index.html'));
+    res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
+    //res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
+
+    // res.file() //Con esto podemos devolver un archivo estático
 });
 
 // Obtiene peliculas recomendadas
