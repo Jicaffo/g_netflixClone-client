@@ -1,11 +1,33 @@
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import User from '../models/User.js';
+import Profile from '../models/Profile.js';
 import { ObjectID as ObjectId } from 'mongodb';
+import MoviesAndSeries from '../models/MoviesAndSeries.js';
 //const successMessage = require('../shared/const/success.enums')
 //import { str } from 'mongodb';
 
+const getAllFromMyList = async(req, res) => {
+       
+    try {
+        //TODO: Evaluar la lógica para traer myList según el profileId
+        } catch (error) {
+            console.log(error)
+            res.status(500).send('Internal server error')
+        }
+}
+
+const getMovieAndSeriesToMyList = async(req, res) => {
+
+    const { mediaId, profileId } = req.body
+       
+    try {
+        
+        } catch (error) {
+            console.log(error)
+            res.status(500).send('Internal server error')
+        }
+}
 
 const postMovieAndSeriesToMyList = async(req,res) => {
 
@@ -16,60 +38,13 @@ const postMovieAndSeriesToMyList = async(req,res) => {
     //   console.log(id)
     try {
    
-        const search = await User.findById({_id})
-
-        res.json({search})
-        console.log(search.myList)
-
-        search.myList.push({
-            title: title
-        })
-       
-        const userSaved = await search.save();
-
-        if (!userSaved) {
-            return res.status(401).send('Error to add new movie')
-        }
-
-        //res.status(200).send(successMessage.sendMovies)
-        //Ver de retornar un array con strings para que no se rompa el front
-
     } catch (error) {
         console.log(error)
         res.status(500).send('Internal server error')
     }
 }
 
-const getMovieAndSeriesToMyList = async(req,res) => {
 
-    const { _id } = req.body
-       
-    try {
-       
-        const search = await User.findById({_id})
-    
-        const myList = search.myList
-            res.json({myList})
-           console.log(search.myList)
-    
-            //res.status(200).send(successMessage.sendMovies)
-            //Ver de retornar un array con strings para que no se rompa el front
-    
-        } catch (error) {
-            console.log(error)
-            res.status(500).send('Internal server error')
-        }
-}
     
     
-
-    //TEST 
-
-    // "_id": "622688d1f74a99351141bf64"
-    // "_id": "622938f3bc1698dc1415e886" (nuevo)
-    // {
-    //     "_id": "6216a6c9fecf58ea23428723",
-    //     "title": "Scream"
-    //     }
-
-export { postMovieAndSeriesToMyList, getMovieAndSeriesToMyList };
+export { postMovieAndSeriesToMyList, getMovieAndSeriesToMyList, getAllFromMyList };

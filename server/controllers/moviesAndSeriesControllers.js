@@ -12,7 +12,7 @@ const getMoviesAndSeries = async (req,res) => {
     // console.log(res)
 
     try {
-        const moviesAndSeries = await MoviesAndSeries.find({"genre": "accion"}, {"myList": "true"})
+        const moviesAndSeries = await MoviesAndSeries.find(/* {"genre": "accion"}, {"myList": "true"} */)
  
         res.json({moviesAndSeries})
         //console.log(moviesAndSeries)
