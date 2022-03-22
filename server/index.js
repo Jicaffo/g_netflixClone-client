@@ -7,7 +7,8 @@ import { router as userRouter} from './routes/users.js';
 import { router as moviesAndSeriesRouter } from './routes/moviesAndSeries.js';
 import { router as searchByGenreRouter } from './routes/searchByGenre.js';
 import { router as searchByTypeRouter } from './routes/searchByType.js';
-import { router as myListRouter, router } from './routes/myList.js';
+import { router as myListRouter } from './routes/myList.js';
+import { router as profilesRouter } from './routes/profiles.js';
 // TOFIX ERROR: import React from 'react' SyntaxError: Cannot use import statement outside a module
 //import frontRoutes from '../client/src/Routes/Routes.js'; 
 
@@ -49,27 +50,33 @@ app.use('/api/searchByType', searchByTypeRouter)
 // Obtiene peliculas o series por un genero determinado
 app.use('/api/search/genre', searchByGenreRouter)
 
+// Obtiene la lista de peliculas/series del usuario
+app.use('/api/myList', myListRouter)
+
+// Obtiene la lista de perfiles del usuario
+app.use('/api/profiles', profilesRouter)
+
 // const client = app.use("/", frontRoutes);
 // console.log(client)
 // console.log(frontRoutes)
 // app.use(client.Login)
 // TODO: trae hardcodeada la URL, ver como traer dinámicamente las rutas ya creadas desde React 
 // Para cualquier otra ruta trae el index.html generado por React
-app.use('*', (req, res) => {
+/* app.use('*', (req, res) => {
     console.log(path.join(__dirname, '../client/public', 'index.html'))
     //res.sendFile(path.resolve('http://localhost:3000/', 'index.html'));
     res.sendFile(path.join(__dirname, '../client/public', 'index.html'));
     //res.sendFile('index1.html', { root: path.join(__dirname, '../public') });
 
     // res.file() //Con esto podemos devolver un archivo estático
-});
+}); */
 
 // Obtiene peliculas recomendadas
 // app.use('/api/recommendations', require('./routes/recommendations')) //ANALIZAR EL TIPO DE VERBO DEBE SER
 // i need to post the document and then search and find wich movies will be almost similar for the client
 
-// Obtiene la lista de peliculas/series del usuario
-app.use('/api/myList', myListRouter)
+
+//TODO: eliminar llaves a las respuestas JSON de todos los controladores
 
 app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`)

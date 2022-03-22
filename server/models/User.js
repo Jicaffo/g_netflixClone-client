@@ -17,7 +17,7 @@ const SchemaUsers = mongoose.Schema({
         require: true,
         trim: true,
     },
-    
+    //TOFIX: Pasar a profile
     myList: {
         type: [Object]
     },
