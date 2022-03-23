@@ -1,4 +1,4 @@
-import MoviesAndSeries from '../models/MoviesAndSeries.js';
+import Media from '../models/Media.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
@@ -6,15 +6,15 @@ import jwt from 'jsonwebtoken';
 //This function will get everything from moviesAndSeries collection.
 
 // exports.getMovies = async(req,res) => {
-const getMoviesAndSeries = async (req,res) => { 
+const getAllMedia = async (req,res) => { 
 
     // console.log(req)
     // console.log(res)
 
     try {
-        const moviesAndSeries = await MoviesAndSeries.find(/* {"genre": "accion"}, {"myList": "true"} */)
+        const mediaList = await Media.find(/* {"genre": "accion"}, {"myList": "true"} */)
  
-        res.json({moviesAndSeries})
+        res.json({mediaList})
         //console.log(moviesAndSeries)
 
 
@@ -25,7 +25,7 @@ const getMoviesAndSeries = async (req,res) => {
     }
 }
 
-const makeMovie = async (req,res) => {
+const postMedia = async (req,res) => {
 
 
     //Checking Errors
@@ -42,17 +42,17 @@ const makeMovie = async (req,res) => {
     
     try {
 
-        let Title =  await MoviesAndSeries.findOne({ title })
-        if(Title) {
-            return res.status(400).json({ msg: 'This movie already exist'})
+        let media =  await Media.findOne({ title })
+        if(media) {
+            return res.status(400).json({ msg: 'This media already exist'})
 
         }
 
-        Title = new MoviesAndSeries(req.body) 
-        console.log(Title)
+        media = new Media(req.body) 
+        console.log(media)
         
-        await Title.save()
-        return res.status(200).json({ msg: 'Movies has been created correctly'})      
+        await media.save()
+        return res.status(201).json({ msg: 'The new media was created correctly'})      
 
     } catch (error) {
         console.log(error)
@@ -73,11 +73,11 @@ const deleteMedia = async (req, res, id) => {
     try {
 
         // El ID debe tener la misma cantidad de caracteres que trae por defecto (24 caracteres)
-        let media =  await MoviesAndSeries.findById(id)
+        let media =  await Media.findById(id)
         if(!media) {
             return res.status(400).json({ msg: "This id doesn't exist"})
         }
-        await MoviesAndSeries.findByIdAndDelete(id);
+        await Media.findByIdAndDelete(id);
         return res.status(200).json({ msg: `Media with ID '${id}' has been deleted`})      
 
     } catch (error) {
@@ -86,4 +86,6 @@ const deleteMedia = async (req, res, id) => {
     }
 }
 
-export { getMoviesAndSeries, makeMovie, deleteMedia };
+const mediaController = { getAllMedia, postMedia, deleteMedia }
+
+export default mediaController;

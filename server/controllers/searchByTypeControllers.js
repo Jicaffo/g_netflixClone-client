@@ -1,4 +1,4 @@
-import MoviesAndSeries from '../models/MoviesAndSeries.js';
+import MoviesAndSeries from '../models/Media.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';

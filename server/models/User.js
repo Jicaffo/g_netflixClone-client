@@ -17,12 +17,12 @@ const SchemaUsers = mongoose.Schema({
         require: true,
         trim: true,
     },
-    //TOFIX: Pasar a profile
-    myList: {
+    //TOFIX: Especificar tipo de esquema custom "Profile" (ver como)
+    profile: {
         type: [Object]
     },
     
 
 });
 
-export default mongoose.model('UserModel', SchemaUsers)
+export default mongoose.model('User', SchemaUsers)
