@@ -1,6 +1,6 @@
 import express from 'express';
 import { check } from 'express-validator';
-import * as moviesAndSeriesControllers from '../controllers/moviesAndSeriesControllers.js';
+import * as moviesAndSeriesControllers from '../controllers/mediaController.js';
 
 const router = express.Router()
 
@@ -9,13 +9,13 @@ const router = express.Router()
 
 router.get('/',
               
-    moviesAndSeriesControllers.getMoviesAndSeries
+    moviesAndSeriesControllers.getMedia
     
 )
 
 router.post('/',
               
-    moviesAndSeriesControllers.makeMovie,
+    moviesAndSeriesControllers.postMedia,
     
 )
 

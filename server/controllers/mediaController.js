@@ -1,4 +1,4 @@
-import MoviesAndSeries from '../models/MoviesAndSeries.js';
+import MoviesAndSeries from '../models/Media.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
@@ -6,7 +6,7 @@ import jwt from 'jsonwebtoken';
 //This function will get everything from moviesAndSeries collection.
 
 // exports.getMovies = async(req,res) => {
-const getMoviesAndSeries = async (req,res) => { 
+const getMedia = async (req,res) => { 
 
     // console.log(req)
     // console.log(res)
@@ -25,7 +25,7 @@ const getMoviesAndSeries = async (req,res) => {
     }
 }
 
-const makeMovie = async (req,res) => {
+const postMedia = async (req,res) => {
 
 
     //Checking Errors
@@ -86,4 +86,4 @@ const deleteMedia = async (req, res, id) => {
     }
 }
 
-export { getMoviesAndSeries, makeMovie, deleteMedia };
+export { getMedia, postMedia, deleteMedia };

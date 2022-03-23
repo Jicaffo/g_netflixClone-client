@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { router as authRouter } from './routes/auth.js';
 import { router as userRouter} from './routes/users.js';
-import { router as moviesAndSeriesRouter } from './routes/moviesAndSeries.js';
+import { router as mediaRouter } from './routes/media.js';
 import { router as searchByGenreRouter } from './routes/searchByGenre.js';
 import { router as searchByTypeRouter } from './routes/searchByType.js';
 import { router as myListRouter } from './routes/myList.js';
@@ -42,7 +42,7 @@ app.use('/api/auth', authRouter)
 app.use('/api/users', userRouter)
 
 // Obtiene todas las series y peliculas
-app.use('/api/moviesAndSeries', moviesAndSeriesRouter)
+app.use('/api/media', mediaRouter)
 
 //Obtiene todas las series o peliculas
 app.use('/api/searchByType', searchByTypeRouter)

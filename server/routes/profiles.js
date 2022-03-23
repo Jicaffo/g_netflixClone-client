@@ -1,5 +1,6 @@
 import express from 'express';
 import * as profileController from '../controllers/profileController.js';
+import { body, check } from 'express-validator';
 
 const router = express.Router()
 
@@ -20,6 +21,9 @@ router.get('/:id',
 
 // Crea un perfil
 router.post('/',
+    [check('name')
+        .isLength({min:3})
+        .withMessage('El perfil debe tener 3 caracteres como mínimo')],
    profileController.postProfile
    
 )
