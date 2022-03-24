@@ -1,29 +1,34 @@
 import express from 'express';
 import { check } from 'express-validator';
-import * as moviesAndSeriesControllers from '../controllers/mediaController.js';
+import mediaController from '../controllers/mediaController.js';
 
 const router = express.Router()
 
-// Get all movies and series (Base URL: /api/moviesAndSeries/)
-//Endpoint: api/moviesAndSeries
+// Endpoint: /api/media
 
-router.get('/',
-              
-    moviesAndSeriesControllers.getMedia
-    
-)
+// Obtiene todos los recursos multimedia.
+router.get('/', mediaController.getAllMedia)
 
-router.post('/',
-              
-    moviesAndSeriesControllers.postMedia,
-    
-)
+// Interactuar con un recurso multimedia particular
+router.post('/', mediaController.postMedia)
 
 router.delete('/:id',
-              
-    (req, res) => moviesAndSeriesControllers.deleteMedia(req, res, req.params.id)
-    
+    (req, res) => mediaController.deleteMedia(req, res, req.params.id)
 )
+
+// Obtiene recursos filtrados
+router.get('/byType=:type',
+    (req, res) => mediaController.getMediaByType(req, res)
+);
+
+router.get('/byGenre=:genre',
+    (req, res) => mediaController.getMediaByGenre(req, res)
+);
+
+// router.post('user/:userid/profile/:profileid/recommendations',
+// //First checking authentication, then get all recommedantions for this user
+//     mediaController.getRecommendedMedia
+// )
 
 export { router } ;
 

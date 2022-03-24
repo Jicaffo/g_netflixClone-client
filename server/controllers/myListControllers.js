@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
-import Profile from '../models/Profile.js';
+//import Profile from '../models/Profile.js';
 import { ObjectID as ObjectId } from 'mongodb';
 import MoviesAndSeries from '../models/Media.js';
 //const successMessage = require('../shared/const/success.enums')

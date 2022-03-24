@@ -8,7 +8,7 @@ const router = express.Router()
 
 //User authentication 
 //Endpoint: api/auth
-router.use(express.json());
+
 router.post('/', 
      [
          check('email', 'Add a valid email').isEmail(),
@@ -16,9 +16,5 @@ router.post('/',
      ],
     authController.authUser
 );
-
-router.get('/', function (req, res) {
-    res.send('hello world')
-  })
 
 export { router };

@@ -1,20 +1,19 @@
-import MoviesAndSeries from '../models/Media.js';
+import Media from '../models/Media.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
+//const successMessage = require('../shared/const/success.enums')
 
-//This function will get everything from moviesAndSeries collection.
-
-// exports.getMovies = async(req,res) => {
-const getMedia = async (req,res) => { 
+// Obtiene todos los recursos multimedia.
+const getAllMedia = async (req,res) => { 
 
     // console.log(req)
     // console.log(res)
 
     try {
-        const moviesAndSeries = await MoviesAndSeries.find(/* {"genre": "accion"}, {"myList": "true"} */)
+        const mediaList = await Media.find(/* {"genre": "accion"}, {"myList": "true"} */)
  
-        res.json({moviesAndSeries})
+        res.json({mediaList})
         //console.log(moviesAndSeries)
 
 
@@ -25,6 +24,7 @@ const getMedia = async (req,res) => {
     }
 }
 
+// Interactuar con un recurso multimedia particular
 const postMedia = async (req,res) => {
 
 
@@ -42,17 +42,17 @@ const postMedia = async (req,res) => {
     
     try {
 
-        let Title =  await MoviesAndSeries.findOne({ title })
-        if(Title) {
-            return res.status(400).json({ msg: 'This movie already exist'})
+        let media =  await Media.findOne({ title })
+        if(media) {
+            return res.status(400).json({ msg: 'This media already exist'})
 
         }
 
-        Title = new MoviesAndSeries(req.body) 
-        console.log(Title)
+        media = new Media(req.body) 
+        console.log(media)
         
-        await Title.save()
-        return res.status(200).json({ msg: 'Movies has been created correctly'})      
+        await media.save()
+        return res.status(201).json({ msg: 'The new media was created correctly'})      
 
     } catch (error) {
         console.log(error)
@@ -73,11 +73,11 @@ const deleteMedia = async (req, res, id) => {
     try {
 
         // El ID debe tener la misma cantidad de caracteres que trae por defecto (24 caracteres)
-        let media =  await MoviesAndSeries.findById(id)
+        let media =  await Media.findById(id)
         if(!media) {
             return res.status(400).json({ msg: "This id doesn't exist"})
         }
-        await MoviesAndSeries.findByIdAndDelete(id);
+        await Media.findByIdAndDelete(id);
         return res.status(200).json({ msg: `Media with ID '${id}' has been deleted`})      
 
     } catch (error) {
@@ -86,4 +86,74 @@ const deleteMedia = async (req, res, id) => {
     }
 }
 
-export { getMedia, postMedia, deleteMedia };
+// Obtiene recursos filtrados
+const getMediaByType = async (req, res) => {
+    
+    try {
+
+        const filteredList = await Media.find({type: req.params.type}) // {type: "serie"
+        console.log(filteredList)
+        res.status(200)
+        res.statusMessage="Filtered media list obtained correctly"
+        res.json({filteredList})
+
+        //Ver de retornar un array con strings para que no se rompa el front
+    
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+const getMediaByGenre = async (req,res) => {
+
+    // {
+    //     "genre": "drama",
+    //     "type": "serie"
+    // }
+    //const { genre, type } = req.body
+
+    try {
+
+        const filteredList = await Media.find({ genre: req.params.genre })
+        console.log(res)
+        res.status(200)
+        res.statusMessage="Filtered media list obtained correctly"
+        res.json({filteredList})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+//This function will get everything from moviesAndSeries collection.
+const getRecommendedMedia = async(req,res) => {
+
+    const { genre, type, audienceClasification, director } = req.body
+
+    try {
+
+        const recommend = await Media.aggregate ({
+            $project: { highmarks: { $filter: { input: "$marks", as: "marks", cond: { $gt: [ "$$marks", 10 ] } } } } 
+        
+        } )
+       
+        // console.log(genre)
+        // console.log(type)
+        // const moviesByGenre = await MoviesAndSeries.find({
+        //     type,
+        //     genre
+        // })
+ 
+         res.json({'right': 'okay'})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+const mediaController = { getAllMedia, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
+
+export default mediaController;

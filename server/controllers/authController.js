@@ -37,7 +37,8 @@ const authUser = async (req, res) => {
             return res.status(400).json({msg: 'Incorrect password'})
         }
 
-        return res.status(200).json({ msg: 'user has entered correctly'})
+        // TODO: Asegurarse que la info llegue correctamente (ver si conviene que llame a userController)
+    return res.status(201).json({ msg: 'user has entered correctly'/*, userData: user*/ })
 
      } catch (error) {
          console.log(error)
