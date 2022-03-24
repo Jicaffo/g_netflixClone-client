@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MovieSchema = mongoose.Schema(
+const MediaSchema = mongoose.Schema(
     
 {
     title: {type: String, require: true, unique: true },
@@ -23,4 +23,4 @@ const MovieSchema = mongoose.Schema(
 )
 
 
-export default mongoose.model('MoviesAndSeries', MovieSchema)
+export default mongoose.model('Media', MediaSchema)
