@@ -2,10 +2,9 @@ import Media from '../models/Media.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
 import jwt from 'jsonwebtoken';
+//const successMessage = require('../shared/const/success.enums')
 
-//This function will get everything from moviesAndSeries collection.
-
-// exports.getMovies = async(req,res) => {
+// Obtiene todos los recursos multimedia.
 const getAllMedia = async (req,res) => { 
 
     // console.log(req)
@@ -25,6 +24,7 @@ const getAllMedia = async (req,res) => {
     }
 }
 
+// Interactuar con un recurso multimedia particular
 const postMedia = async (req,res) => {
 
 
@@ -86,6 +86,74 @@ const deleteMedia = async (req, res, id) => {
     }
 }
 
-const mediaController = { getAllMedia, postMedia, deleteMedia }
+// Obtiene recursos filtrados
+const getMediaByType = async (req, res) => {
+    
+    try {
+
+        const filteredList = await Media.find({type: req.params.type}) // {type: "serie"
+        console.log(filteredList)
+        res.status(200)
+        res.statusMessage="Filtered media list obtained correctly"
+        res.json({filteredList})
+
+        //Ver de retornar un array con strings para que no se rompa el front
+    
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+const getMediaByGenre = async (req,res) => {
+
+    // {
+    //     "genre": "drama",
+    //     "type": "serie"
+    // }
+    //const { genre, type } = req.body
+
+    try {
+
+        const filteredList = await Media.find({ genre: req.params.genre })
+        console.log(res)
+        res.status(200)
+        res.statusMessage="Filtered media list obtained correctly"
+        res.json({filteredList})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+//This function will get everything from moviesAndSeries collection.
+const getRecommendedMedia = async(req,res) => {
+
+    const { genre, type, audienceClasification, director } = req.body
+
+    try {
+
+        const recommend = await Media.aggregate ({
+            $project: { highmarks: { $filter: { input: "$marks", as: "marks", cond: { $gt: [ "$$marks", 10 ] } } } } 
+        
+        } )
+       
+        // console.log(genre)
+        // console.log(type)
+        // const moviesByGenre = await MoviesAndSeries.find({
+        //     type,
+        //     genre
+        // })
+ 
+         res.json({'right': 'okay'})
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+const mediaController = { getAllMedia, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
 
 export default mediaController;

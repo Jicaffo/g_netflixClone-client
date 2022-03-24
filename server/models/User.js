@@ -1,5 +1,35 @@
 import mongoose from 'mongoose';
 
+const SchemaProfile = mongoose.Schema({
+    name: {
+        type: String,
+        require: true,
+        trim: true
+    },
+    img: {
+        type: String,
+        require: true, //TOFIX: evaluar si se requiere o viene algo por default
+        trim: true
+    },
+    language: {
+        type: String,
+        require: true, //TOFIX: evaluar si se requiere o viene algo por default
+        trim: true
+    },
+    automaticReproduction: {
+        nextEpisode: {
+            type: Boolean,
+        },
+        trailers: {
+            type: Boolean,
+        }
+    },
+    myList: {
+        type: [Object]
+    },
+
+});
+
 const SchemaUsers = mongoose.Schema({
     name: {
         type: String,
@@ -17,12 +47,10 @@ const SchemaUsers = mongoose.Schema({
         require: true,
         trim: true,
     },
-    //TOFIX: Especificar tipo de esquema custom "Profile" (ver como)
-    profile: {
-        type: [Object]
-    },
+    profiles: {
+        type: [SchemaProfile]
+    }
     
-
 });
 
 export default mongoose.model('User', SchemaUsers)

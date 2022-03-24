@@ -4,26 +4,31 @@ import mediaController from '../controllers/mediaController.js';
 
 const router = express.Router()
 
-// Get all movies and series (Base URL: /api/moviesAndSeries/)
-//Endpoint: api/moviesAndSeries
+// Endpoint: /api/media
 
-router.get('/',
-              
-    mediaController.getAllMedia
-    
-)
+// Obtiene todos los recursos multimedia.
+router.get('/', mediaController.getAllMedia)
 
-router.post('/',
-              
-    mediaController.postMedia,
-    
-)
+// Interactuar con un recurso multimedia particular
+router.post('/', mediaController.postMedia)
 
 router.delete('/:id',
-              
     (req, res) => mediaController.deleteMedia(req, res, req.params.id)
-    
 )
+
+// Obtiene recursos filtrados
+router.get('/byType=:type',
+    (req, res) => mediaController.getMediaByType(req, res)
+);
+
+router.get('/byGenre=:genre',
+    (req, res) => mediaController.getMediaByGenre(req, res)
+);
+
+// router.post('user/:userid/profile/:profileid/recommendations',
+// //First checking authentication, then get all recommedantions for this user
+//     mediaController.getRecommendedMedia
+// )
 
 export { router } ;
 

@@ -5,7 +5,24 @@ import jwt from 'jsonwebtoken';
 
 //This function will create a new user from users collection.
 
-const makeUser = async(req,res) => {
+const getAllUsers = async (req, res) => {
+    // Implementación básica
+    const allUsers = await User.find()
+    res.json({allUsers})
+}
+
+const getUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.json({user})
+        
+        } catch (error) {
+            console.log(error)
+            res.status(500).send('Internal server error')
+        }
+}
+
+const postUser = async(req,res) => {
 
     //Checking Errors
     const errors = validationResult(req);
@@ -43,4 +60,6 @@ const makeUser = async(req,res) => {
     }
 }
 
-export { makeUser };
+const userController = { getAllUsers, getUser, postUser}
+
+export default userController;

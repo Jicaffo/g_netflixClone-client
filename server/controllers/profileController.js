@@ -1,6 +1,6 @@
 
 import { validationResult } from 'express-validator';
-import Profile from '../models/Profile.js';
+//import Profile from '../models/Profile.js';
 
 const getAllProfiles = async(req, res) => {
        
@@ -15,7 +15,6 @@ const getAllProfiles = async(req, res) => {
 }
 
 const getProfile = async(req, res) => {
-
 
     try {
         const profile = await Profile.findById(req.params.id)

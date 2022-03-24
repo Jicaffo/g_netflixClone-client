@@ -44,6 +44,5 @@ app.listen(PORT, () =>{
 })
 
 // TODO: eliminar llaves a las respuestas JSON de todos los controladores?
-// IDEA: Refactorizar searchByX dentro de media?
-// IDEA: Refactorizar endpoint profiles para que sea un array de objetos dentro de users?
+// TODO: Refactorizar endpoint profiles para que sea un array de objetos dentro de users y myList para que sea parte de profile?
 // Ej: GET/POST /users/:userid/profiles/:profileid/myList   //  DELETE /users/:userid/profiles/:profileid/myList/:mediaid
