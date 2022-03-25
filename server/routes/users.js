@@ -1,4 +1,4 @@
-//const express = require('express') // Version anterior
+
 import express from 'express';
 import userController from '../controllers/userController.js';
 import { check } from 'express-validator';
@@ -27,5 +27,44 @@ router.post('/',
     userController.postUser
 
 );
+
+router.post('/auth', 
+     [
+        check('email', 'Add a valid email').isEmail(),
+        check('password', 'The password should be 6 characters at least').isLength({min: 6})
+     ],
+    userController.authUser
+);
+
+
+//Endpoint: /api/users/:userId/profiles
+
+// Obtiene todos los perfiles
+router.get('/:userId/profiles',
+    userController.getAllProfiles
+)
+// Obtiene un perfil
+router.get('/:userId/profiles/:profileId',
+    userController.getProfile
+)
+
+// Crea un perfil
+router.post('/:userId/profiles',
+    [check('name')
+        .isLength({min:3})
+        .withMessage('El perfil debe tener 3 caracteres como mínimo')],
+   userController.postProfile
+)
+
+// Actualiza los datos del perfil
+router.patch('/:userId/profiles/:profileId',
+    userController.patchProfile
+)
+
+
+/* router.get('/?mediaId=:mediaId&profileId=:profileId',
+   (req, res) => myListControllers.getMovieAndSeriesToMyList(req, res, req.params.profileId, req.params.mediaId)
+   
+) */
 
 export { router }
