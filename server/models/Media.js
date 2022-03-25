@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const MediaSchema = mongoose.Schema(
+const mediaSchema = mongoose.Schema(
     
 {
     title: {type: String, require: true, unique: true },
@@ -23,4 +23,4 @@ const MediaSchema = mongoose.Schema(
 )
 
 
-export default mongoose.model('Media', MediaSchema)
+export default mongoose.model('Media', mediaSchema)

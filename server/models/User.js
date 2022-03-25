@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const SchemaProfile = mongoose.Schema({
+const profileSchema = mongoose.Schema({
     name: {
         type: String,
         require: true,
@@ -17,20 +17,14 @@ const SchemaProfile = mongoose.Schema({
         trim: true
     },
     automaticReproduction: {
-        nextEpisode: {
-            type: Boolean,
-        },
-        trailers: {
-            type: Boolean,
-        }
+        nextEpisode: Boolean,
+        trailers: Boolean,
     },
-    myList: {
-        type: [Object]
-    },
+    myList: [mongoose.ObjectId]
 
 });
 
-const SchemaUsers = mongoose.Schema({
+const usersSchema = mongoose.Schema({
     name: {
         type: String,
         require: true,
@@ -48,9 +42,9 @@ const SchemaUsers = mongoose.Schema({
         trim: true,
     },
     profiles: {
-        type: [SchemaProfile]
-    }
+        type: [profileSchema]
+    },
     
 });
 
-export default mongoose.model('User', SchemaUsers)
+export default mongoose.model('User', usersSchema)
