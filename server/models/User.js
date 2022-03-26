@@ -43,8 +43,7 @@ const usersSchema = mongoose.Schema({
     },
     profiles: {
         type: [profileSchema]
-    },
-    
+    }
 });
 
 export default mongoose.model('User', usersSchema)

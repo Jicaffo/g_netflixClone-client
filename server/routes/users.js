@@ -31,7 +31,7 @@ router.post('/',
 router.post('/auth', 
      [
         check('email', 'Add a valid email').isEmail(),
-        check('password', 'The password should be 6 characters at least').isLength({min: 6})
+        // check('password', 'The password should be 6 characters at least').isLength({min: 6}) // Tiene sentido en la validación?
      ],
     userController.authUser
 );
@@ -56,9 +56,14 @@ router.post('/:userId/profiles',
    userController.postProfile
 )
 
-// Actualiza los datos del perfil
+// Actualiza los datos de un perfil
 router.patch('/:userId/profiles/:profileId',
     userController.patchProfile
+)
+
+// Borra un perfil
+router.delete('/:userId/profiles/:profileId',
+    userController.deleteProfile
 )
 
 

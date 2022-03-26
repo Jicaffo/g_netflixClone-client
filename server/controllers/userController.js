@@ -69,39 +69,41 @@ const authUser = async (req, res) => {
         return res.status(400).json({errors: errors.array() })
     }
 
-    const { email, password } = req.body;
+    const { email, password } = req.body; // TOCHECK: La contraseña debería viajar encriptada o así está bien?
    
     try {
    
         //Finding user by email on DB
-       let user = await User.findOne({ email })
-       //console.log(user)
-       if (!user) {
-           return res.status(400).json({msg: "User doesn't exist"})
-       }
+        // TOCHECK: Ver si conviene extraer a una función aparte userController.getUserByName (simplifcaría try-catch)
+        const user = await User.findOne({ email })
+        //console.log(user)
+        if (!user) {
+            return res.status(404).json({msg: "User doesn't exist"})
+        }
 
-       //Checking password on Db
-       // console.log(user.password)
-       // console.log(password)
+        //Checking password on Db
+        console.log(user.password) // En la base de datos (encriptada)
+        console.log(password) // En la petición (NO encriptada)
 
+        const validatedPassword = await bcryptjs.compare(password, user.password)
+        console.log(validatedPassword)
 
-       const rightPassword = await bcryptjs.compare(password,user.password)
-       // console.log(rightPassword)
-       if (!rightPassword) {
-           return res.status(400).json({msg: 'Incorrect password'})
-       }
+        if (!validatedPassword) {
+            return res.status(403).json({msg: 'Incorrect password'})
+        }
 
-       // TODO: Asegurarse que la info llegue correctamente (ver si conviene que llame a userController)
-   return res.status(201).json({ msg: 'user has entered correctly'/*, userData: user*/ })
+        res.statusMessage="User has entered correctly"
+        res.status(202).json({ userData: user })
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.statusMessage="Couldn't connect to DB"
+        res.status(500)
     }
 }
 
-const { postProfile, getProfile, getAllProfiles, patchProfile} = profileController
-const userController = { getAllUsers, getUser, postUser, authUser, postProfile, getProfile, getAllProfiles,patchProfile}
+const { postProfile, getProfile, getAllProfiles, patchProfile, deleteProfile} = profileController
+const userController = { getAllUsers, getUser, postUser, authUser, postProfile, getProfile, getAllProfiles,patchProfile, deleteProfile}
 
 
 export default userController;
