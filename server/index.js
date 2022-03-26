@@ -2,6 +2,7 @@ import express from 'express';
 import connectDB from './config/db.js';
 import dotenv from 'dotenv';
 import path from 'path';
+import morgan from 'morgan';
 import { router as apiRouter } from './routes/apiRouter.js';
 // TOFIX: ERROR: import React from 'react' SyntaxError: Cannot use import statement outside a module
 //import frontRoutes from '../client/src/Routes/Routes.js'; 
@@ -21,6 +22,8 @@ app.use(express.json({ extender: true}))
 
 // Setea la variable de entorno como prioridad
 const PORT = process.env.PORT || 4000;
+
+app.use(morgan('dev'));
 
 app.use('/api', apiRouter)
 
@@ -43,6 +46,7 @@ app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`)
 })
 
-// TODO: eliminar llaves a las respuestas JSON de todos los controladores?
 // TODO: Refactorizar endpoint profiles para que sea un array de objetos dentro de users y myList para que sea parte de profile?
 // Ej: GET/POST /users/:userid/profiles/:profileid/myList   //  DELETE /users/:userid/profiles/:profileid/myList/:mediaid
+// TODO: Revisar try-catch y si están bien implementados los if con returns de responses.
+// NEXT: MyList

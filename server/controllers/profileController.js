@@ -70,6 +70,7 @@ const postProfile = async(req,res) => {
 
 const patchProfile = async(req,res) => {
 
+    //Validación
     const errors = validationResult(req);
     const hasErrors = !errors.isEmpty()
 
@@ -78,39 +79,93 @@ const patchProfile = async(req,res) => {
     }
     
     try {
+        // Obtener usuario
         const user = await User.findById({"_id":req.params.userId})
-        const profileToPatch = user.profiles.find((profile) => profile._id.toString() === req.params.profileId)
 
         try {
+            const matchParamUserId = (profile) => profile._id.toString() === req.params.profileId
+            
+            // Obtenemos el perfil con el id pasado por parámetro del array de profiles.
+            const profileToPatch = user.profiles.find(matchParamUserId)
+
+            // Si no existe devolvemos un error
             if(profileToPatch === undefined) {
                 return res.status(404).send("The profile doesn't exist")
             }
 
+            // Obtenemos el index original donde estaba el perfil a modificar
+            const profileOriginalIndex = user.profiles.findIndex(matchParamUserId)
+
+            // Obtenemos los datos del perfil ingresado por la petición
             const newProfile = req.body
 
+            // Modificamos el perfil original: Copiamos los valores de las propiedades ingresadas en la petición al perfil original
             for (const property in newProfile) {
                 //console.log(typeof property) // A revisar (Juani)
                 profileToPatch[property] = newProfile[property]
             }
-            console.log(profileToPatch)
-            user.profiles.push(profileToPatch)
-            //await user.save() 
+            
+            // Reemplazamos la versión modificada del perfil en el array original
+            user.profiles.splice(profileOriginalIndex, 1, profileToPatch)
 
-            return res.status(204).json({ msg: 'Profile has been updated correctly.'})
+            // Actualizamos el usuario en la DB
+            await user.save() 
+
+            return res.status(204).json({ msg: 'Profile has been updated correctly.'}) // Por el momento no se envía mensaje
         } catch (error){
             console.log(error)
-            res.status(400).send("User doesn't exist.")
+            res.status(400).send("Couldn't patch the profile.")
         }
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server Error.')
+        res.status(400).send("User doesn't exist.")
     }
-
-    // TODO: ver el formato de try y catch para manejo de errores sin anidarlos.
 }
 
+const deleteProfile = async(req,res) => {
 
+    //Validación
+    const errors = validationResult(req);
+    const hasErrors = !errors.isEmpty()
+
+    if(hasErrors) {
+        return res.status(400).json({errors: errors.array()})
+    }
     
-const profileController = { postProfile, getProfile, getAllProfiles, patchProfile}
+    try {
+        // Obtener usuario
+        const user = await User.findById({"_id":req.params.userId})
+
+        try {
+            const matchParamUserId = (profile) => profile._id.toString() == req.params.profileId
+            const notMatchParamUserId = (profile) => profile._id.toString() !== req.params.profileId
+            
+            // Obtenemos el perfil a modificar.
+            const profileToPatch = user.profiles.find(matchParamUserId)
+
+            // Si no existe devolvemos un error
+            if(profileToPatch === undefined) {
+                return res.status(404).send("The profile you are trying to delete doesn't exist")
+            }
+
+            // Reemplazamos el array original por uno filtrado que no contenga el perfil indicado 
+            user.profiles = user.profiles.filter(notMatchParamUserId)
+
+            // Actualizamos el usuario en la DB
+            await user.save() 
+
+            return res.status(204).json({ msg: 'Profile has been updated correctly.'}) // Por el momento no se envía mensaje
+        } catch (error){
+            console.log(error)
+            res.status(400).send("Couldn't delete the profile.")
+        }
+    } catch (error) {
+        console.log(error)
+        res.status(400).send("User doesn't exist.")
+    }
+}
+
+ 
+const profileController = { postProfile, getProfile, getAllProfiles, patchProfile, deleteProfile }
 
 export default profileController;
