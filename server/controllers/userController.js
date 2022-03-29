@@ -102,8 +102,37 @@ const authUser = async (req, res) => {
     }
 }
 
-const { postProfile, getProfile, getAllProfiles, patchProfile, deleteProfile} = profileController
-const userController = { getAllUsers, getUser, postUser, authUser, postProfile, getProfile, getAllProfiles,patchProfile, deleteProfile}
+
+
+const { 
+    postProfile, 
+    getProfile, 
+    getAllProfiles, 
+    patchProfile, 
+    deleteProfile, 
+    postMediaToList, 
+    getOneFromList, 
+    getAllMediaFromList,
+    getAllLists,
+    deleteOneFromList
+} = profileController
+
+const userController = { 
+    getAllUsers, 
+    getUser, 
+    postUser, 
+    authUser, 
+    postProfile, 
+    getProfile, 
+    getAllProfiles,
+    patchProfile, 
+    deleteProfile, 
+    postMediaToList, 
+    getOneFromList, 
+    getAllMediaFromList,
+    getAllLists,
+    deleteOneFromList
+}
 
 
 export default userController;

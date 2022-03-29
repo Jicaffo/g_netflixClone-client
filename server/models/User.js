@@ -1,5 +1,13 @@
 import mongoose from 'mongoose';
 
+const listsSchema = mongoose.Schema({
+    name: {
+        type: String,
+        require: true,
+    },
+    items: [String]
+})
+
 const profileSchema = mongoose.Schema({
     name: {
         type: String,
@@ -20,7 +28,9 @@ const profileSchema = mongoose.Schema({
         nextEpisode: Boolean,
         trailers: Boolean,
     },
-    myList: [mongoose.ObjectId]
+    lists: {
+        type: [listsSchema]
+    }
 
 });
 

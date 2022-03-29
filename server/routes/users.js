@@ -5,19 +5,20 @@ import { check } from 'express-validator';
 
 const router = express.Router()
 
-//Endpoint: api/users
+// === Endpoint: api/users ===
 
-// Get one User
+
+// Obtiene todos los usuarios
 router.get('/',
     userController.getAllUsers
 );
 
-// Get one User
+// Obtiene un usuario
 router.get('/:id',
     userController.getUser
 );
 
-// Create new User
+// Crea un nuevo usuario
 router.post('/', 
     // [
     //     check('name', 'The name is obligatory').not().isEmpty(),
@@ -28,6 +29,9 @@ router.post('/',
 
 );
 
+// === Endpoint: api/users/auth ===
+
+// Autentifica el usuario, validando sus datos con el servidor
 router.post('/auth', 
      [
         check('email', 'Add a valid email').isEmail(),
@@ -36,8 +40,13 @@ router.post('/auth',
     userController.authUser
 );
 
+// Para corroborar la autentificación
+/* "name": "usuarioNuevo2.0",
+"email": "usuarioNuevo2.0@gmail.com",
+"password": "123456" */
 
-//Endpoint: /api/users/:userId/profiles
+
+// === Endpoint: /api/users/:userId/profiles ===
 
 // Obtiene todos los perfiles
 router.get('/:userId/profiles',
@@ -67,9 +76,39 @@ router.delete('/:userId/profiles/:profileId',
 )
 
 
-/* router.get('/?mediaId=:mediaId&profileId=:profileId',
-   (req, res) => myListControllers.getMovieAndSeriesToMyList(req, res, req.params.profileId, req.params.mediaId)
-   
-) */
+
+// === Endpoint: api/users/:userid/profiles/:profileid/lists ===
+
+// DELETE/GETONE /users/:userid/profiles/:profileid/lists?listName=:myList&mediaId=:id/  
+//  DELETE /users/:userid/profiles/:profileid/lists/:listName/:mediaId/  
+
+// Obtiene todas las listas del perfil
+router.get('/:userId/profiles/:profileId/lists',
+   userController.getAllLists
+)
+
+// Obtiene todos los recursos multimedia de una lista
+router.get('/:userId/profiles/:profileId/lists/:listName',
+   userController.getAllMediaFromList
+)
+
+// Obtiene un recurso multimedia de una lista
+router.get('/:userId/profiles/:profileId/lists/:listName/:mediaId/',
+   userController.getOneFromList
+)
+
+// Elimina un recurso multimedia de una lista
+router.delete('/:userId/profiles/:profileId/lists/:listName/:mediaId/',
+   userController.deleteOneFromList
+)
+
+// Agrega un recurso multimedia a una lista dentro del perfil
+router.post('/:userId/profiles/:profileId/lists/:listName/:mediaId/',
+   userController.postMediaToList
+)
+
+
+
+
 
 export { router }
