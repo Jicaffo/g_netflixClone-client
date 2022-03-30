@@ -46,7 +46,5 @@ app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`)
 })
 
-// TODO: Refactorizar endpoint profiles para que sea un array de objetos dentro de users y myList para que sea parte de profile?
-// Ej: GET/POST /users/:userid/profiles/:profileid/myList   //  DELETE /users/:userid/profiles/:profileid/myList/:mediaid
 // TODO: Revisar try-catch y si están bien implementados los if con returns de responses.
 // NEXT: MyList

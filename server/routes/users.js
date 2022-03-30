@@ -94,12 +94,12 @@ router.get('/:userId/profiles/:profileId/lists/:listName',
 
 // Obtiene un recurso multimedia de una lista
 router.get('/:userId/profiles/:profileId/lists/:listName/:mediaId/',
-   userController.getOneFromList
+   userController.getOneMediaFromList
 )
 
 // Elimina un recurso multimedia de una lista
 router.delete('/:userId/profiles/:profileId/lists/:listName/:mediaId/',
-   userController.deleteOneFromList
+   userController.deleteOneMediaFromList
 )
 
 // Agrega un recurso multimedia a una lista dentro del perfil
