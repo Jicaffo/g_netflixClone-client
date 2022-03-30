@@ -9,6 +9,9 @@ const router = express.Router()
 // Obtiene todos los recursos multimedia.
 router.get('/', mediaController.getAllMedia)
 
+// Obtiene un recurso por Id
+router.get('/:id', mediaController.getOneMediaById)
+
 // Interactuar con un recurso multimedia particular
 router.post('/', mediaController.postMedia)
 

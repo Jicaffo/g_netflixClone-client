@@ -1,6 +1,7 @@
 
 import { validationResult } from 'express-validator';
 import User from '../models/User.js';
+import mediaController from './mediaController.js';
 
 // Manejo de perfiles
 const getAllProfiles = async(req, res) => {
@@ -183,7 +184,7 @@ const getAllLists = async(req, res) => {
             return res.status(404).send("The profile doesn't exist")
         }
 
-        res.json({"lists": profile.lists})
+        res.json(profile.lists)
         
         
     } catch (error) {
@@ -192,29 +193,81 @@ const getAllLists = async(req, res) => {
     }
 }
 
-const getAllMediaFromList = async(req, res) => {
-       
+const getOneList = async(req, res) => {
+    
+    const userId = req.params.userId
+    const profileId = req.params.profileId
+    const listName = req.params.listName
+
     try {
-        //TODO: Evaluar la lógica para traer myList según el profileId
-        } catch (error) {
-            console.log(error)
-            res.status(500).send('Internal server error')
+        const user = await User.findById(userId)
+        const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
+        const matchProfileId = (profile) => profile._id.toString() === profileId
+        const matchListName = (list) => list.name.toString() === listName
+
+        if(profile === undefined) {
+            return res.status(404).send("The profile doesn't exist")
         }
-}
 
-const getOneFromList = async(req, res) => {
+        const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
+        // Te da el número de posición, y sino existe, devuelve -1
+        let listIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
 
-    const { mediaId, profileId } = req.body
-       
-    try {
+        const listName2 = profile.lists[listIndex].name
+        //console.log(profile.lists[listIndex]); // Hasta acá llega ok
+        res.send(profile.lists[listIndex])
+        return profile.lists[listIndex];
         
-        } catch (error) {
-            console.log(error)
-            res.status(500).send('Internal server error')
-        }
+    } catch (error) {
+        console.log(error)
+        res.status(404).send('Element not found')
+    }
 }
 
-const deleteOneFromList = async(req,res) => {
+const getAllMediaFromList = async(req, res) => {
+        
+    const list = await getOneList(req, res)
+    console.log(list.items);
+    const results = list.items.map((item) => mediaController.getOneMediaById(item)) //No funciona, ID debería ser dinámico en cada iteración
+    // TODO: Probar filtrando un array completo de todas las películas usando los IDs en list.items
+
+}
+
+const getOneMediaFromList = async(req, res) => {
+
+    const userId = req.params.userId
+    const profileId = req.params.profileId
+    const listName = req.params.listName
+    const mediaId = req.params.mediaId
+
+    try {
+        const user = await User.findById({"_id":userId})
+        const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
+        const matchProfileId = (profile) => profile._id.toString() === profileId
+        const matchListName = (list) => list.name.toString() === listName
+        const matchMediaId = (media) => media._id.toString() === mediaId
+
+        if(profile === undefined) {
+            return res.status(404).send("The profile doesn't exist")
+        }
+
+        const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
+        // Te da el número de posición, y sino existe, devuelve -1
+        let listIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
+
+        console.log(profile.lists[listIndex]);
+        
+        res.json(profile.lists[listIndex])
+
+        // TODO: Terminar.
+        
+    } catch (error) {
+        console.log(error)
+        res.status(404).send('Element not found')
+    }
+}
+
+const deleteOneMediaFromList = async(req,res) => {
 
     const { title, genre, director, audienceClasification, type , _id} = req.body
 
@@ -247,7 +300,7 @@ const postMediaToList = async(req,res) => {
         if(!profile) {
             return res.status(404).send("The profile doesn't exist")
         }
-        
+
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
         // Te da el número de posición, y sino existe, devuelve -1
         let listOriginalIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
@@ -286,10 +339,11 @@ const profileController = {
     patchProfile, 
     deleteProfile, 
     postMediaToList, 
-    getOneFromList, 
+    getOneMediaFromList, 
     getAllMediaFromList,
     getAllLists,
-    deleteOneFromList
+    getOneList,
+    deleteOneMediaFromList
 }
 
 export default profileController;

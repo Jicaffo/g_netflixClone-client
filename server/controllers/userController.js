@@ -102,36 +102,12 @@ const authUser = async (req, res) => {
     }
 }
 
-
-
-const { 
-    postProfile, 
-    getProfile, 
-    getAllProfiles, 
-    patchProfile, 
-    deleteProfile, 
-    postMediaToList, 
-    getOneFromList, 
-    getAllMediaFromList,
-    getAllLists,
-    deleteOneFromList
-} = profileController
-
 const userController = { 
+    ...profileController,
     getAllUsers, 
     getUser, 
     postUser, 
-    authUser, 
-    postProfile, 
-    getProfile, 
-    getAllProfiles,
-    patchProfile, 
-    deleteProfile, 
-    postMediaToList, 
-    getOneFromList, 
-    getAllMediaFromList,
-    getAllLists,
-    deleteOneFromList
+    authUser
 }
 
 

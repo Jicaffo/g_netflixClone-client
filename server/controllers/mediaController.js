@@ -12,11 +12,26 @@ const getAllMedia = async (req,res) => {
 
     try {
         const mediaList = await Media.find(/* {"genre": "accion"}, {"myList": "true"} */)
- 
-        res.json({mediaList})
+         
+        res.json(mediaList)
         //console.log(moviesAndSeries)
 
 
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
+const getOneMediaById = async (req,res) => { 
+
+    const id = req.params.id
+
+    try {
+        const media = await Media.findById(id)
+ 
+        res.json(media)
 
     } catch (error) {
         console.log(error)
@@ -154,6 +169,6 @@ const getRecommendedMedia = async(req,res) => {
     }
 }
 
-const mediaController = { getAllMedia, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
+const mediaController = { getAllMedia, getOneMediaById, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
 
 export default mediaController;
