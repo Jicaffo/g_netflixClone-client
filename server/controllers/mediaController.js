@@ -39,6 +39,19 @@ const getOneMediaById = async (req,res) => {
     }
 }
 
+const getOneMediaByArgumentId = async (id) => { 
+
+    try {
+        const media = await Media.findById(id)
+        //res.json(media)
+        return media
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).send('Internal server error')
+    }
+}
+
 // Interactuar con un recurso multimedia particular
 const postMedia = async (req,res) => {
 
@@ -169,6 +182,6 @@ const getRecommendedMedia = async(req,res) => {
     }
 }
 
-const mediaController = { getAllMedia, getOneMediaById, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
+const mediaController = { getAllMedia, getOneMediaById, getOneMediaByArgumentId, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
 
 export default mediaController;

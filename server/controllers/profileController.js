@@ -213,7 +213,6 @@ const getOneList = async(req, res) => {
         // Te da el número de posición, y sino existe, devuelve -1
         let listIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
 
-        const listName2 = profile.lists[listIndex].name
         //console.log(profile.lists[listIndex]); // Hasta acá llega ok
         res.send(profile.lists[listIndex])
         return profile.lists[listIndex];
@@ -225,12 +224,47 @@ const getOneList = async(req, res) => {
 }
 
 const getAllMediaFromList = async(req, res) => {
-        
-    const list = await getOneList(req, res)
-    console.log(list.items);
-    const results = list.items.map((item) => mediaController.getOneMediaById(item)) //No funciona, ID debería ser dinámico en cada iteración
-    // TODO: Probar filtrando un array completo de todas las películas usando los IDs en list.items
+      
+    const userId = req.params.userId
+    const profileId = req.params.profileId
+    const listName = req.params.listName
 
+    try {
+        const user = await User.findById(userId)
+        const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
+        const matchProfileId = (profile) => profile._id.toString() === profileId
+        const matchListName = (list) => list.name.toString() === listName
+
+        if(profile === undefined) {
+            return res.status(404).send("The profile doesn't exist")
+        }
+
+        const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
+        // Te da el número de posición, y sino existe, devuelve -1
+        let listIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
+
+        // Obtenemos la lista de ids de los recursos multimedia
+        const mediaIdArray = profile.lists[listIndex].items
+        
+        // Obtenemos el listado de objetos completos de los recursos multimedia a partir de los Ids (Es necesario utilizar el Promise.all() para que el map funcione correctamente) 
+        const mediaList = await Promise.all( mediaIdArray.map( async (mediaId, index, mediaIdArray) => await mediaController.getOneMediaByArgumentId(mediaId)))
+
+        res.json(mediaList)
+        
+    } catch (error) {
+        console.log(error)
+        res.status(404).send('Element not found')
+    }
+
+    // // No se puede devolver más de un response por cada request
+    //const list = await getOneList(req, res)
+    //console.log(list.items);
+    //const results = list.items.map((item) => mediaController.getOneMediaById(item)) //No funciona, ID no llega por argumento sino por url
+    //console.log(await mediaController.getOneMediaByArgumentId(list.items[0])); // Funcionaría pero sólo si hacemos return sin enviar respuesta.
+    // const results = list.items.map( async (itemID) => {
+    //     //console.log(req)
+    //     return await mediaController.getOneMediaByArgumentId(req, res, itemID)
+    // })
 }
 
 const getOneMediaFromList = async(req, res) => {
@@ -241,11 +275,11 @@ const getOneMediaFromList = async(req, res) => {
     const mediaId = req.params.mediaId
 
     try {
-        const user = await User.findById({"_id":userId})
+        const user = await User.findById(userId)
         const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
         const matchProfileId = (profile) => profile._id.toString() === profileId
         const matchListName = (list) => list.name.toString() === listName
-        const matchMediaId = (media) => media._id.toString() === mediaId
+        const matchMediaId = (media) => media === mediaId
 
         if(profile === undefined) {
             return res.status(404).send("The profile doesn't exist")
@@ -254,12 +288,15 @@ const getOneMediaFromList = async(req, res) => {
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
         // Te da el número de posición, y sino existe, devuelve -1
         let listIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
+        let mediaIndex = user.profiles[profileOriginalIndex].lists[listIndex].items.findIndex(matchMediaId)
 
-        console.log(profile.lists[listIndex]);
-        
-        res.json(profile.lists[listIndex])
+        // Obtenemos el id del recurso multimedia
+        const mediaItemId = profile.lists[listIndex].items[mediaIndex]
+     
+        // Obtenemos el objeto completo del recurso multimedia a partir del Id 
+        const mediaItem = await mediaController.getOneMediaByArgumentId(mediaItemId)
 
-        // TODO: Terminar.
+        res.json(mediaItem)
         
     } catch (error) {
         console.log(error)
@@ -268,17 +305,42 @@ const getOneMediaFromList = async(req, res) => {
 }
 
 const deleteOneMediaFromList = async(req,res) => {
+    const userId = req.params.userId
+    const profileId = req.params.profileId
+    const listName = req.params.listName
+    const mediaId = req.params.mediaId
 
-    const { title, genre, director, audienceClasification, type , _id} = req.body
-
-    //   let id = ObjectId(_id)
-    //   id.toString()
-    //   console.log(id)
     try {
-   
+        const user = await User.findById(userId)
+        const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
+        const matchProfileId = (profile) => profile._id.toString() === profileId
+        const matchListName = (list) => list.name.toString() === listName
+        const matchMediaId = (media) => media === mediaId
+        const notMatchMediaId = (media) => media !== mediaId
+
+        if(profile === undefined) {
+            return res.status(404).send("The profile doesn't exist")
+        }
+
+        const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
+        // Te da el número de posición, y sino existe, devuelve -1
+        let listIndex = user.profiles[profileOriginalIndex].lists.findIndex(matchListName)
+        let mediaIndex = user.profiles[profileOriginalIndex].lists[listIndex].items.findIndex(matchMediaId)
+
+        // Obtenemos el id del recurso multimedia
+        const mediaItemId = profile.lists[listIndex].items[mediaIndex]
+     
+        // Reemplazamos el array original por uno filtrado que no contenga el id del recurso multimedia indicado 
+        user.profiles[profileOriginalIndex].lists[listIndex].items = user.profiles[profileOriginalIndex].lists[listIndex].items.filter(notMatchMediaId)
+
+        // Actualizamos el usuario en la DB
+        await user.save() 
+
+        return res.status(204).json({ msg: `Media ${mediaId} deleted from list ${listName}`}) // Por el momento no se envía mensaje
+        
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(404).send('Element not found')
     }
 }
 
@@ -288,7 +350,6 @@ const postMediaToList = async(req,res) => {
     const profileId = req.params.profileId
     const listName = req.params.listName
     const mediaId = req.params.mediaId
-
 
     try {
         const matchProfileId = (profile) => profile._id.toString() === profileId
@@ -310,7 +371,6 @@ const postMediaToList = async(req,res) => {
             // corrige la posición de la lista a modificar
             listOriginalIndex = user.profiles[profileOriginalIndex].lists.length
             
-            
             user.profiles[profileOriginalIndex].lists.push({
                 "name":listName,
                 "items":[]
@@ -323,7 +383,6 @@ const postMediaToList = async(req,res) => {
         await user.save()
         res.statusMessage = `The media resource has been added to list ${listName}`
         return res.status(204).json({ msg: `The media resource has been added to list.`})
-        
         
     } catch (error) {
         console.log(error)
