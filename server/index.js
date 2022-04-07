@@ -46,5 +46,8 @@ app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`)
 })
 
+// TODO: Unificar declaración de variables con los parametros recibidos por url en todos los controladores.
+// TODO: Unificar formato de peticiones y respuestas en controladores (idealmente refactorizar en funciones).
 // TODO: Revisar try-catch y si están bien implementados los if con returns de responses.
-// NEXT: MyList
+// TODO: Ver si se puede simplificar/resumir largo de las URLs.
+// NEXT: authUser, getRecommendedMedia, searchBy (url parameters), validaciones,

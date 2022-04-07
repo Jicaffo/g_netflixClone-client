@@ -40,12 +40,6 @@ router.post('/auth',
     userController.authUser
 );
 
-// Para corroborar la autentificación
-/* "name": "usuarioNuevo2.0",
-"email": "usuarioNuevo2.0@gmail.com",
-"password": "123456" */
-
-
 // === Endpoint: /api/users/:userId/profiles ===
 
 // Obtiene todos los perfiles

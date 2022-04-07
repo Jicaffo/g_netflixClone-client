@@ -61,6 +61,11 @@ const postUser = async(req,res) => {
 }
 
 const authUser = async (req, res) => {
+
+    // Usuario de ejemplo para corroborar la autentificación
+    /* "name": "usuarioNuevo2.0",
+    "email": "usuarioNuevo2.0@gmail.com",
+    "password": "123456" */
      
     //Checking Errors
     const errors = validationResult(req);
