@@ -158,7 +158,7 @@ const deleteProfile = async(req,res) => {
             // Actualizamos el usuario en la DB
             await user.save() 
 
-            return res.status(204).json({ msg: 'Profile has been updated correctly.'}) // Por el momento no se envía mensaje
+            return res.status(204).json({ msg: 'Profile has been deleted correctly.'}) // Por el momento no se envía mensaje
         } catch (error){
             console.log(error)
             res.status(400).send("Couldn't delete the profile.")
