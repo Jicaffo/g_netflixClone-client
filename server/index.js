@@ -23,7 +23,20 @@ app.use(express.json({ extender: true}))
 // Setea la variable de entorno como prioridad
 const PORT = process.env.PORT || 4000;
 
+// Agrega un middleware que loguea cada petición (para realizar pruebas en etapa de desarrollo)
 app.use(morgan('dev'));
+
+
+// REDIRECCIONES DE RUTAS TEMPORALES PARA PRUEBAS FRONT (HASTA INCORPORAR AUTORIZACION EN BACK)
+app.route("/api/profiles")
+    .get((req, res)=> res.redirect("/api/users/6242683c65e59ca79bfe5705/profiles"))
+    .post((req, res)=> res.redirect("/api/users/6242683c65e59ca79bfe5705/profiles"))
+
+app.route("/api/profiles/:profileId")
+    .get((req, res)=> res.redirect("/api/users/6242683c65e59ca79bfe5705/profiles/:profileId"))
+    .patch((req, res)=> res.redirect("/api/users/6242683c65e59ca79bfe5705/profiles/:profileId"))
+    .delete((req, res)=> res.redirect("/api/users/6242683c65e59ca79bfe5705/profiles/:profileId"))
+
 
 app.use('/api', apiRouter)
 
@@ -46,8 +59,10 @@ app.listen(PORT, () =>{
     console.log(`Server running on port ${PORT}`)
 })
 
+
+// Ruta de Películas en Netflix Original: /watch/81111324?trackId=253448517&tctx=5%2C0%...sarasa
 // TODO: Unificar declaración de variables con los parametros recibidos por url en todos los controladores.
 // TODO: Unificar formato de peticiones y respuestas en controladores (idealmente refactorizar en funciones).
 // TODO: Revisar try-catch y si están bien implementados los if con returns de responses.
 // TODO: Ver si se puede simplificar/resumir largo de las URLs.
-// NEXT: authUser, getRecommendedMedia, searchBy (url parameters), validaciones,
+// NEXT: authUser, getRecommendedMedia, searchBy (query parameters), validaciones,

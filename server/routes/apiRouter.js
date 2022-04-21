@@ -6,7 +6,7 @@ import { router as mediaRouter } from './media.js';
 const router = express.Router()
 //Ruta base: "/api/"
 
-// Manipulación de usuarios
+// Manipulación de usuarios y toda la información que alberga cada cuenta (perfiles, preferencias, listas personalizadas)
 router.use('/users', userRouter) // Versión anterior (CommonJS): app.use('/api/users', require('./routes/users'))
 
 // Manipulación de recursos multimedia
