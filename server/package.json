@@ -17,14 +17,16 @@
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.3",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jpromanonet/guayerd_netflixClone.git"
   },
+  "type": "module",
   "bugs": {
     "url": "https://github.com/jpromanonet/guayerd_netflixClone/issues"
   },

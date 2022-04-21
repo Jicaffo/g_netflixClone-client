@@ -1,7 +1,40 @@
+import mongoose from 'mongoose';
 
-const mongoose = require('mongoose');
+const listsSchema = mongoose.Schema({
+    name: {
+        type: String,
+        require: true,
+    },
+    items: [String]
+})
 
-const SchemaUsers = mongoose.Schema({
+const profileSchema = mongoose.Schema({
+    name: {
+        type: String,
+        require: true,
+        trim: true
+    },
+    img: {
+        type: String,
+        require: true, //TOFIX: evaluar si se requiere o viene algo por default
+        trim: true
+    },
+    language: {
+        type: String,
+        require: true, //TOFIX: evaluar si se requiere o viene algo por default
+        trim: true
+    },
+    automaticReproduction: {
+        nextEpisode: Boolean,
+        trailers: Boolean,
+    },
+    lists: {
+        type: [listsSchema]
+    }
+
+});
+
+const usersSchema = mongoose.Schema({
     name: {
         type: String,
         require: true,
@@ -18,12 +51,9 @@ const SchemaUsers = mongoose.Schema({
         require: true,
         trim: true,
     },
-    
-    myList: {
-        type: [Object]
-    },
-    
-
+    profiles: {
+        type: [profileSchema]
+    }
 });
 
-module.exports = mongoose.model('User', SchemaUsers)
+export default mongoose.model('User', usersSchema)
