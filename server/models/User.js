@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import bcrypt from 'bcrypt';
 
 const listsSchema = mongoose.Schema({
     name: {
@@ -53,7 +54,19 @@ const usersSchema = mongoose.Schema({
     },
     profiles: {
         type: [profileSchema]
+        //profileId: [ObjectId]; // Alternativa mejor, simil DB Relacional
     }
 });
+
+//encripta
+usersSchema.statics.encryptPassword = async (password) => {
+    const salt = await bcrypt.genSalt(10); // TODO: Traer desde el .env (no funciona actualmente)
+    return await bcrypt.hash(password, salt);
+  };
+
+//desencripta y compara
+usersSchema.statics.comparePassword = async (password, passwordRecibido) => {
+return await bcrypt.compare(password, passwordRecibido);
+};
 
 export default mongoose.model('User', usersSchema)

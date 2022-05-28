@@ -16,16 +16,16 @@ router.get('/:id', mediaController.getOneMediaById)
 router.post('/', mediaController.postMedia)
 
 router.delete('/:id',
-    (req, res) => mediaController.deleteMedia(req, res, req.params.id)
+    (req, res) => mediaController.deleteMedia(req, res, req.params.id) // TODO: Revisar, no debería hacer falta pasar ningún parámetro explícitamente.
 )
 
 // Obtiene recursos filtrados
 router.get('/byType=:type',
-    (req, res) => mediaController.getMediaByType(req, res)
+    (req, res) => mediaController.getMediaByType(req, res) // TODO: Revisar, no debería hacer falta pasar ningún parámetro explícitamente.
 );
 
 router.get('/byGenre=:genre',
-    (req, res) => mediaController.getMediaByGenre(req, res)
+    (req, res) => mediaController.getMediaByGenre(req, res) // TODO: Revisar, no debería hacer falta pasar ningún parámetro explícitamente.
 );
 
 // router.post('user/:userid/profile/:profileid/recommendations',
