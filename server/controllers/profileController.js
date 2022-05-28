@@ -1,4 +1,3 @@
-
 import { validationResult } from 'express-validator';
 import User from '../models/User.js';
 import mediaController from './mediaController.js';
@@ -7,7 +6,7 @@ import mediaController from './mediaController.js';
 const getAllProfiles = async(req, res) => {
        
     try {
-        const user = await User.findById({"_id":req.params.userId})
+        const user = await User.findById({"_id":req.userId})
         res.json({"profiles": user.profiles})
         
         } catch (error) {
@@ -18,7 +17,7 @@ const getAllProfiles = async(req, res) => {
 
 const getProfile = async(req, res) => {
     try {
-        const user = await User.findById({"_id":req.params.userId})
+        const user = await User.findById({"_id":req.userId})
         const profile = user.profiles.find((profile) => profile._id.toString() === req.params.profileId)
         if(profile === undefined) {
             return res.status(404).send("The profile doesn't exist")
@@ -46,7 +45,7 @@ const postProfile = async(req,res) => {
     
     try {
         // Busca el usuario por id
-        const user = await User.findById({"_id":req.params.userId})
+        const user = await User.findById({"_id":req.userId})
         
         // filtra el perfil de usuario por el nombre
         //const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
@@ -84,7 +83,7 @@ const patchProfile = async(req,res) => {
     
     try {
         // Obtener usuario
-        const user = await User.findById({"_id":req.params.userId})
+        const user = await User.findById({"_id":req.userId})
 
         try {
             const matchParamUserId = (profile) => profile._id.toString() === req.params.profileId
@@ -138,7 +137,7 @@ const deleteProfile = async(req,res) => {
     
     try {
         // Obtener usuario
-        const user = await User.findById({"_id":req.params.userId})
+        const user = await User.findById({"_id":req.userId})
 
         try {
             const matchParamUserId = (profile) => profile._id.toString() == req.params.profileId
@@ -173,7 +172,7 @@ const deleteProfile = async(req,res) => {
 
 const getAllLists = async(req, res) => {
        
-    const userId = req.params.userId
+    const userId = req.userId
     const profileId = req.params.profileId
 
     try {
@@ -195,7 +194,7 @@ const getAllLists = async(req, res) => {
 
 const getOneList = async(req, res) => {
     
-    const userId = req.params.userId
+    const userId = req.userId
     const profileId = req.params.profileId
     const listName = req.params.listName
 
@@ -225,7 +224,7 @@ const getOneList = async(req, res) => {
 
 const getAllMediaFromList = async(req, res) => {
       
-    const userId = req.params.userId
+    const userId = req.userId
     const profileId = req.params.profileId
     const listName = req.params.listName
 
@@ -269,7 +268,7 @@ const getAllMediaFromList = async(req, res) => {
 
 const getOneMediaFromList = async(req, res) => {
 
-    const userId = req.params.userId
+    const userId = req.userId
     const profileId = req.params.profileId
     const listName = req.params.listName
     const mediaId = req.params.mediaId
@@ -305,7 +304,7 @@ const getOneMediaFromList = async(req, res) => {
 }
 
 const deleteOneMediaFromList = async(req,res) => {
-    const userId = req.params.userId
+    const userId = req.userId
     const profileId = req.params.profileId
     const listName = req.params.listName
     const mediaId = req.params.mediaId
@@ -346,7 +345,7 @@ const deleteOneMediaFromList = async(req,res) => {
 
 const postMediaToList = async(req,res) => {
 
-    const userId = req.params.userId
+    const userId = req.userId
     const profileId = req.params.profileId
     const listName = req.params.listName
     const mediaId = req.params.mediaId

@@ -1,8 +1,5 @@
-import Media from '../models/Media.js';
-import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken';
-//const successMessage = require('../shared/const/success.enums')
+import Media from '../models/Media.js';
 
 // Obtiene todos los recursos multimedia.
 const getAllMedia = async (req,res) => { 
@@ -88,7 +85,8 @@ const postMedia = async (req,res) => {
     }
 }
 
-const deleteMedia = async (req, res, id) => {
+const deleteMedia = async (req, res) => {
+    const id = req.params.id;
     //Checking Errors
     // TOFIX: Empty object errors not working
     // TODO: Make the validations and errors
