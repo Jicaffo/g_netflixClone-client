@@ -1,16 +1,34 @@
-import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { Home, Login, Profiles, Browse } from '../Pages';
+import React from "react";
+import { Switch, Route } from "react-router-dom";
+import {
+  Home,
+  Login,
+  Profiles,
+  Browse,
+  EditProfile,
+  AddProfile,
+} from "../Pages";
+import { ProfilesProvider } from "../Contexts/profilesContext";
 
 function Routes() {
   return (
     <Switch>
+      <ProfilesProvider>
         <Route exact component={Home} path="/" />
         <Route exact component={Login} path="/login" />
         <Route exact component={Profiles} path="/profiles" />
+        <Route exact component={Profiles} path="/manage-profiles" />
+        <Route exact component={EditProfile} path="/manage-profiles/:id" />
+        {/* <Route
+          exact
+          component={EditProfile}
+          path="/manage-profiles/:userName"
+        /> */}
+        <Route exact component={AddProfile} path="/add-profile/" />
         <Route exact component={Browse} path="/browse" />
+      </ProfilesProvider>
     </Switch>
-  )
+  );
 }
 
 export default Routes;
