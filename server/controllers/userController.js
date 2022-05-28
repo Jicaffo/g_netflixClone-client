@@ -1,9 +1,7 @@
-import User from '../models/User.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
 import profileController from "./profileController.js"
-//This function will create a new user from users collection.
 
 const getAllUsers = async (req, res) => {
     // Implementación básica
@@ -60,11 +58,32 @@ const postUser = async(req,res) => {
     }
 }
 
+const patchUser = async (req, res) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate( req.params.id, req.body, { new: true } );
+
+        res.status(200).json({ msg: "User updated", updatedUser });
+    } catch (error) {
+        res.status(400).json({ msg: "Something went wrong..." + error });
+    }
+}
+
+const deleteUser = async (req, res) => {
+    try {
+        const deletedUser = await User.findByIdAndRemove(req.params.id);
+        res.status(200).json({ msg: "User deleted", deletedUser });
+    } catch (error) {
+        res.status(400).json({ msg: "Something went wrong..." + error });
+    }
+}
+
 const userController = { 
     ...profileController,
     getAllUsers, 
     getUser, 
-    postUser
+    postUser,
+    patchUser,
+    deleteUser
 }
 
 
