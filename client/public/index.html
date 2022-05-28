@@ -25,6 +25,10 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    
+    <script>
+      fetch("http://localhost:5050/api/users").then(res=>res.json()).then(data=>console.log(data)) // PRUEBA TEMPORAL
+    </script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
