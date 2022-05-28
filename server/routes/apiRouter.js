@@ -2,6 +2,7 @@ import express from 'express';
 import { router as authRouter } from './auth.js';
 import { router as userRouter} from './users.js';
 import { router as mediaRouter } from './media.js';
+import { router as profileRouter } from './profiles.js';
 //import { router as recommendationRouter } from './recommendations.js';
 
 const router = express.Router()
@@ -10,8 +11,11 @@ const router = express.Router()
 // Manipulación de autenticación y autorización (registro y login)
 router.use('/auth', authRouter) // Versión anterior (CommonJS): app.use('/api/users', require('./routes/users'))
 
-// Manipulación de usuarios y toda la información que alberga cada cuenta (perfiles, preferencias, listas personalizadas)
+// Manipulación de usuarios (cuentas)
 router.use('/users', userRouter) // Versión anterior (CommonJS): app.use('/api/users', require('./routes/users'))
+
+// Manipulación de perfiles y toda la información que alberga cada uno (perfiles, preferencias, listas personalizadas)
+router.use('/profiles', profileRouter) // Versión anterior (CommonJS): app.use('/api/users', require('./routes/users'))
 
 // Manipulación de recursos multimedia
 router.use('/media', mediaRouter)
