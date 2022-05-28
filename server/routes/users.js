@@ -29,17 +29,6 @@ router.post('/',
 
 );
 
-// === Endpoint: api/users/auth ===
-
-// Autentifica el usuario, validando sus datos con el servidor
-router.post('/auth', 
-     [
-        check('email', 'Add a valid email').isEmail(),
-        // check('password', 'The password should be 6 characters at least').isLength({min: 6}) // Tiene sentido en la validación?
-     ],
-    userController.authUser
-);
-
 // === Endpoint: /api/users/:userId/profiles ===
 
 // Obtiene todos los perfiles
