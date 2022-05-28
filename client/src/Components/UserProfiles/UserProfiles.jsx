@@ -1,13 +1,27 @@
-import React from 'react';
-import { Typography, Container, Box, Button} from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { React, useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import {
+  Typography,
+  Container,
+  Box,
+  Button,
+  capitalize,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { useLocation } from "react-router-dom";
+import EditUserProfile from "../EditUserProfile/EditUserProfile";
+// import { useContext } from "react";
+// import { contextProfiles } from "../../Contexts/profilesContext";
+import { useProfiles } from "../../Contexts/profilesContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    flexDirection: "column"
+    flexDirection: "column",
+    backgroundColor: "#141414",
   },
   container: {
     flexGrow: 1,
@@ -15,18 +29,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     verticalAlign: "baseline",
-    marginTop: "10em"
-  
+    marginTop: "10em",
   },
   titleProfiles: {
-    color: theme.palette.gray3,
-    
+    color: `${theme.palette.gray3}`,
   },
   itemsAvatar: {
     display: "flex",
-    marginTop:"5em",
+    marginTop: "2em",
     justifyContent: "space-around",
-    flexWrap: "wrap"
+    flexWrap: "wrap",
   },
   itemsProfiles: {
     display: "flex",
@@ -38,86 +50,293 @@ const useStyles = makeStyles((theme) => ({
     "&:hover h6": {
       color: theme.palette.contrastText,
     },
-    "&:hover img":{
-      boxShadow: `0px 0px 0px 5px ${theme.palette.contrastText}`
-    }
-    
+    "&:hover img": {
+      boxShadow: `0px 0px 0px 2px ${theme.palette.contrastText}`,
+    },
   },
   itemsGrid: {
     minWidth: "84px",
     minHeight: "84px",
     maxWidth: "150px",
     width: "100%",
-    borderRadius: "10px",
+    borderRadius: "4px",
   },
-  buttonAdministrar:{
+  buttonAdministrar: {
     color: theme.palette.gray3,
-    border: `solid 2px ${theme.palette.gray3}`, 
-    marginTop: "5em",
+    border: `solid 1px ${theme.palette.gray3}`,
+    marginTop: "4em",
+    marginBottom: "5em",
     transition: "none",
+    textTransform: "lowercase",
     "&:hover": {
       color: theme.palette.contrastText,
-      border: `solid 2px ${theme.palette.contrastText}`
-      
+      border: `solid 1px ${theme.palette.contrastText}`,
     },
     borderRadius: 0,
-    fontSize: "15px",
-    padding: "10px",
+    fontSize: "17px",
+    fontWeight: "400",
+    padding: "3px",
+    letterSpacing: "2px",
     paddingLeft: "25px",
-    paddingRight: "25px"
-  }
+    paddingRight: "25px",
+  },
+  AddCircle: {
+    color: theme.palette.gray3,
+    borderRadius: 0,
+    margin: "auto",
+    display: "flex",
+    fontSize: "120px",
+    paddingBottom: "15px",
+    paddingTop: "15px",
+    transition: "none",
+    width: "100%",
+    "&:hover": {
+      //   color: theme.palette.contrastText,
+      backgroundColor: `${theme.palette.contrastText}`,
+      borderRadius: "4px",
+    },
+  },
+  itemsGridAddCircle: {
+    minWidth: "84px",
+    minHeight: "84px",
+    maxWidth: "150px",
+    width: "100%",
+    borderRadius: "10px",
+    "&:hover": {
+      // backgroundColor: theme.palette.contrastText,
+      "& $TypographyAddCircle": {
+        color: theme.palette.contrastText,
+      },
+      // "&:hover":{
+      // boxShadow: `0px 0px 0px 2px ${theme.palette.contrastText}`
+      // }
+    },
+  },
+  TypographyAddCircle: {
+    color: theme.palette.gray3,
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-around",
+    // marginLeft: "1rem",
+    // marginRight: "1rem",
+    alignItems: "center",
+    "&:hover": {
+      color: theme.palette.contrastText,
+    },
+  },
+  linkAddProfile: {
+    textDecoration: "none",
+    backgroundColor: "transparent",
+  },
+  svgEditOverlay: {
+    position: "relative",
+    top: "-125px",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    color: theme.palette.contrastText,
+  },
+  svgIconEdit: {
+    width: "35px",
+    height: "35px",
+  },
+  buttonManageProfiles: {
+    display: "block",
+    margin: "1em 0 6.2em 0",
+    fontSize: "1.2vw",
+    padding: "0.2em 1.5em",
+    letterSpacing: "2px",
+    cursor: "pointer",
+    transition: "none",
+    textTransform: "capitalize",
+    color: "#000",
+    backgroundColor: "#fff",
+    border: "1px solid #fff",
+    borderRadius: "0",
+    fontWeight: "600",
+    "&:hover": {
+      backgroundColor: "#c00",
+      border: "1px solid #c00",
+      color: "#fff",
+    },
+  },
+  itemsGridManageProfiles: {
+    minWidth: "84px",
+    minHeight: "84px",
+    maxWidth: "150px",
+    width: "100%",
+    borderRadius: "4px",
+    opacity: "0.6",
+  },
+  capitalize: {
+    textTransform: "capitalize",
+  },
 }));
 
+const UserProfiles = ({ stateUserName }) => {
+  // const { profiles } = useProfiles(); // Hasta acá deberíamos tener los datos
 
-
-const UserProfiles = () => {
   const classes = useStyles();
+
+  console.log({ stateUserName });
 
   const profiles = [
     {
-      'profileUser':'browse',
-      'nameUser': 'José',
-      'imgUser': "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71"
+      id: "1",
+      profileUser: "browse",
+      nameUser: "José",
+      imgUser:
+        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71",
     },
     {
-      'profileUser':'browse',
-      'nameUser': 'Jimena',
-      'imgUser': "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABcmNAN9bHNZNT9Fm3f-YF1y3Bgj-x3Z9dWYar46_6wAOcR4q5NZS3MUf7SQjkqtVdyWz2DX6SfBHiNourzUjMbGTdDEW.png?r=abe"
+      id: "2",
+      profileUser: "browse",
+      nameUser: "Jimena",
+      imgUser:
+        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABcmNAN9bHNZNT9Fm3f-YF1y3Bgj-x3Z9dWYar46_6wAOcR4q5NZS3MUf7SQjkqtVdyWz2DX6SfBHiNourzUjMbGTdDEW.png?r=abe",
     },
     {
-      'profileUser':'browse',
-      'nameUser': 'Riquelme',
-      'imgUser': "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQ2KWouF1OCDAtpdNIETPtEAVAywuZcnNb2gJhGfIzhaju9kWWAguLvUkNg_1Y57iTUFVn9_6a9ZmNrdxCHxxzM8yRqX.png?r=c08"
+      id: "3",
+      profileUser: "browse",
+      nameUser: "Riquelme",
+      imgUser:
+        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQ2KWouF1OCDAtpdNIETPtEAVAywuZcnNb2gJhGfIzhaju9kWWAguLvUkNg_1Y57iTUFVn9_6a9ZmNrdxCHxxzM8yRqX.png?r=c08",
     },
     {
-      'profileUser':'browse',
-      'nameUser': 'Susana',
-      'imgUser': "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUngvSNL3ED6g9NsWhW9_FdDDzKC1gZCmLxi7mim9httnXRVYSxNJHJpbvblu0K_S94YoyPlkA2dja-zfL17UYw6WHkC.png?r=d26"
+      id: "4",
+      profileUser: "browse",
+      nameUser: "Susana",
+      imgUser:
+        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUngvSNL3ED6g9NsWhW9_FdDDzKC1gZCmLxi7mim9httnXRVYSxNJHJpbvblu0K_S94YoyPlkA2dja-zfL17UYw6WHkC.png?r=d26",
     },
-  ]
+  ];
+
+  const location = useLocation();
+
+  // Si el arreglo de perfiles se encuentra vacio, mostrar mensaje
+  if (profiles.length === 0)
+    return (
+      <>
+        <Container
+          maxWidth="sm"
+          style={{
+            marginTop: "200px",
+            AlignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography variant="h5">
+            No hay perfiles, por favor agregue uno nuevo.
+          </Typography>
+        </Container>
+        <Container
+          style={{
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Box className={classes.itemsGridAddCircle}>
+            <Link to="/add-profile" className={classes.linkAddProfile}>
+              <AddCircleIcon className={classes.AddCircle} />
+              <Typography variant="h6" className={classes.TypographyAddCircle}>
+                Agregar perfil
+              </Typography>
+            </Link>
+          </Box>
+        </Container>
+      </>
+    );
 
   return (
-    <Box className={classes.root}>
-      <Container maxWidth="md" className={classes.container}>
-        <Typography variant= "h3"> ¿Quién está viendo ahora?</Typography> 
-      </Container>
+    <div style={{ backgroundColor: "#141414" }}>
+      <Box className={classes.root}>
+        <Container maxWidth="md" className={classes.container}>
+          {location.pathname === "/profiles" ? (
+            <Typography variant="h3"> ¿Quién está viendo ahora?</Typography>
+          ) : (
+            <Typography variant="h3">Administrar perfiles:</Typography>
+          )}
+        </Container>
 
-      <Container maxWidth="md" className={classes.itemsAvatar}>
-        {profiles.map(avatarProfiles => {
-          const {profileUser,nameUser,imgUser} = avatarProfiles
-          return (
-            <Box key={nameUser} className={classes.itemsProfiles}>
-              <a href= {`/${profileUser}`} >
-                <img className={classes.itemsGrid} src={imgUser} alt={imgUser}/>
-              </a>
-              <Typography variant="h6" className={classes.titleProfiles}>{nameUser}</Typography>
-            </Box>
-          )
-        })}
-      </Container>
-      <Button className={classes.buttonAdministrar}>Administrar perfiles</Button>
-    </Box>
+        <Container maxWidth="md" className={classes.itemsAvatar}>
+          {profiles.map((avatarProfiles) => {
+            const { id, profileUser, nameUser, imgUser } = avatarProfiles;
+            return (
+              <Box key={nameUser} className={classes.itemsProfiles}>
+                <a href={`/${profileUser}`}>
+                  {location.pathname === "/profiles" ? (
+                    <img
+                      className={classes.itemsGrid}
+                      src={imgUser}
+                      alt={imgUser}
+                    />
+                  ) : (
+                    // <a href={`/manage-profiles/${id}`}>
+                    <a href={`/manage-profiles/${nameUser}`}>
+                      <img
+                        className={classes.itemsGridManageProfiles}
+                        src={imgUser}
+                        alt={imgUser}
+                      />
+                    </a>
+                  )}
+                </a>
+
+                <Typography variant="h6" className={classes.titleProfiles}>
+                  {nameUser}
+                  {/* {handleChangeUserName} */}
+                </Typography>
+
+                {location.pathname === "/manage-profiles" && (
+                  <Box className={classes.svgEditOverlay}>
+                    <svg
+                      width="24"
+                      height="24"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className={classes.svgIconEdit}
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M22.2071 7.79285L15.2071 0.792847L13.7929 2.20706L20.7929 9.20706L22.2071 7.79285ZM13.2071 3.79285C12.8166 3.40232 12.1834 3.40232 11.7929 3.79285L2.29289 13.2928C2.10536 13.4804 2 13.7347 2 14V20C2 20.5522 2.44772 21 3 21H9C9.26522 21 9.51957 20.8946 9.70711 20.7071L19.2071 11.2071C19.5976 10.8165 19.5976 10.1834 19.2071 9.79285L13.2071 3.79285ZM17.0858 10.5L8.58579 19H4V14.4142L12.5 5.91417L17.0858 10.5Z"
+                        fill="currentColor"
+                      ></path>
+                    </svg>
+                  </Box>
+                )}
+              </Box>
+            );
+          })}
+
+          <Box className={classes.itemsGridAddCircle}>
+            <Link to="/add-profile" className={classes.linkAddProfile}>
+              {/* <a href={`/browse`}> */}
+              <AddCircleIcon className={classes.AddCircle} />
+              <Typography variant="h6" className={classes.TypographyAddCircle}>
+                Agregar perfil
+              </Typography>
+              {/* </a> */}
+            </Link>
+          </Box>
+        </Container>
+
+        {location.pathname === "/manage-profiles" ? (
+          <Button className={classes.buttonManageProfiles} href="/profiles">
+            Listo
+          </Button>
+        ) : (
+          <Button className={classes.buttonAdministrar} href="/manage-profiles">
+            <span className={classes.capitalize}>A</span>dministrar perfiles
+          </Button>
+        )}
+      </Box>
+    </div>
   );
-}
+};
 
-export default UserProfiles
+export default UserProfiles;
