@@ -1,5 +1,7 @@
+import "dotenv/config";
+import jwt from "jsonwebtoken";
+import bcryptjs from 'bcryptjs'; // No implementado directamente en register ni login en este archivo
 import User from '../models/User.js';
-import bcryptjs from 'bcryptjs'; // No implementado directamente en register() en este archivo
 import userController from './userController.js';
 
 // const authUser = async (req, res) => {
@@ -64,15 +66,15 @@ const register = async (req, res) => {
         const newUser = await user.save();
         //res.status(201).json({ msg: "Usuario creado" });
   
-        //Envio de correo ;e paso los parámetros
+        //Envio de correo le paso los parámetros
         //envio.enviaMail(newUser.email, newUser.name, enlace);
         
         console.log(newUser);
       
-        // const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-        //   expiresIn: 60 * 60 * 24, // = 86400 = 24hs
-        // });
-        res.status(201).json({ newUser/*, token*/ });
+        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
+          expiresIn: 60 * 60 * 24, // = 86400 = 24hs
+        });
+        res.status(201).json({ newUser, token });
       }
     } catch (error) {
       res.status(400).json({ msg: "Algo salió mal..." + error });
@@ -91,19 +93,18 @@ const login = async (req, res) => {
     const passwordMatch = await User.comparePassword(
       password, 
       userFound.password // llamo al método creado en el modelo User, en donde comparamos las contraseñas
-      );
+    );
     
-      if(!passwordMatch) return res.status(401).json({token: null, msg: "Password inválido."}); 
     //si el password es incorrecto, no revelo el token y por consola aviso que la pass esta incorrecta.
+    if(!passwordMatch) return res.status(401).json({token: null, msg: "Password inválido."}); 
 
     //solo en modo DEV
     console.log(userFound);
-    // const token = jwt.sign({ id: userFound._id }, process.env.SECRET, {
-    //     expiresIn: 86400
-    // });
-    
-    //res.json({ token });
-    res.json({ msg: "Usuario logueado correctamente" });
+    const token = jwt.sign({ id: userFound._id }, process.env.JWT_SECRET, {
+        expiresIn: 60 * 60 * 24,
+    });
+
+    res.json({ msg: "Usuario logueado correctamente", token });
 }
 
 const authController = { 

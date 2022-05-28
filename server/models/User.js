@@ -1,3 +1,4 @@
+import "dotenv/config";
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
@@ -17,7 +18,7 @@ const profileSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        require: true, //TOFIX: evaluar si se requiere o viene algo por default
+        default: "https://randomuser.me/api/portraits/lego/1.jpg",
         trim: true
     },
     language: {
@@ -52,15 +53,22 @@ const usersSchema = mongoose.Schema({
         require: true,
         trim: true,
     },
+    role: {
+        type: String,
+        default: "user",
+        enum: ["user", "admin"],
+    },
     profiles: {
         type: [profileSchema]
-        //profileId: [ObjectId]; // Alternativa mejor, simil DB Relacional
+        //profileId: [mongoose.Schema.Types.ObjectId]; // Alternativa mejor, simil DB Relacional, convirtiendo Profile en un nuevo esquema/modelo
     }
 });
 
 //encripta
 usersSchema.statics.encryptPassword = async (password) => {
-    const salt = await bcrypt.genSalt(10); // TODO: Traer desde el .env (no funciona actualmente)
+    // Al recuperar datos del process.env los trae como string por lo que debemos parsearlo
+    const saltRounds = parseInt(process.env.SALT_ROUNDS) 
+    const salt = await bcrypt.genSalt(saltRounds);
     return await bcrypt.hash(password, salt);
   };
 
