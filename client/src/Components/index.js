@@ -10,5 +10,7 @@ import SwiperBrowse from './SwiperBrowse/SwiperBrowse';
 import Footer from './Footer/Footer';
 import LanguageSelector from './LanguageSelector/LanguageSelector';
 import ListContainer from './ListContainer/ListContainer';
+import EditUserProfile from './EditUserProfile/EditUserProfile';
+import AddUserProfile from './AddUserProfile/AdduserProfile';
 
-export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserLogin, Header, UserProfiles, HighlightedMedia, SwiperBrowse, Footer, LanguageSelector, ListContainer };
+export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserLogin, Header, UserProfiles,EditUserProfile, AddUserProfile, HighlightedMedia, SwiperBrowse, Footer, LanguageSelector, ListContainer };
