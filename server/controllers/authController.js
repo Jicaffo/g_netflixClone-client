@@ -46,7 +46,7 @@ import userController from './userController.js';
 
 //     } catch (error) {
 //         console.log(error)
-//         res.statusMessage="Couldn't connect to DB"
+//         res.statusMessage='Couldn't connect to DB'
 //         res.status(500)
 //     }
 // }
