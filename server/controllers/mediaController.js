@@ -10,14 +10,12 @@ const getAllMedia = async (req,res) => {
     try {
         const mediaList = await Media.find(/* {"genre": "accion"}, {"myList": "true"} */)
          
-        res.json(mediaList)
+        res.status(200).json({data: mediaList})
         //console.log(moviesAndSeries)
-
-
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(404).json({msg: 'Not found', data: error})
     }
 }
 
@@ -28,11 +26,11 @@ const getOneMediaById = async (req,res) => {
     try {
         const media = await Media.findById(id)
  
-        res.json(media)
+        res.status(200).json({data: media})
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(404).json({msg: 'Not found', data: error})
     }
 }
 
@@ -45,7 +43,7 @@ const getOneMediaByArgumentId = async (id) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(404).json({msg: 'Not found', data: error})
     }
 }
 
@@ -81,7 +79,7 @@ const postMedia = async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server Error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
@@ -101,14 +99,14 @@ const deleteMedia = async (req, res) => {
         // El ID debe tener la misma cantidad de caracteres que trae por defecto (24 caracteres)
         let media =  await Media.findById(id)
         if(!media) {
-            return res.status(400).json({ msg: "This id doesn't exist"})
+            return res.status(404).json({ msg: "This id doesn't exist"})
         }
         await Media.findByIdAndDelete(id);
         return res.status(200).json({ msg: `Media with ID '${id}' has been deleted`})      
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server Error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
@@ -118,16 +116,13 @@ const getMediaByType = async (req, res) => {
     try {
 
         const filteredList = await Media.find({type: req.params.type}) // {type: "serie"
-        console.log(filteredList)
-        res.status(200)
-        res.statusMessage="Filtered media list obtained correctly"
-        res.json({filteredList})
+        res.status(200).json({msg: "Filtered media list obtained correctly", data: filteredList})
 
         //Ver de retornar un array con strings para que no se rompa el front
     
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
@@ -142,14 +137,11 @@ const getMediaByGenre = async (req,res) => {
     try {
 
         const filteredList = await Media.find({ genre: req.params.genre })
-        console.log(res)
-        res.status(200)
-        res.statusMessage="Filtered media list obtained correctly"
-        res.json({filteredList})
+        res.status(200).json({msg: "Filtered media list obtained correctly", data: filteredList})
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
@@ -172,14 +164,23 @@ const getRecommendedMedia = async(req,res) => {
         //     genre
         // })
  
-         res.json({'right': 'okay'})
+         res.status(200).json({msg: "right, okey"})
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
-const mediaController = { getAllMedia, getOneMediaById, getOneMediaByArgumentId, postMedia, deleteMedia, getMediaByType, getMediaByGenre, getRecommendedMedia }
+const mediaController = { 
+    getAllMedia, 
+    getOneMediaById, 
+    getOneMediaByArgumentId, 
+    postMedia, 
+    deleteMedia, 
+    getMediaByType, 
+    getMediaByGenre, 
+    getRecommendedMedia 
+}
 
 export default mediaController;

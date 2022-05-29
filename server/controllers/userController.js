@@ -12,11 +12,11 @@ const getAllUsers = async (req, res) => {
 const getUser = async (req, res) => {
     try {
         const user = await User.findById(req.params.id)
-        res.json({user})
+        res.status(200).json({data: user})
         
         } catch (error) {
             console.log(error)
-            res.status(500).send('Internal server error')
+            res.status(404).json({msg: 'User not found', data: error})
         }
 }
 
@@ -49,31 +49,39 @@ const postUser = async(req,res) => {
  
         
         await user.save()
-        return res.status(200).json({ msg: 'User has been created correctly'})
+        return res.status(201).json({ msg: 'User has been created correctly'})
 
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Something wrong')
+        res.status(400).json({ msg: "Something went wrong...", data: error });
     }
+
 }
 
 const patchUser = async (req, res) => {
     try {
         const updatedUser = await User.findByIdAndUpdate( req.params.id, req.body, { new: true } );
 
-        res.status(200).json({ msg: "User updated", updatedUser });
+        res.status(200).json({ msg: "User updated", data: updatedUser });
+
     } catch (error) {
-        res.status(400).json({ msg: "Something went wrong..." + error });
+
+        res.status(400).json({ msg: "Something went wrong...", data: error });
     }
 }
 
 const deleteUser = async (req, res) => {
     try {
+
         const deletedUser = await User.findByIdAndRemove(req.params.id);
-        res.status(200).json({ msg: "User deleted", deletedUser });
+
+        res.status(200).json({ msg: "User deleted", data: deletedUser });
+
     } catch (error) {
-        res.status(400).json({ msg: "Something went wrong..." + error });
+
+        res.status(400).json({ msg: "Something went wrong...", data: error });
+
     }
 }
 

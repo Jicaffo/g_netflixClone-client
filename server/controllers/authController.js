@@ -56,7 +56,7 @@ const register = async (req, res) => {
 
     try {
       if (!name || !email || !password) {
-        res.status(409).json({ msg: "Todos los campos son requeridos..." });
+        res.status(400).json({ msg: "Todos los campos son requeridos..." });
       } else {
         const user = new User({
           name,
@@ -64,7 +64,7 @@ const register = async (req, res) => {
           password: await User.encryptPassword(password),
         });
         const newUser = await user.save();
-        //res.status(201).json({ msg: "Usuario creado" });
+        //res.status(201).json({ msg: "Usuario creado", data: newUser });
   
         //Envio de correo le paso los parámetros
         //envio.enviaMail(newUser.email, newUser.name, enlace);
@@ -74,10 +74,10 @@ const register = async (req, res) => {
         const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
           expiresIn: 60 * 60 * 24, // = 86400 = 24hs
         });
-        res.status(201).json({ newUser, token });
+        res.status(201).json({ data: newUser, data: token });
       }
     } catch (error) {
-      res.status(400).json({ msg: "Algo salió mal..." + error });
+      res.status(400).json({ msg: "Algo salió mal...", data: error });
       console.log(error);
     }
 }
@@ -88,7 +88,7 @@ const login = async (req, res) => {
 
     const userFound = await User.findOne({ email }); // busco en la DB el usuario a través del email
 
-    if(!userFound) return res.status(400).json({ msg: "Email no encontrado." })
+    if(!userFound) return res.status(404).json({ msg: "Email no encontrado." })
     
     const passwordMatch = await User.comparePassword(
       password, 
@@ -96,7 +96,7 @@ const login = async (req, res) => {
     );
     
     //si el password es incorrecto, no revelo el token y por consola aviso que la pass esta incorrecta.
-    if(!passwordMatch) return res.status(401).json({token: null, msg: "Password inválido."}); 
+    if(!passwordMatch) return res.status(400).json({token: null, msg: "Password inválido."}); 
 
     //solo en modo DEV
     console.log(userFound);
@@ -104,7 +104,7 @@ const login = async (req, res) => {
         expiresIn: 60 * 60 * 24,
     });
 
-    res.json({ msg: "Usuario logueado correctamente", token });
+    res.status(200).json({ msg: "Usuario logueado correctamente", data: token });
 }
 
 const authController = { 
