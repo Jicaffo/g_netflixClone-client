@@ -7,8 +7,7 @@ import {
     TextField,
     Button,
     FormControlLabel,
-    Checkbox, 
-    Link} from "@material-ui/core";
+    Checkbox } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     useFormik,
@@ -117,18 +116,18 @@ const useStyles = makeStyles( (theme) => ({
         flexDirection: "column",
         gap: "12px",
     },
-    fbLogo:{
-        width: "20px",
-        height: "20px",
-        marginRight: "10px",
-    },
-    fbLoginText:{
-        color: theme.palette.gray3,
-        "& :hover":{
-            //No funciona, queda sobreescrito por "root & a:hover"
-            textDecoration: `underline ${theme.palette.gray3}`
-        }
-    },
+    // fbLogo:{
+    //     width: "20px",
+    //     height: "20px",
+    //     marginRight: "10px",
+    // },
+    // fbLoginText:{
+    //     color: theme.palette.gray3,
+    //     "& :hover":{
+    //         //No funciona, queda sobreescrito por "root & a:hover"
+    //         textDecoration: `underline ${theme.palette.gray3}`
+    //     }
+    // },
     subscribeLink: {
         color: theme.palette.contrastText,
     },
@@ -140,30 +139,10 @@ const useStyles = makeStyles( (theme) => ({
         color: theme.palette.linkText,
         paddingBottom: "48px",
     },
-    uiMessageContainer: {
-        background: "#e87c03",
-        borderRadius: "4px",
-        fontSize: "14px",
-        margin: "0 0 16px",
-    },
-    uiMessageContents: {
-        display: "table-cell",
-        // display: "none",        
-        verticalAlign: "middle",
-        padding: "10px 20px",
-        color: "#fff",
-    // "&::after": {
-    //     display: "table-cell",
-    //   },
-    },      
-    formatLinkMessage: {
-        color: "#fff",
-        cursor: "pointer",
-    }    
 
 }));
 
-const UserLogin = () => {
+const UserRegister = () => {
     const classes = useStyles();
 
     const [remember, setRemember] = useState(false);
@@ -221,8 +200,8 @@ const UserLogin = () => {
         },
         validationSchema: validations,
         onSubmit: (values) => {
-            console.log("Formulario de login enviado: ", values);
-            window.location.href = "/profiles";
+            console.log("Formulario de registro enviado: ", values);
+            window.location.href = "/login";
         }
     });
 
@@ -236,20 +215,8 @@ const UserLogin = () => {
                 <Paper className={classes.paper}>
                     <FormikProvider value={formik}>
                         <form onSubmit={formik.handleSubmit}>
-                            <Typography variant="h4" className={classes.title}>Inicia sesión</Typography>
+                            <Typography variant="h4" className={classes.title}>Iniciar registro</Typography>
                             <Box className={classes.columnContent}>
-
-{/* Ver como controlar estos mensajes cuando no encuentre el mail o la contraseña en la BDD */}
-                            <Box className={`${classes.uiMessageContainer}`}>
-                            <Typography variant="h7" className={classes.uiMessageContents}>No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <Link className={classes.formatLinkMessage} to="/">crea una cuenta nueva</Link>.</Typography>
-                            </Box>    
-                            {/* <div data-uia="error-message-container" class="ui-message-container ui-message-error"><div data-uia="text" class="ui-message-contents">No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <a href="/">crea una cuenta nueva</a>.</div></div> */}
-                            {/* <div data-uia="text" class="ui-message-contents"><b>Contraseña incorrecta.</b> Reinténtalo o <a href="/loginHelp">restablece la contraseña</a>.</div> */}
-
-                            <Box className={`${classes.uiMessageContainer}`}>
-                            <Typography variant="h7" className={classes.uiMessageContents}><b>Contraseña incorrecta.</b> Reinténtalo o <Link className={classes.formatLinkMessage} to="/loginHelp">restablece la contraseña</Link>.</Typography>
-                            </Box>    
-
                                 <TextField
                                     variant="filled"
                                     className={classes.input}
@@ -285,7 +252,7 @@ const UserLogin = () => {
                                     onClick={formik.handleSubmit}
                                     type="submit"
                                 >
-                                    Iniciar Sesion
+                                    Registrarse
                                 </Button>
                                 <Box className={`${classes.rowContent} ${classes.stretch}`}>
                                     <FormControlLabel
@@ -306,7 +273,7 @@ const UserLogin = () => {
                                     </Typography>
                                 </Box>
                                 <Box className={classes.extra}>
-                                    <a href="#" className={classes.rowContent}>
+                                    {/* <a href="#" className={classes.rowContent}>
                                         <img
                                             src="https://assets.nflxext.com/ffe/siteui/login/images/FB-f-Logo__blue_57.png"
                                             alt="Logo Facebook"
@@ -315,7 +282,7 @@ const UserLogin = () => {
                                         <Typography variant="caption" className={classes.fbLoginText}>
                                             Iniciar sesión con Facebook
                                         </Typography>
-                                    </a>
+                                    </a> */}
                                     <Typography variant="body1">
                                         ¿Primera vez en Netflix? <a href="#" className={classes.subscribeLink}>Suscríbete ahora</a>.
                                     </Typography>
@@ -332,4 +299,4 @@ const UserLogin = () => {
     )
 }
 
-export default UserLogin
+export default UserRegister
