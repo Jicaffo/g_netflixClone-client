@@ -46,7 +46,7 @@ import userController from './userController.js';
 
 //     } catch (error) {
 //         console.log(error)
-//         res.statusMessage="Couldn't connect to DB"
+//         res.statusMessage='Couldn't connect to DB'
 //         res.status(500)
 //     }
 // }
@@ -82,7 +82,7 @@ const login = async (req, res) => {
 
     const userFound = await User.findOne({ email });
 
-    if(!userFound) return res.status(400).json({ msg: "Email not found." })
+    if(!userFound) return res.status(404).json({ msg: "Email not found." })
     
     const passwordMatch = await User.comparePassword(
       password, 
@@ -97,7 +97,7 @@ const login = async (req, res) => {
         expiresIn: 60 * 60 * 24,
     });
 
-    res.json({ msg: "User logged in.", token });
+    res.status(200).json({ msg: "User logged in.", token });
 }
 
 const authController = { 

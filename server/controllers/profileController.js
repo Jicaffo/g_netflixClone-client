@@ -7,12 +7,12 @@ const getAllProfiles = async(req, res) => {
        
     try {
         const user = await User.findById({"_id":req.userId})
-        res.json({"profiles": user.profiles})
+        res.status(200).json({data: user.profiles})
         
-        } catch (error) {
-            console.log(error)
-            res.status(500).send('Error de getAllProfiles')
-        }
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({msg: 'Internal server error', data: error})
+    }
 }
 
 const getProfile = async(req, res) => {
@@ -20,13 +20,13 @@ const getProfile = async(req, res) => {
         const user = await User.findById({"_id":req.userId})
         const profile = user.profiles.find((profile) => profile._id.toString() === req.params.profileId)
         if(profile === undefined) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(404).json({msg: "The profile doesn't exist"})
         }
-        res.json({profile})
+        res.status(200).json({data: profile})
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
@@ -58,14 +58,14 @@ const postProfile = async(req,res) => {
             //console.log("Este es el contenido de profile",req.body)
             user.profiles.push(req.body)
             await user.save()
-            return res.status(204).json({ msg: 'Profile has been created correctly.'})
+            return res.status(201).json({ msg: 'Profile has been created correctly.'})
         } catch (error){
             console.log(error)
-            res.status(400).send("User doesn't exist.")
+            res.status(404).json({msg: "User doesn't exist."})
         }
     } catch (error) {
         console.log(error)
-        res.status(500).send('Internal server Error.')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 
     // TODO: ver el formato de try y catch para manejo de errores sin anidarlos.
@@ -93,7 +93,7 @@ const patchProfile = async(req,res) => {
 
             // Si no existe devolvemos un error
             if(profileToPatch === undefined) {
-                return res.status(404).send("The profile doesn't exist")
+                return res.status(404).json({msg: "The profile doesn't exist"})
             }
 
             // Obtenemos el index original donde estaba el perfil a modificar
@@ -114,14 +114,14 @@ const patchProfile = async(req,res) => {
             // Actualizamos el usuario en la DB
             await user.save() 
 
-            return res.status(204).json({ msg: 'Profile has been updated correctly.'}) // Por el momento no se envía mensaje
+            return res.status(201).json({ msg: 'Profile has been updated correctly.'}) // Por el momento no se envía mensaje
         } catch (error){
             console.log(error)
             res.status(400).send("Couldn't patch the profile.")
         }
     } catch (error) {
         console.log(error)
-        res.status(400).send("User doesn't exist.")
+        res.status(404).send("User doesn't exist.")
     }
 }
 
@@ -157,14 +157,14 @@ const deleteProfile = async(req,res) => {
             // Actualizamos el usuario en la DB
             await user.save() 
 
-            return res.status(204).json({ msg: 'Profile has been deleted correctly.'}) // Por el momento no se envía mensaje
+            return res.status(200).json({ msg: 'Profile has been deleted correctly.'}) // Por el momento no se envía mensaje
         } catch (error){
             console.log(error)
             res.status(400).send("Couldn't delete the profile.")
         }
     } catch (error) {
         console.log(error)
-        res.status(400).send("User doesn't exist.")
+        res.status(404).send("User doesn't exist.")
     }
 }
 
@@ -183,12 +183,12 @@ const getAllLists = async(req, res) => {
             return res.status(404).send("The profile doesn't exist")
         }
 
-        res.json(profile.lists)
+        res.status(200).json({data: profile.lists})
         
         
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
@@ -205,7 +205,7 @@ const getOneList = async(req, res) => {
         const matchListName = (list) => list.name.toString() === listName
 
         if(profile === undefined) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(400).json({msg: "The profile doesn't exist"})
         }
 
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
@@ -218,7 +218,7 @@ const getOneList = async(req, res) => {
         
     } catch (error) {
         console.log(error)
-        res.status(404).send('Element not found')
+        res.status(404).json({msg: "Element not found"})
     }
 }
 
@@ -235,7 +235,7 @@ const getAllMediaFromList = async(req, res) => {
         const matchListName = (list) => list.name.toString() === listName
 
         if(profile === undefined) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(404).json({msg: "The profile doesn't exist"})
         }
 
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
@@ -248,11 +248,11 @@ const getAllMediaFromList = async(req, res) => {
         // Obtenemos el listado de objetos completos de los recursos multimedia a partir de los Ids (Es necesario utilizar el Promise.all() para que el map funcione correctamente) 
         const mediaList = await Promise.all( mediaIdArray.map( async (mediaId, index, mediaIdArray) => await mediaController.getOneMediaByArgumentId(mediaId)))
 
-        res.json(mediaList)
+        res.status(200).json({data: mediaList})
         
     } catch (error) {
         console.log(error)
-        res.status(404).send('Element not found')
+        res.status(404).json({msg: 'Element not found'})
     }
 
     // // No se puede devolver más de un response por cada request
@@ -281,7 +281,7 @@ const getOneMediaFromList = async(req, res) => {
         const matchMediaId = (media) => media === mediaId
 
         if(profile === undefined) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(404).json({msg: "The profile doesn't exist"})
         }
 
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
@@ -295,11 +295,11 @@ const getOneMediaFromList = async(req, res) => {
         // Obtenemos el objeto completo del recurso multimedia a partir del Id 
         const mediaItem = await mediaController.getOneMediaByArgumentId(mediaItemId)
 
-        res.json(mediaItem)
+        res.status(200).json({data: mediaItem})
         
     } catch (error) {
         console.log(error)
-        res.status(404).send('Element not found')
+        res.status(404).json({msg: 'Element not found'})
     }
 }
 
@@ -318,7 +318,7 @@ const deleteOneMediaFromList = async(req,res) => {
         const notMatchMediaId = (media) => media !== mediaId
 
         if(profile === undefined) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(404).json({msg: "The profile doesn't exist"})
         }
 
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
@@ -335,11 +335,11 @@ const deleteOneMediaFromList = async(req,res) => {
         // Actualizamos el usuario en la DB
         await user.save() 
 
-        return res.status(204).json({ msg: `Media ${mediaId} deleted from list ${listName}`}) // Por el momento no se envía mensaje
+        return res.status(200).json({ msg: `Media ${mediaId} deleted from list ${listName}`}) // Por el momento no se envía mensaje
         
     } catch (error) {
         console.log(error)
-        res.status(404).send('Element not found')
+        res.status(404).json({msg: 'Element not found'})
     }
 }
 
@@ -358,7 +358,7 @@ const postMediaToList = async(req,res) => {
         
 
         if(!profile) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(404).json({msg: "The profile doesn't exist"})
         }
 
         const profileOriginalIndex = user.profiles.findIndex(matchProfileId)
@@ -381,11 +381,11 @@ const postMediaToList = async(req,res) => {
         
         await user.save()
         res.statusMessage = `The media resource has been added to list ${listName}`
-        return res.status(204).json({ msg: `The media resource has been added to list.`})
+        return res.status(200).json({ msg: `The media resource has been added to list.`})
         
     } catch (error) {
         console.log(error)
-        res.status(500).send('Error')
+        res.status(500).json({msg: 'Internal server error', data: error})
     }
 }
 
