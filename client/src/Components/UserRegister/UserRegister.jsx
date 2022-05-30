@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useHistory, Link } from 'react-router-dom'
+import { useSearchParams } from '../../Hooks'
 import {
     Box,
     Container,
@@ -14,6 +16,7 @@ import {
     //ErrorMessage, // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
     FormikProvider } from "formik";
 import * as yup from "yup";
+import axios from 'axios';
 
 //TODO!: (funcional) Mejorar user input incluyendo la opción de teléfono como opcional en la validación.
 
@@ -142,11 +145,34 @@ const useStyles = makeStyles( (theme) => ({
 
 }));
 
+const register = async(userData) => {
+    console.log("userData: ", userData)
+    let url = "http://localhost:5050/api/auth/register"
+    const res = await axios.post(url, userData).catch( err => {
+        console.error("Error en la petición al servidor..." + err)
+    })
+    
+    // TODO: Definir estructura de la respuesta para el back
+    // console.log(res)
+    // res.status // 201
+    // res.headers["x-access-token"] // "token". (si viajara por header)
+    // res.data.msg // Mensaje nuestro
+    // res.data.results // Resultados de peticiones (En GET /profiles por ejemplo sería [profiles])
+    // res.data.allProfiles // Resultados de peticiones que traen todos los recursos (En GET /profiles por ejemplo sería [allProfiles])
+    // res.data.filteredProfiles // Resultados de peticiones (En GET /user/:id/profiles por ejemplo sería [filteredProfiles])
+    // res.data.token // JWT // NTH: Es correcto que viaje así o va por header también en la respuesta. "Bearer" en vez de "x-access-token"?
+    // res.data.savedUser // Propiedad custom nuestra (savedUser, deletedUser, updatedProfile, etc)
+
+    return res;
+}
+
 const UserRegister = () => {
     const classes = useStyles();
+    const history = useHistory();
+    const searchParams = useSearchParams();
 
-    const [remember, setRemember] = useState(false);
-    
+    const [remember, setRemember] = useState(false);  
+
     const validations = yup.object({
 
         // // No funciona, valida en forma excluyente cada uno, y no se puede encadenar .number() y .string().email()
@@ -169,7 +195,12 @@ const UserRegister = () => {
         // }),
 
         // Validación mediante 2 expresiones regulares que el contenido sea un mail O un número de teléfono
-        user: yup
+        name: yup
+                .string("Tienes que ingresar un nombre de usuario")
+                .min(1, "El nombre de usuario debe tener entre 1 y 20 caracteres.")
+                .max(20, "El nombre de usuario debe tener entre 1 y 20 caracteres.")
+                .required("El nombre de usuario es un campo requerido."),
+        email: yup
                 .string("Debe ingresar un mail o teléfono.")
                 // .email("Enter a valid email")
                 .required("Ingresa un email o un número de teléfono.")
@@ -186,7 +217,7 @@ const UserRegister = () => {
                         }
                         return true;
         }),
-        pass: yup
+        password: yup
                 .string("La contraseña debe tener entre 4 y 60 caracteres.")
                 .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
                 .max(60, "La contraseña debe tener entre 4 y 60 caracteres.")
@@ -195,13 +226,34 @@ const UserRegister = () => {
     
     const formik = useFormik({
         initialValues: {
-            user: "",
-            pass: "",
+            email: searchParams.get('email') || "",
+            password: "",
+            name: ""
         },
         validationSchema: validations,
-        onSubmit: (values) => {
-            console.log("Formulario de registro enviado: ", values);
-            window.location.href = "/login";
+        onSubmit: async (userData) => {
+
+            const res = await register(userData)
+
+            if (res === undefined){
+                history.push("/register") //?email=""
+                alert("Error en la petición, registrese nuevamente.") // Debería ser un modal
+            } else if (res.status >= 200 && res.status < 300) {
+                localStorage.setItem("token", res.data.token)
+                history.push("/profiles")
+            }
+
+            // Solo continúa de devolver un 2XX
+            // console.log("onSubmit res", res) 
+            // if (res.status >= 200 && res.status < 300){
+                
+            // } else if (res.status >= 400 && res.status < 500) {
+            //     history.push("/register")
+            //     alert("Error en la petición, registrese nuevamente.") // Debería ser un modal
+            // } else {
+            //     //throw new Error("Código de respuesta no reconocido")
+            //     console.err("Error en la petición. Código de respuesta no reconocido.")
+            // }
         }
     });
 
@@ -215,36 +267,52 @@ const UserRegister = () => {
                 <Paper className={classes.paper}>
                     <FormikProvider value={formik}>
                         <form onSubmit={formik.handleSubmit}>
-                            <Typography variant="h4" className={classes.title}>Iniciar registro</Typography>
+                            <Typography variant="h4" className={classes.title}>Registrarse</Typography>
                             <Box className={classes.columnContent}>
-                                <TextField
+                            <TextField
                                     variant="filled"
                                     className={classes.input}
                                     InputProps={{ disableUnderline: true }}
-                                    name="user"
-                                    label="Email o número de teléfono"
-                                    value={formik.values.user || ""}
+                                    name="name"
+                                    label="Nombre"
+                                    value={formik.values.name || ""}
                                     onChange={formik.handleChange}
                                     // Necesitamos usar formik.handleBlur en el evento onBlur para poder utilizar el objeto formik.touched,
                                     // ya que el contenido este objeto se populan desde el método handleBlur. De lo contrario queda vacío.
                                     onBlur={formik.handleBlur}
                                     // Funciona usando un string o "formik.errors.user" pero no usando "<ErrorMessage name="user" className="formError"/>"
                                     // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
-                                    helperText={ formik.touched.user && formik.errors.user }
-                                    error={ formik.touched.user && Boolean(formik.errors.user) }
+                                    helperText={ formik.touched.name && formik.errors.name }
+                                    error={ formik.touched.name && Boolean(formik.errors.name) }
+                                />
+                                <TextField
+                                    variant="filled"
+                                    className={classes.input}
+                                    InputProps={{ disableUnderline: true }}
+                                    name="email"
+                                    label="Email o número de teléfono"
+                                    value={formik.values.email || ""}
+                                    onChange={formik.handleChange}
+                                    // Necesitamos usar formik.handleBlur en el evento onBlur para poder utilizar el objeto formik.touched,
+                                    // ya que el contenido este objeto se populan desde el método handleBlur. De lo contrario queda vacío.
+                                    onBlur={formik.handleBlur}
+                                    // Funciona usando un string o "formik.errors.user" pero no usando "<ErrorMessage name="user" className="formError"/>"
+                                    // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
+                                    helperText={ formik.touched.email && formik.errors.email }
+                                    error={ formik.touched.email && Boolean(formik.errors.email) }
                                 />
                                 <TextField
                                     variant="filled"
                                     className={classes.input}
                                     InputProps={{ disableUnderline: true }}
                                     type="password"
-                                    name="pass"
+                                    name="password"
                                     label="Contraseña"
-                                    value={formik.values.pass}
+                                    value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    helperText={ formik.touched.pass && formik.errors.pass }
-                                    error={ formik.touched.pass && Boolean(formik.errors.pass) }
+                                    helperText={ formik.touched.password && formik.errors.password }
+                                    error={ formik.touched.password && Boolean(formik.errors.password) }
                                 />
                                 <Button 
                                     className={classes.button}
@@ -284,7 +352,7 @@ const UserRegister = () => {
                                         </Typography>
                                     </a> */}
                                     <Typography variant="body1">
-                                        ¿Primera vez en Netflix? <a href="#" className={classes.subscribeLink}>Suscríbete ahora</a>.
+                                        ¿Ya tienes una cuenta? <Link to={`/login?email=${formik.values.email}`} className={classes.subscribeLink}>Logueate ahora</Link>.
                                     </Typography>
                                     <Typography variant="caption" className={classes.captchaText}>
                                         Esta página está protegida por Google reCAPTCHA para comprobar que no eres un robot. <a href="#" className={classes.captchaInfoLink}>Más info.</a>

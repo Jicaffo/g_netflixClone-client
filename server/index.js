@@ -63,7 +63,6 @@ app.listen(app.get("port"), () =>{
 // NTH: unificar uso de bcryptjs (userController y authController) / bcrypt (último, implementado en models/User) y desinstalar el otro.
 // NTH: Deberíamos poder revocar los permisos del JWT ante logout o eliminar usuario para que no pueda acceder más. blacklist?
 
-// TODO: Ver si se puede simplificar/resumir largo de las URLs.
-// TODO: Implementar patchUser y deleteUser
+// TODO: Simplificar URLs. Queda ver de Lists en adelante
 // TODO: Repasar y definir modelos User / Profile / List entre front y back
 // TODO: Definir estructura de respuestas: msg + data? 1 (objeto y array de objetos), 204->200 + msj?
