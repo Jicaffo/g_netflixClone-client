@@ -52,59 +52,52 @@ import userController from './userController.js';
 // }
 
 const register = async (req, res) => {
-    const { name, email, password } = req.body;
-
-    try {
-      if (!name || !email || !password) {
-        res.status(400).json({ msg: "Todos los campos son requeridos..." });
-      } else {
-        const user = new User({
-          name,
-          email,
-          password: await User.encryptPassword(password),
-        });
-        const newUser = await user.save();
-        //res.status(201).json({ msg: "Usuario creado", data: newUser });
-  
-        //Envio de correo le paso los parámetros
-        //envio.enviaMail(newUser.email, newUser.name, enlace);
-        
-        console.log(newUser);
+  try {
+    if (!req.body.name || !req.body.email || !req.body.password) {
+      res.status(409).json({ msg: "Name, Email & Password required..." });
+    } else {
+      // Encriptamos el password directamente sobre el req.body para que no queden copias sin encriptar.
+      req.body.password = await User.encryptPassword(req.body.password);
       
-        const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET, {
-          expiresIn: 60 * 60 * 24, // = 86400 = 24hs
-        });
-        res.status(201).json({ data: newUser, data: token });
-      }
-    } catch (error) {
-      res.status(400).json({ msg: "Algo salió mal...", data: error });
-      console.log(error);
+      const savedUser = await new User(req.body).save();
+      //console.log(savedUser);
+
+      //Envio de correo le paso los parámetros
+      //envio.enviaMail(savedUser.email, savedUser.name, enlace);
+    
+      const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, {
+        expiresIn: 60 * 60 * 24, // = 86400 = 24hs
+      });
+      res.status(201).json({ msg: "User created.", savedUser, token });
     }
+  } catch (error) {
+    res.status(400).json({ msg: "Something went wrong..." + error });
+    console.log(error);
+  }
 }
 
 const login = async (req, res) => {
 
-    const { email, password } = req.body; // los datos que el usuario pasa por consola
+    const { email, password } = req.body;
 
-    const userFound = await User.findOne({ email }); // busco en la DB el usuario a través del email
+    const userFound = await User.findOne({ email });
 
-    if(!userFound) return res.status(404).json({ msg: "Email no encontrado." })
+    if(!userFound) return res.status(404).json({ msg: "Email not found." })
     
     const passwordMatch = await User.comparePassword(
       password, 
-      userFound.password // llamo al método creado en el modelo User, en donde comparamos las contraseñas
+      userFound.password
     );
     
     //si el password es incorrecto, no revelo el token y por consola aviso que la pass esta incorrecta.
-    if(!passwordMatch) return res.status(400).json({token: null, msg: "Password inválido."}); 
+    if(!passwordMatch) return res.status(401).json({ msg: "Invalid Password.", token: null}); 
 
-    //solo en modo DEV
-    console.log(userFound);
+    //console.log(userFound);
     const token = jwt.sign({ id: userFound._id }, process.env.JWT_SECRET, {
         expiresIn: 60 * 60 * 24,
     });
 
-    res.status(200).json({ msg: "Usuario logueado correctamente", data: token });
+    res.status(200).json({ msg: "User logged in.", token });
 }
 
 const authController = { 

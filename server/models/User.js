@@ -55,8 +55,8 @@ const usersSchema = mongoose.Schema({
     },
     role: {
         type: String,
-        default: "user",
         enum: ["user", "admin"],
+        default: "user",
     },
     profiles: {
         type: [profileSchema]
@@ -64,6 +64,7 @@ const usersSchema = mongoose.Schema({
     }
 });
 
+// En los métodos en general NO deberíamos utilizar funciones flecha ya que rompen el binding del "this" (en estos casos no afecta por que no lo usamos)
 //encripta
 usersSchema.statics.encryptPassword = async (password) => {
     // Al recuperar datos del process.env los trae como string por lo que debemos parsearlo
