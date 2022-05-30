@@ -2,6 +2,7 @@ import React from "react";
 import { Switch, Route } from "react-router-dom";
 import {
   Home,
+  Register,
   Login,
   Profiles,
   Browse,
@@ -15,6 +16,7 @@ function Routes() {
     <Switch>
       <ProfilesProvider>
         <Route exact component={Home} path="/" />
+        <Route exact component={Register} path="/register" />
         <Route exact component={Login} path="/login" />
         <Route exact component={Profiles} path="/profiles" />
         <Route exact component={Profiles} path="/manage-profiles" />
