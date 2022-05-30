@@ -68,11 +68,18 @@ const register = async (req, res) => {
       const token = jwt.sign({ id: savedUser._id }, process.env.JWT_SECRET, {
         expiresIn: 60 * 60 * 24, // = 86400 = 24hs
       });
-      res.status(201).json({ msg: "User created.", savedUser, token });
+      res.status(201).json({ 
+        msg: "User created.", 
+        savedUser, 
+        token
+      });
     }
   } catch (error) {
-    res.status(400).json({ msg: "Something went wrong..." + error });
-    console.log(error);
+    res.status(400).json({
+      msg: "Something went wrong... " + error ,
+      error
+    });
+    //console.log(error);
   }
 }
 

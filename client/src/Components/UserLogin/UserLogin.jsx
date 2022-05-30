@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 import {
     Box,
     Container,
@@ -7,8 +8,7 @@ import {
     TextField,
     Button,
     FormControlLabel,
-    Checkbox, 
-    Link} from "@material-ui/core";
+    Checkbox} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     useFormik,
@@ -163,7 +163,7 @@ const useStyles = makeStyles( (theme) => ({
 
 }));
 
-const UserLogin = () => {
+const UserLogin = () => { 
     const classes = useStyles();
 
     const [remember, setRemember] = useState(false);
@@ -317,7 +317,7 @@ const UserLogin = () => {
                                         </Typography>
                                     </a>
                                     <Typography variant="body1">
-                                        ¿Primera vez en Netflix? <a href="#" className={classes.subscribeLink}>Suscríbete ahora</a>.
+                                        ¿Primera vez en Netflix? <Link to="/register" className={classes.subscribeLink}>Suscríbete ahora</Link>.
                                     </Typography>
                                     <Typography variant="caption" className={classes.captchaText}>
                                         Esta página está protegida por Google reCAPTCHA para comprobar que no eres un robot. <a href="#" className={classes.captchaInfoLink}>Más info.</a>

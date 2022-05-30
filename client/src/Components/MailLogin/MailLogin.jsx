@@ -1,4 +1,5 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 //import { useStyles } from './MailLogin.styles'; //Utilizandolo desde esta forma, desde un archivo separado, por algún motivo no funciona.
 import { Typography, TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
@@ -59,6 +60,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MailLogin = () => {
+    const history = useHistory();
 
     const validations = yup.object({
         mail: yup
@@ -72,10 +74,12 @@ const MailLogin = () => {
           mail: ""
         },
         validationSchema: validations,
-        onSubmit: (values) => console.log("Formulario enviado: ", values)
+        onSubmit: (values) => history.push(`/register?email=${values.mail}`)
     });
 
     const classes = useStyles();
+
+    // TOFIX: Validación aparece x2 (abajo y a la izquierda)
 
     return (
         <FormikProvider value={formik}>

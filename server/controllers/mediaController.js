@@ -26,11 +26,11 @@ const getOneMediaById = async (req,res) => {
     try {
         const media = await Media.findById(id)
  
-        res.status(200).json({data: media})
+        res.status(200).json({media})
 
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: 'Not found', data: error})
+        res.status(404).json({msg: 'Not found' + error, error})
     }
 }
 
@@ -43,7 +43,7 @@ const getOneMediaByArgumentId = async (id) => {
 
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: 'Not found', data: error})
+        res.status(404).json({msg: 'Not found', error})
     }
 }
 
@@ -79,7 +79,7 @@ const postMedia = async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error' + error, error})
     }
 }
 
@@ -106,7 +106,7 @@ const deleteMedia = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error' + error, error})
     }
 }
 
@@ -116,13 +116,13 @@ const getMediaByType = async (req, res) => {
     try {
 
         const filteredList = await Media.find({type: req.params.type}) // {type: "serie"
-        res.status(200).json({msg: "Filtered media list obtained correctly", data: filteredList})
+        res.status(200).json({msg: "Filtered media list obtained correctly", filteredList})
 
         //Ver de retornar un array con strings para que no se rompa el front
     
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error' + error, error})
     }
 }
 

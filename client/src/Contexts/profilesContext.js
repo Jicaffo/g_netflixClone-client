@@ -44,10 +44,10 @@ export const ProfilesProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    getAllProfiles();
+    //getAllProfiles(); // TODO: Tira error por consola
   }, []);
 
-  console.log(profiles);
+  //console.log(profiles);
 
   return (
     <context.Provider
