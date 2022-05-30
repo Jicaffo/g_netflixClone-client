@@ -4,9 +4,12 @@ import User from '../models/User.js';
 import profileController from "./profileController.js"
 
 const getAllUsers = async (req, res) => {
-    // Implementación básica
-    const allUsers = await User.find()
-    res.json({allUsers})
+    try {
+        const allUsers = await User.find()    
+        res.status(200).json({ msg: "Users retrieved", allUsers });
+    } catch (error) {
+        res.status(400).json({ msg: "Something went wrong...", error });
+    }
 }
 
 const getUser = async (req, res) => {
@@ -71,9 +74,11 @@ const patchUser = async (req, res) => {
 const deleteUser = async (req, res) => {
     try {
         const deletedUser = await User.findByIdAndRemove(req.params.id);
+        if(!deletedUser) return res.status(404).json({ msg: "User Not Found"});
+        
         res.status(200).json({ msg: "User deleted", deletedUser });
     } catch (error) {
-        res.status(400).json({ msg: "Something went wrong..." + error });
+        res.status(400).json({ msg: "Something went wrong...", error });
     }
 }
 
