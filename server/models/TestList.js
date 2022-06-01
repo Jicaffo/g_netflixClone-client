@@ -5,7 +5,7 @@ const listSchema = mongoose.Schema({
         type: String,
         require: true,
     },
-    mediaItems: [{
+    items: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Media',
     }],

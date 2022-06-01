@@ -8,8 +8,8 @@ const profileSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        trim: true,
         default: "https://randomuser.me/api/portraits/lego/1.jpg",
+        trim: true,
     },
     language: {
         type: String,

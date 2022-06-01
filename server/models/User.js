@@ -23,12 +23,19 @@ const profileSchema = mongoose.Schema({
     },
     language: {
         type: String,
-        require: true, //TOFIX: evaluar si se requiere o viene algo por default
-        trim: true
+        trim: true,
+        enum: ["eng", "es"],
+        default: "eng",
     },
     automaticReproduction: {
-        nextEpisode: Boolean,
-        trailers: Boolean,
+        nextEpisode: {
+            type: Boolean,
+            default: true,
+        },
+        trailers: {
+            type: Boolean,
+            default: true,
+        },
     },
     lists: {
         type: [listsSchema]
