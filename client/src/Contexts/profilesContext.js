@@ -6,7 +6,7 @@ import {
   createProfileRequest,
   deleteProfileRequest,
   getProfileRequest,
-} from "../services/profiles";
+} from "../Services/profiles";
 
 const context = createContext();
 

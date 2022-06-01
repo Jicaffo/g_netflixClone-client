@@ -271,7 +271,7 @@ router.delete('/profiles/:profileId/lists/:listId', validateToken, /*validateSam
 //router.post('/profiles/:profileId/lists/:listId', validateToken, /*validateSameUser,*/ addMediaToList)
 //router.delete('/profiles/:profileId/lists/:listId/:mediaId', validateToken, /*validateSameUser,*/ removeMediaToList)
 
-
+// /lists/:listId/mediaId/:mediaId(body)
 
 
 export { router } ;

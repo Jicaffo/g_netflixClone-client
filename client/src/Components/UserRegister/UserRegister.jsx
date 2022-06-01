@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useHistory, Link } from 'react-router-dom'
 import { useSearchParams } from '../../Hooks'
 import {
@@ -7,16 +7,15 @@ import {
     Paper,
     Typography,
     TextField,
-    Button,
-    FormControlLabel,
-    Checkbox } from "@material-ui/core";
+    Button} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import {
     useFormik,
     //ErrorMessage, // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
     FormikProvider } from "formik";
 import * as yup from "yup";
-import axios from 'axios';
+import ApiCallsContext from '../../Contexts/ApiCallsContext'
+import { post } from '../../Services/apiCalls'
 
 //TODO!: (funcional) Mejorar user input incluyendo la opción de teléfono como opcional en la validación.
 
@@ -59,6 +58,9 @@ const useStyles = makeStyles( (theme) => ({
     stretch: {
         justifyContent: "space-between"
     },
+    flexEnd: {
+        justifyContent: "flex-end"
+    },
     title: {
         fontWeight: "bolder",
         color: theme.palette.contrastText,
@@ -98,18 +100,6 @@ const useStyles = makeStyles( (theme) => ({
             backgroundColor: theme.palette.primary.light
         }
     },
-    checkbox:{
-        "& .MuiFormControlLabel-label": {
-            color: theme.palette.gray1,
-            fontSize: "small",
-        },
-        "& .MuiCheckbox-root": {
-            color: theme.palette.contrastText,
-            borderRadius: "0px",
-            paddingBlock: "0px",
-            paddingRight: "0px",
-        }
-    },
     needHelpLink:{
         color: theme.palette.gray1,
     },
@@ -145,121 +135,79 @@ const useStyles = makeStyles( (theme) => ({
 
 }));
 
-const register = async(userData) => {
-    console.log("userData: ", userData)
-    let url = "http://localhost:5050/api/auth/register"
-    const res = await axios.post(url, userData).catch( err => {
-        console.error("Error en la petición al servidor..." + err)
-    })
-    
-    // TODO: Definir estructura de la respuesta para el back
-    // console.log(res)
-    // res.status // 201
-    // res.headers["x-access-token"] // "token". (si viajara por header)
-    // res.data.msg // Mensaje nuestro
-    // res.data.results // Resultados de peticiones (En GET /profiles por ejemplo sería [profiles])
-    // res.data.allProfiles // Resultados de peticiones que traen todos los recursos (En GET /profiles por ejemplo sería [allProfiles])
-    // res.data.filteredProfiles // Resultados de peticiones (En GET /user/:id/profiles por ejemplo sería [filteredProfiles])
-    // res.data.token // JWT // NTH: Es correcto que viaje así o va por header también en la respuesta. "Bearer" en vez de "x-access-token"?
-    // res.data.savedUser // Propiedad custom nuestra (savedUser, deletedUser, updatedProfile, etc)
-
-    return res;
-}
+const validationSchema = yup.object({
+    name: yup
+            .string("Tienes que ingresar un nombre de usuario")
+            .min(1, "El nombre de usuario debe tener entre 1 y 20 caracteres.")
+            .max(20, "El nombre de usuario debe tener entre 1 y 20 caracteres.")
+            .required("El nombre de usuario es un campo requerido."),
+    email: yup
+            .string("Debe ingresar su email.")
+            .email("Debe ingresar un email válido")
+            .required("Ingresa un email.")
+            // .test('test-name', 'Ingresa un email o un número de teléfono válido.', // Agrega validación combinada mail / teléfono
+            //     function(value) {
+            //         /* eslint-disable no-useless-escape */
+            //         const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+            //         const phoneRegex = /^(\+54-|\+54|0)?\d{10}$/; // Change this regex based on requirement
+            //         /* eslint-enable no-useless-escape */
+            //         let isValidEmail = emailRegex.test(value);
+            //         let isValidPhone = phoneRegex.test(value);
+            //         if (!isValidEmail && !isValidPhone ){
+            //         return false;
+            //         }
+            //         return true;
+            //      })
+            ,
+    password: yup
+            .string("La contraseña debe tener entre 4 y 60 caracteres.")
+            .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
+            .max(60, "La contraseña debe tener entre 4 y 60 caracteres.")
+            .required("La contraseña debe tener entre 4 y 60 caracteres."),
+});
 
 const UserRegister = () => {
     const classes = useStyles();
+    const apiData = useContext(ApiCallsContext);
     const history = useHistory();
     const searchParams = useSearchParams();
 
-    const [remember, setRemember] = useState(false);  
+    const initialValues = {
+        email: searchParams.get('email') || "",
+        password: "",
+        name: ""
+    }
 
-    const validations = yup.object({
+    const onSubmit = async (userData) => {
+        const url = apiData.BASE_URL + "/auth/register"
+        const res = await post(url, userData)
 
-        // // No funciona, valida en forma excluyente cada uno, y no se puede encadenar .number() y .string().email()
-        // user: yup
-        //     .string("Ingresa un string válido") 
-        //     .email("Ingresa un mail válido")
-        //     .required("El campo es requerido"),
-
-        // // Método de yup a investigar (validación condicional, excluyente)
-        // user: yup
-        //         .string().when("isEmail", {
-        //             is: '1',
-        //             then: yup.string()
-        //                 .email("Debe ingresar un mail válido")
-        //                 .required("email cannot be empty"),
-        //             otherwise: yup.string()
-        //                 .typeError("Ingrese un número valido")
-        //                 .required("Ingresa un email o un número de teléfono válido.")
-        //                 .min(6, 'Ingresa un numero correcto'),
-        // }),
-
-        // Validación mediante 2 expresiones regulares que el contenido sea un mail O un número de teléfono
-        name: yup
-                .string("Tienes que ingresar un nombre de usuario")
-                .min(1, "El nombre de usuario debe tener entre 1 y 20 caracteres.")
-                .max(20, "El nombre de usuario debe tener entre 1 y 20 caracteres.")
-                .required("El nombre de usuario es un campo requerido."),
-        email: yup
-                .string("Debe ingresar un mail o teléfono.")
-                // .email("Enter a valid email")
-                .required("Ingresa un email o un número de teléfono.")
-                .test('test-name', 'Ingresa un email o un número de teléfono válido.', 
-                    function(value) {
-                        /* eslint-disable no-useless-escape */
-                        const emailRegex = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
-                        const phoneRegex = /^(\+54-|\+54|0)?\d{10}$/; // Change this regex based on requirement
-                        /* eslint-enable no-useless-escape */
-                        let isValidEmail = emailRegex.test(value);
-                        let isValidPhone = phoneRegex.test(value);
-                        if (!isValidEmail && !isValidPhone ){
-                        return false;
-                        }
-                        return true;
-        }),
-        password: yup
-                .string("La contraseña debe tener entre 4 y 60 caracteres.")
-                .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
-                .max(60, "La contraseña debe tener entre 4 y 60 caracteres.")
-                .required("La contraseña debe tener entre 4 y 60 caracteres."),
-    });
-    
-    const formik = useFormik({
-        initialValues: {
-            email: searchParams.get('email') || "",
-            password: "",
-            name: ""
-        },
-        validationSchema: validations,
-        onSubmit: async (userData) => {
-
-            const res = await register(userData)
-
-            if (res === undefined){
-                history.push("/register") //?email=""
-                alert("Error en la petición, registrese nuevamente.") // Debería ser un modal
-            } else if (res.status >= 200 && res.status < 300) {
-                localStorage.setItem("token", res.data.token)
-                history.push("/profiles")
-            }
-
-            // Solo continúa de devolver un 2XX
-            // console.log("onSubmit res", res) 
-            // if (res.status >= 200 && res.status < 300){
-                
-            // } else if (res.status >= 400 && res.status < 500) {
-            //     history.push("/register")
-            //     alert("Error en la petición, registrese nuevamente.") // Debería ser un modal
-            // } else {
-            //     //throw new Error("Código de respuesta no reconocido")
-            //     console.err("Error en la petición. Código de respuesta no reconocido.")
-            // }
+        if (res === undefined){
+            history.push("/register") //?email=""
+            alert("Error en la petición, registrese nuevamente.") // Debería ser un modal
+        } else if (res.status >= 200 && res.status < 300) {
+            localStorage.setItem("token", res.data.token)
+            history.push("/profiles")
         }
-    });
 
-    const handleChangeRemember = () => {
-        setRemember(!remember);
-    };
+        // Solo continúa de devolver un 2XX
+        // console.log("onSubmit res", res) 
+        // if (res.status >= 200 && res.status < 300){
+            
+        // } else if (res.status >= 400 && res.status < 500) {
+        //     history.push("/register")
+        //     alert("Error en la petición, registrese nuevamente.") // Debería ser un modal
+        // } else {
+        //     //throw new Error("Código de respuesta no reconocido")
+        //     console.err("Error en la petición. Código de respuesta no reconocido.")
+        // }
+    }
+
+    const formik = useFormik({
+        initialValues,
+        validationSchema,
+        onSubmit
+    });
 
     return (
         <Box className={classes.root}>
@@ -269,7 +217,7 @@ const UserRegister = () => {
                         <form onSubmit={formik.handleSubmit}>
                             <Typography variant="h4" className={classes.title}>Registrarse</Typography>
                             <Box className={classes.columnContent}>
-                            <TextField
+                                <TextField
                                     variant="filled"
                                     className={classes.input}
                                     InputProps={{ disableUnderline: true }}
@@ -322,35 +270,12 @@ const UserRegister = () => {
                                 >
                                     Registrarse
                                 </Button>
-                                <Box className={`${classes.rowContent} ${classes.stretch}`}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={remember}
-                                                onChange={handleChangeRemember}
-                                                name="remember"
-                                                color="secondary"
-                                                className={classes.checkbox2}
-                                            />
-                                        }
-                                        label="Recuérdame"
-                                        className={classes.checkbox}
-                                    />
+                                <Box className={`${classes.rowContent} ${classes.flexEnd}`}>
                                     <Typography variant="caption">
-                                        <a href="#" className={classes.needHelpLink}>¿Necesitás Ayuda?</a>
+                                        <Link to="/register" className={classes.needHelpLink}>¿Necesitás Ayuda?</Link>
                                     </Typography>
                                 </Box>
                                 <Box className={classes.extra}>
-                                    {/* <a href="#" className={classes.rowContent}>
-                                        <img
-                                            src="https://assets.nflxext.com/ffe/siteui/login/images/FB-f-Logo__blue_57.png"
-                                            alt="Logo Facebook"
-                                            className={classes.fbLogo}
-                                        />
-                                        <Typography variant="caption" className={classes.fbLoginText}>
-                                            Iniciar sesión con Facebook
-                                        </Typography>
-                                    </a> */}
                                     <Typography variant="body1">
                                         ¿Ya tienes una cuenta? <Link to={`/login?email=${formik.values.email}`} className={classes.subscribeLink}>Logueate ahora</Link>.
                                     </Typography>

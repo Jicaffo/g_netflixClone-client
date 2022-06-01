@@ -1,9 +1,8 @@
 import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { makeStyles } from '@material-ui/core/styles';
-import {Box, Typography} from "@material-ui/core"
-//import { Pagination } from "swiper";
-import { Navigation } from "swiper";
+import { Box, Typography } from "@material-ui/core"
+import { Navigation, Pagination, Grid } from "swiper";
 
 // Import Swiper styles
 import "swiper/css";
@@ -91,33 +90,55 @@ const useStyles = makeStyles( (theme) => ({
     
 }));
 
-const SwiperBrowse = ({ list }) => {
+const customPagination = {
+  // NTH: Ver paginación custom EJ: https://codesandbox.io/s/5wchj3?file=/src/App.jsx
+  clickable: true,
+
+  // type: "bullets", // default
+  // renderBullet: (index, className) => {
+  //   return '<span style="color: white; font-size: xx-large" class="' + className + '">' + (index + 1) + '</span>';
+  // },
+
+  // type: "custom", // 100% custom, tanto parte visual como funcionalidad
+  // renderCustom:	(swiperObject, currentPage, totalPages) => {
+  //   //console.log("swiper: ", swiperObject)
+  //   let paginator = "";
+  //   for (let i = currentPage; i <= totalPages; i++){
+  //     paginator += '<span style="color: white; background-color: red">+</span>';
+  //   }
+
+  //   return paginator;
+  // },
+}
+
+const SwiperBrowse = ({ list, multipleRows }) => {
   
   const classes = useStyles();
 
+  // TODO: Revisar multirow (grid.rows no está funcionando): https://swiperjs.com/demos#slides-grid
   return (
     <Box className={classes.root}>
-      <Typography variant="h6">{list.listTitle}</Typography>
+      <Typography variant="h6">{list.name}</Typography>
       <Swiper
+        modules={[Navigation, Pagination, Grid]}
         slidesPerView={6}
         spaceBetween={11}
-        slidesPerGroup={5}
+        slidesPerGroup={6}
         speed={800}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Navigation]}
-        navigation={true} 
+        pagination={ multipleRows ? false : customPagination }
+        loop={ multipleRows ? false : true }
+        navigation={ multipleRows ? false : true }
+        grid={ multipleRows ? { rows: 2, fill: "row" } : { rows: 1 } }
         className={classes.swiper}
       >
       {
-        list.mediaList.map( (media) => {
+        list.items.map( (media) => {
           return (
             <SwiperSlide
-              key={media.mediaTitle}
+              key={media.title}
               className={classes.swiperSlide}
             >
-              <img className={classes.swiperSlideImg} src={media.imgUrl} alt={media.mediaTitle}/>
+              <img className={classes.swiperSlideImg} src={media.img} alt={media.title}/>
             </SwiperSlide>
           )
         })
