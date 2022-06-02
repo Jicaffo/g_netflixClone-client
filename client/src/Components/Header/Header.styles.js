@@ -1,6 +1,7 @@
 import { makeStyles } from '@material-ui/core/styles';
 import Logo from '../../Assets/Images/logo.svg';
 
+
 const useStyles = makeStyles((theme) => ({
     root: {
         backgroundColor: 'transparent !important',
@@ -11,7 +12,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'flex',
         paddingTop:' 0.5rem',
         height: 'auto',
-        justifyContent: 'space-between !important'
+        justifyContent: window.location.pathname === '/' && 'space-between !important'
     },
     iniciarSesion: {
         backgroundColor: '#e50914',
@@ -44,8 +45,25 @@ const useStyles = makeStyles((theme) => ({
     rightContent: {
         display: "flex",
         gap: "2rem"
-    }
-
+    },
+    listItems: {
+        display: 'flex',
+    },
+    dropDown: {
+        display: 'none',
+        "&::after": {
+            content: '',
+            width: '0',
+            height: '0',
+            borderStyle: 'solid',
+            borderWidth: '5px 5px 0 5px',
+            borderColor: '#fff transparent transparent transparent',
+            marginLeft: '5px',
+        },
+        ['@media (max-width: 980px)']: { // eslint-disable-line no-useless-computed-key
+            display: 'flex'
+        }
+    },
     
 }))
 
