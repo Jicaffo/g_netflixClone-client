@@ -7,7 +7,7 @@ import {
   capitalize,
 } from "@material-ui/core";
 import { useParams } from "react-router-dom";
-import { useProfiles } from "../../Contexts/profilesContext";
+// import { useProfiles } from "../../Contexts/profilesContext";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
@@ -296,10 +296,10 @@ const EditUserProfile = ({ onAction }) => {
     setVideoMerchChecked(event.target.checked);
   };
 
-  const { deleteProfile } = useProfiles();
+  // const { deleteProfile } = useProfiles();
 
   const handleDelete = (userId) => {
-    deleteProfile(userId);
+    // deleteProfile(userId);
   };
 
   return (

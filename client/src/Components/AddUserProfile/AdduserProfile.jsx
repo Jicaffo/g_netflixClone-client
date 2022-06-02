@@ -9,7 +9,7 @@ import {
 } from "@material-ui/core";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { useProfiles } from "../../Contexts/profilesContext";
+// import { useProfiles } from "../../Contexts/profilesContext";
 
 import "../../Styles/index.css";
 import Checkbox from "@material-ui/core/Checkbox";
@@ -226,24 +226,26 @@ const AddUserProfile = () => {
   const classes = useStyles();
 
   const [checked, setChecked] = useState(false);
-  // const [input, setInput] = useState(false);
 
+  // const [input, setInput] = useState("");
   // const handleInputChange = event => {
-  //   setInput(event.target.checked);
+  //   setInput(event.target.value);
   // };
 
   const handleChange = (event) => {
     setChecked(event.target.checked);
   };
 
-  const createProfile = useProfiles();
+  // const createProfile = useProfiles();
   const history = useHistory();
 
   return (
     <>
       <Formik
         initialValues={{
-          userName: "",
+          // userName: "",
+          name: "",
+          img: "",
         }}
         validationSchema={Yup.object({
           userName: Yup.string().required(
@@ -252,11 +254,11 @@ const AddUserProfile = () => {
         })}
         onSubmit={async (values, actions) => {
           // console.log(values);
-          await createProfile(values);
+          // await createProfile(values);
           history.push("/manage-profiles");
         }}
       >
-        {({ handleSubmit }) => (
+        {({ values, handleSubmit }) => (
           <Form onSubmit={handleSubmit}>
             <Box className={classes.root}>
               <Container maxWidth="xs">
@@ -280,6 +282,9 @@ const AddUserProfile = () => {
                         <Field
                           type="text"
                           name="userName"
+                          // value={input.name}
+                          value={values.name}
+                          // onChange={handleInputChange}
                           className={classes.profileNameEntry}
                           placeholder="Nombre"
                         />

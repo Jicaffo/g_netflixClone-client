@@ -13,5 +13,7 @@ import LanguageSelector from './LanguageSelector/LanguageSelector';
 import ListContainer from './ListContainer/ListContainer';
 import EditUserProfile from './EditUserProfile/EditUserProfile';
 import AddUserProfile from './AddUserProfile/AdduserProfile';
+import MediaCard from './MediaCard/MediaCard';
 
-export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserRegister ,UserLogin, Header, UserProfiles,EditUserProfile, AddUserProfile, HighlightedMedia, SwiperBrowse, Footer, LanguageSelector, ListContainer };
+
+export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserRegister ,UserLogin, Header, UserProfiles,EditUserProfile, AddUserProfile, HighlightedMedia, SwiperBrowse, Footer, LanguageSelector, ListContainer, MediaCard };
