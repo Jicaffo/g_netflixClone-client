@@ -2,6 +2,18 @@ import "dotenv/config";
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
+const profileImg = [
+    "https://randomuser.me/api/portraits/lego/1.jpg",
+    "https://randomuser.me/api/portraits/lego/2.jpg",
+    "https://randomuser.me/api/portraits/lego/3.jpg",
+    "https://randomuser.me/api/portraits/lego/4.jpg",
+];
+
+function getRandomProfileImg() {
+    const randomNumber = Math.floor(Math.random() * profileImg.length);
+    return profileImg[randomNumber];
+}
+
 const listsSchema = mongoose.Schema({
     name: {
         type: String,
@@ -18,17 +30,34 @@ const profileSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        default: "https://randomuser.me/api/portraits/lego/1.jpg",
+        default: getRandomProfileImg(),
         trim: true
     },
-    language: {
-        type: String,
-        require: true, //TOFIX: evaluar si se requiere o viene algo por default
-        trim: true
+    mainProfile: {
+        type: Boolean,
+        default: false,
     },
-    automaticReproduction: {
-        nextEpisode: Boolean,
-        trailers: Boolean,
+    preferences: {
+        kidsProfile: {
+            type: Boolean,
+            default: false,
+        },
+        language: {
+            type: String,
+            trim: true,
+            enum: ["eng", "es"],
+            default: "es",
+        },
+        automaticReproduction: {
+            nextEpisode: {
+                type: Boolean,
+                default: true,
+            },
+            trailers: {
+                type: Boolean,
+                default: true,
+            },
+        },
     },
     lists: {
         type: [listsSchema]

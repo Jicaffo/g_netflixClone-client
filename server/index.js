@@ -34,6 +34,7 @@ app.use(morgan('dev'));
 
 // Rutas
 app.use('/api', apiRouter)
+//app.use('/api/v2', apiRouterV2) // Si hubiera más versiones
 
 // const client = app.use("/", frontRoutes);
 // console.log(client)

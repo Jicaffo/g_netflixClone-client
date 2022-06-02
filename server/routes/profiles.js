@@ -20,7 +20,7 @@ router.get('/:profileId',
 )
 
 // Crea un perfil
-router.post('/profiles',
+router.post('/',
     validateToken,
     [check('name')
         .isLength({min:3})
