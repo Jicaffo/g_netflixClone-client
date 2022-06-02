@@ -58,7 +58,8 @@ const mediaSchema = mongoose.Schema(
     },
     audienceClasification: {
         type: String,
-        default: "N/A"
+        enum: ["ATP", "7+", "13+", "16+", "18+"],
+        default: "18+"
     },
     type: {
         type: String,

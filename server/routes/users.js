@@ -10,7 +10,7 @@ const router = express.Router()
 // Obtiene todos los usuarios
 router.get('/',
     validateToken,
-    //adminRequired,
+    adminRequired,
     userController.getAllUsers
 );
 
@@ -38,7 +38,7 @@ router.delete('/:id',
 // Crea un nuevo usuario
 router.post('/',
     validateToken,
-    //adminRequired,
+    adminRequired,
     // [
     //     check('name', 'The name is obligatory').not().isEmpty(),
     //     check('email', 'Add a valid email').isEmail(),
