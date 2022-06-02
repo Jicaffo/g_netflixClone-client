@@ -89,7 +89,9 @@ const MailLogin = () => {
                     className={classes.text}>¿Quieres ver Netflix ya? Ingresa tu email para crear una cuenta o reiniciar tu membresía de Netflix.
                 </Typography>
                 
-                <ErrorMessage name="mail"/>
+                
+                {/* <ErrorMessage name="mail"/> */}
+                <div>
                 <TextField
                     variant="standard"
                     label="Email"
@@ -119,7 +121,8 @@ const MailLogin = () => {
                 >
                     Comenzar &gt;
                 </Button>
-            
+            </div>
+
             </form>
         </FormikProvider>
     )

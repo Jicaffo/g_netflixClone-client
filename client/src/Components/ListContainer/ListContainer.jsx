@@ -65,7 +65,10 @@ const ListContainer = ({ listArray }) => {
         <Container maxWidth="xl" className={classes.root}>
             {/* { console.log("(return) dataFetched = ", dataFetched) } */}
             {/* // NTH: Mejorar con un loader */}
-            { !dataFetched ? `Cargando lista para ${currentProfile.name}...` : <SwiperBrowse list={mediaList} key={mediaList.name}></SwiperBrowse> }
+
+            {console.log("currentProfile",currentProfile)} 
+
+            { !dataFetched ? `Cargando lista...` : <SwiperBrowse list={mediaList} key={mediaList.name}></SwiperBrowse> }
 
             {/* { console.log("mediaList (return), 1ro, [3 items]: ", mediaList) } */}
             {   

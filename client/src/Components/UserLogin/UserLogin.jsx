@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState,useContext } from 'react'
+import { useHistory, Link } from 'react-router-dom'
+import { useSearchParams } from '../../Hooks'
 import {
     Box,
     Container,
@@ -15,8 +16,10 @@ import {
     //ErrorMessage, // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
     FormikProvider } from "formik";
 import * as yup from "yup";
+import ApiCallsContext from '../../Contexts/ApiCallsContext'
+import { post } from '../../Services/apiCalls'
 
-//TODO!: (funcional) Mejorar user input incluyendo la opción de teléfono como opcional en la validación.
+//TODO!: (funcional) Mejorar email input incluyendo la opción de teléfono como opcional en la validación.
 
 //TOFIX: (funcional) Hacer que cada campo maneje la validación en forma independiente, que no se valide todo al producirse un onChange en cualquiera de ellos. Intenté usear un condicional con formik.touched, pero el objeto aparece vacío aún si el campo fue clickeado con el mouse.
 //TOFIX: (estético) Quitar el color azul/rojo del subrayado del link facebook al pasar el mouse por arriba y hacer click.
@@ -152,6 +155,7 @@ const useStyles = makeStyles( (theme) => ({
         verticalAlign: "middle",
         padding: "10px 20px",
         color: "#fff",
+        fontSize: "14px",
     // "&::after": {
     //     display: "table-cell",
     //   },
@@ -159,25 +163,27 @@ const useStyles = makeStyles( (theme) => ({
     formatLinkMessage: {
         color: "#fff",
         cursor: "pointer",
-    }    
-
+    }
 }));
 
 const UserLogin = () => { 
     const classes = useStyles();
+    const apiData = useContext(ApiCallsContext);
+    const history = useHistory();
+    const searchParams = useSearchParams();
 
     const [remember, setRemember] = useState(false);
     
     const validations = yup.object({
 
         // // No funciona, valida en forma excluyente cada uno, y no se puede encadenar .number() y .string().email()
-        // user: yup
+        // email: yup
         //     .string("Ingresa un string válido") 
         //     .email("Ingresa un mail válido")
         //     .required("El campo es requerido"),
 
         // // Método de yup a investigar (validación condicional, excluyente)
-        // user: yup
+        // email: yup
         //         .string().when("isEmail", {
         //             is: '1',
         //             then: yup.string()
@@ -190,7 +196,7 @@ const UserLogin = () => {
         // }),
 
         // Validación mediante 2 expresiones regulares que el contenido sea un mail O un número de teléfono
-        user: yup
+        email: yup
                 .string("Debe ingresar un mail o teléfono.")
                 // .email("Enter a valid email")
                 .required("Ingresa un email o un número de teléfono.")
@@ -207,7 +213,7 @@ const UserLogin = () => {
                         }
                         return true;
         }),
-        pass: yup
+        password: yup
                 .string("La contraseña debe tener entre 4 y 60 caracteres.")
                 .min(4, "La contraseña debe tener entre 4 y 60 caracteres.")
                 .max(60, "La contraseña debe tener entre 4 y 60 caracteres.")
@@ -216,14 +222,31 @@ const UserLogin = () => {
     
     const formik = useFormik({
         initialValues: {
-            user: "",
-            pass: "",
+            // user: "",
+            // pass: "",
+            email: searchParams.get('email') || "",
+            password: ""
         },
         validationSchema: validations,
-        onSubmit: (values) => {
-            console.log("Formulario de login enviado: ", values);
-            window.location.href = "/profiles";
+        // onSubmit: (values) => {
+        //     console.log("Formulario de login enviado: ", values);
+        //     window.location.href = "/profiles";
+        // }
+
+        onSubmit: async (userData) => {
+            const url = apiData.BASE_URL + "/auth/login"
+            const res = await post(url, userData)
+
+            if (res === undefined){
+                history.push("/login") //?email=""
+                alert("Error en la petición, logueese nuevamente.") // Debería ser un modal
+                
+            } else if (res.status >= 200 && res.status < 300) {
+                localStorage.setItem("token", res.data.token)
+                history.push("/profiles")
+            }
         }
+
     });
 
     const handleChangeRemember = () => {
@@ -241,43 +264,43 @@ const UserLogin = () => {
 
 {/* Ver como controlar estos mensajes cuando no encuentre el mail o la contraseña en la BDD */}
                             <Box className={`${classes.uiMessageContainer}`}>
-                            <Typography variant="h7" className={classes.uiMessageContents}>No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <Link className={classes.formatLinkMessage} to="/">crea una cuenta nueva</Link>.</Typography>
+                            <Typography className={classes.uiMessageContents}>No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <Link className={classes.formatLinkMessage} to="/">crea una cuenta nueva</Link>.</Typography>
                             </Box>    
                             {/* <div data-uia="error-message-container" class="ui-message-container ui-message-error"><div data-uia="text" class="ui-message-contents">No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <a href="/">crea una cuenta nueva</a>.</div></div> */}
                             {/* <div data-uia="text" class="ui-message-contents"><b>Contraseña incorrecta.</b> Reinténtalo o <a href="/loginHelp">restablece la contraseña</a>.</div> */}
 
                             <Box className={`${classes.uiMessageContainer}`}>
-                            <Typography variant="h7" className={classes.uiMessageContents}><b>Contraseña incorrecta.</b> Reinténtalo o <Link className={classes.formatLinkMessage} to="/loginHelp">restablece la contraseña</Link>.</Typography>
+                            <Typography className={classes.uiMessageContents}><b>Contraseña incorrecta.</b> Reinténtalo o <Link className={classes.formatLinkMessage} to="/loginHelp">restablece la contraseña</Link>.</Typography>
                             </Box>    
 
                                 <TextField
                                     variant="filled"
                                     className={classes.input}
                                     InputProps={{ disableUnderline: true }}
-                                    name="user"
+                                    name="email"
                                     label="Email o número de teléfono"
-                                    value={formik.values.user || ""}
+                                    value={formik.values.email || ""}
                                     onChange={formik.handleChange}
                                     // Necesitamos usar formik.handleBlur en el evento onBlur para poder utilizar el objeto formik.touched,
                                     // ya que el contenido este objeto se populan desde el método handleBlur. De lo contrario queda vacío.
                                     onBlur={formik.handleBlur}
-                                    // Funciona usando un string o "formik.errors.user" pero no usando "<ErrorMessage name="user" className="formError"/>"
+                                    // Funciona usando un string o "formik.errors.email" pero no usando "<ErrorMessage name="email" className="formError"/>"
                                     // Según https://formik.org/docs/api/useFormik, ErrorMessage no funciona con useFormik
-                                    helperText={ formik.touched.user && formik.errors.user }
-                                    error={ formik.touched.user && Boolean(formik.errors.user) }
+                                    helperText={ formik.touched.email && formik.errors.email }
+                                    error={ formik.touched.email && Boolean(formik.errors.email) }
                                 />
                                 <TextField
                                     variant="filled"
                                     className={classes.input}
                                     InputProps={{ disableUnderline: true }}
                                     type="password"
-                                    name="pass"
+                                    name="password"
                                     label="Contraseña"
-                                    value={formik.values.pass}
+                                    value={formik.values.password}
                                     onChange={formik.handleChange}
                                     onBlur={formik.handleBlur}
-                                    helperText={ formik.touched.pass && formik.errors.pass }
-                                    error={ formik.touched.pass && Boolean(formik.errors.pass) }
+                                    helperText={ formik.touched.password && formik.errors.password }
+                                    error={ formik.touched.password && Boolean(formik.errors.password) }
                                 />
                                 <Button 
                                     className={classes.button}

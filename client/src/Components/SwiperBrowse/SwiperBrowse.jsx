@@ -3,11 +3,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from "@material-ui/core"
 import { Navigation, Pagination, Grid } from "swiper";
+import {MediaCard} from "../";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
 
 const useStyles = makeStyles( (theme) => ({
     root:{
@@ -134,12 +136,13 @@ const SwiperBrowse = ({ list, multipleRows }) => {
       {
         list.items.map( (media) => {
           return (
-            <SwiperSlide
-              key={media.title}
-              className={classes.swiperSlide}
-            >
-              <img className={classes.swiperSlideImg} src={media.img} alt={media.title}/>
-            </SwiperSlide>
+            // <SwiperSlide
+            //   key={media.title}
+            //   className={classes.swiperSlide}
+            // >
+            //   <img className={classes.swiperSlideImg} src={media.img} alt={media.title}/>
+            // </SwiperSlide>
+            <MediaCard media={media}/>
           )
         })
       }      

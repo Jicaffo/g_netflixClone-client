@@ -26,7 +26,7 @@ export const UserDataProvider = ({ children }) => {
         },
     }
 
-    const [currentProfile, setCurrentProfile] = useState(initialProfile);
+    const [currentProfile, setCurrentProfile] = useState(null);
     const [allUserProfiles, setAllUserProfiles] = useState(null);
 
     const data = {
