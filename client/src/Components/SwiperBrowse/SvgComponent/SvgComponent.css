@@ -1,0 +1,24 @@
+.svg{
+    fill: aliceblue;
+    border: 2px solid gray;
+    border-radius: 50%;
+    padding: 1vh;
+    width: 2vh;
+    height: 2vh;
+    background-color: #303030;
+}
+
+.svg:hover{
+    background-color: aliceblue;
+    fill: black;
+}
+
+.container-svg{
+    display: flex;
+    height: 4vh;
+    padding-left: .2vh;
+}
+
+.down{
+    margin-left: 17%;
+}
