@@ -23,11 +23,11 @@ const getProfile = async(req, res) => {
         if(profile === undefined) {
             return res.status(404).json({msg: "The profile doesn't exist"})
         }
-        res.status(200).json({data: profile})
+        res.status(200).json({msg: "Profile retrieved ok", profile})
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 }
 
@@ -54,7 +54,7 @@ const postProfile = async(req,res) => {
         console.log("profileExist", profileExist)
         try {
             if(profileExist) {
-                return res.status(400).json({ msg: 'This profile already exist.'})
+                return res.status(400).json({ msg: 'This profile already exist.', profileExist})
             } 
             //console.log("Este es el contenido de profile",req.body)
             user.profiles.push(req.body)
@@ -66,7 +66,7 @@ const postProfile = async(req,res) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 
     // TODO: ver el formato de try y catch para manejo de errores sin anidarlos.
@@ -115,7 +115,7 @@ const patchProfile = async(req,res) => {
             // Actualizamos el usuario en la DB
             await user.save() 
 
-            return res.status(201).json({ msg: 'Profile has been updated correctly.'}) // Por el momento no se envía mensaje
+            return res.status(201).json({ msg: 'Profile has been updated correctly.'})
         } catch (error){
             console.log(error)
             res.status(400).send("Couldn't patch the profile.")
@@ -181,15 +181,15 @@ const getAllLists = async(req, res) => {
         const profile = user.profiles.find((profile) => profile._id.toString() === profileId)
 
         if(profile === undefined) {
-            return res.status(404).send("The profile doesn't exist")
+            return res.status(404).send("The profile doesn't exist", profile)
         }
-
-        res.status(200).json({data: profile.lists})
+        const list = profile.lists
+        res.status(200).json({msg: "Lists retrieved OK", list})
         
         
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 }
 
@@ -219,7 +219,7 @@ const getOneList = async(req, res) => {
         
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: "Element not found"})
+        res.status(404).json({msg: "Element not found", error})
     }
 }
 
@@ -249,11 +249,11 @@ const getAllMediaFromList = async(req, res) => {
         // Obtenemos el listado de objetos completos de los recursos multimedia a partir de los Ids (Es necesario utilizar el Promise.all() para que el map funcione correctamente) 
         const mediaList = await Promise.all( mediaIdArray.map( async (mediaId, index, mediaIdArray) => await mediaController.getOneMediaByArgumentId(mediaId)))
 
-        res.status(200).json({data: mediaList})
+        res.status(200).json({msg: "Media resources retrieved OK", mediaList})
         
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: 'Element not found'})
+        res.status(404).json({msg: 'Element not found', error})
     }
 
     // // No se puede devolver más de un response por cada request
@@ -296,11 +296,11 @@ const getOneMediaFromList = async(req, res) => {
         // Obtenemos el objeto completo del recurso multimedia a partir del Id 
         const mediaItem = await mediaController.getOneMediaByArgumentId(mediaItemId)
 
-        res.status(200).json({data: mediaItem})
+        res.status(200).json({msg: "Media resource retrieved OK", mediaItem})
         
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: 'Element not found'})
+        res.status(404).json({msg: 'Element not found', error})
     }
 }
 
@@ -340,7 +340,7 @@ const deleteOneMediaFromList = async(req,res) => {
         
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: 'Element not found'})
+        res.status(404).json({msg: 'Element not found', error})
     }
 }
 
@@ -386,7 +386,7 @@ const postMediaToList = async(req,res) => {
         
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 }
 

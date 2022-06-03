@@ -10,7 +10,7 @@ const getMedia = async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(400).json({msg: 'Something went wrong...', data: error})
+        res.status(400).json({msg: 'Something went wrong...', error})
     }
 }
 
@@ -25,7 +25,7 @@ const getOneMediaById = async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(404).json({msg: 'Not found' + error, error})
+        res.status(404).json({msg: 'Not found', error})
     }
 }
 
@@ -80,7 +80,7 @@ const postMedia = async (req,res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error' + error, error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 }
 
@@ -107,7 +107,7 @@ const deleteMedia = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error' + error, error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 }
 

@@ -265,6 +265,7 @@ const UserProfiles = () => {
         <Container maxWidth="md" className={classes.itemsAvatar}>
           {profiles.map((avatarProfile) => {
             const { _id , name, img } = avatarProfile;
+            
             return (
               <Box key={_id} className={classes.itemsProfiles}>
                 <Link to= "/browse" onClick={() => handleClick(avatarProfile)}>
@@ -313,6 +314,8 @@ const UserProfiles = () => {
             );
           })}
 
+        { profiles.length >= 5 ?  (null
+         ) : (
           <Box className={classes.itemsGridAddCircle}>
             <Link to="/add-profile" className={classes.linkAddProfile}>
               <AddCircleIcon className={classes.AddCircle} />
@@ -321,6 +324,7 @@ const UserProfiles = () => {
               </Typography>
             </Link>
           </Box>
+         )}
         </Container>
 
         {location.pathname === "/manage-profiles" ? (
