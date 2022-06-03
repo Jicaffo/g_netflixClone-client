@@ -4,48 +4,69 @@ import { HighlightedMedia, ListContainer } from '../../Components'
 // Array de objetos de ejemplo con un listado de contenido multimedia para pruebas temporales, a obtener del backend.
 const exampleMediaListShort = [
     {
+      _id:1,
       title:"Emily in Paris",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABd4okK-9R6vjvoPkB6Msrd44BUNHa5WZhyZDXeldFOXHinLPDExremWPt334t8zg1SAezDERP4OwERhB5tLEjVB20Wb3g71OJ7OfH-doY16O4zPqfboghX_DaV9h.jpg?r=cd9"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABd4okK-9R6vjvoPkB6Msrd44BUNHa5WZhyZDXeldFOXHinLPDExremWPt334t8zg1SAezDERP4OwERhB5tLEjVB20Wb3g71OJ7OfH-doY16O4zPqfboghX_DaV9h.jpg?r=cd9",
+      "trailer": "HvYcfmPPows",
     },
     {
+      _id:2,
       title:"Estamos muertos",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABeoK2tWCAEVCngkmcH6kC6HZ38st4knkVprMpHqknYoHeQxoVos44chJXxvwoe4LEsvkSxUhXATsZ4YNCtEwSUuoXtVxS_BKF5ZqdCVqwKL_2qJEsVax2Sz4iwFk.jpg?r=f88"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABeoK2tWCAEVCngkmcH6kC6HZ38st4knkVprMpHqknYoHeQxoVos44chJXxvwoe4LEsvkSxUhXATsZ4YNCtEwSUuoXtVxS_BKF5ZqdCVqwKL_2qJEsVax2Sz4iwFk.jpg?r=f88",
+      "trailer": "62jVLZ4JfjM",
     },
     {
+      _id:3,
       title:"Fin de semana en Croacia",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABezpQUda_XVtPmmtYQEGK-iR9B3zss0Zsay1wOkR9pBT5ipxtM86IonFuT6tjGbIm3tSh1KP_SsgP1gRaKKjFgOVlciFekWfIusKjSTzxcCcZeiF4nahcingdnm6.jpg?r=4d3"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABezpQUda_XVtPmmtYQEGK-iR9B3zss0Zsay1wOkR9pBT5ipxtM86IonFuT6tjGbIm3tSh1KP_SsgP1gRaKKjFgOVlciFekWfIusKjSTzxcCcZeiF4nahcingdnm6.jpg?r=4d3",
+      "trailer": "WPW0qo5dc-E",
     },
     {
+      _id:4,
       title:"The Crown",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABWB_KjvPQ6PqGsdyJN55lnNBB_RR2HfB1WaiWDqV0SYoBLojWnYuQKm59gdJQ5qnvvIADXTADlFV5N8tIxZpocOPBKUJUbqVXBaHLrANxAm-NaUmQqLbWHtIiClN.jpg?r=dcd"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABWB_KjvPQ6PqGsdyJN55lnNBB_RR2HfB1WaiWDqV0SYoBLojWnYuQKm59gdJQ5qnvvIADXTADlFV5N8tIxZpocOPBKUJUbqVXBaHLrANxAm-NaUmQqLbWHtIiClN.jpg?r=dcd",
+      "trailer": "zzBjNG1GKu4",
     },
     {
+      _id:5,
       title:"Ouija",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABc9iltqEjIxEL-ACvhEjhdLDXOOEHbgs0z716BT7ToP0xcxS9S61LwNqkrpz60bBWwDf5bApxxWrlbRDOIBUcd8jAoc.webp?r=37b"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABc9iltqEjIxEL-ACvhEjhdLDXOOEHbgs0z716BT7ToP0xcxS9S61LwNqkrpz60bBWwDf5bApxxWrlbRDOIBUcd8jAoc.webp?r=37b",
+      "trailer": "WpKa1CVcAng",
     },
     {
+      _id:6,
       title:"Outlander",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABfxoE8peGqSCmmldIAPxVlfJ6Vb_nBqPoKP03Zsv15OCtGE8KnhtXNdki8aGYrJ7T5CpIBq2t9k3eHgniBsi8qLagPM.webp?r=c5f"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABfxoE8peGqSCmmldIAPxVlfJ6Vb_nBqPoKP03Zsv15OCtGE8KnhtXNdki8aGYrJ7T5CpIBq2t9k3eHgniBsi8qLagPM.webp?r=c5f",
+      "trailer": "PFFKjptRr7Y",
     },
     {
+      _id:7,
       title:"Orgullo y prejuicio",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABZuJsqGP9XtQLU2SVpU0IngGiXaBV8hz33OPuZE226OwtRiV_eMAwMrgfWUrWuQor-TEqizG0knaVmrioOfZr0Xdx-c.webp?r=314"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABZuJsqGP9XtQLU2SVpU0IngGiXaBV8hz33OPuZE226OwtRiV_eMAwMrgfWUrWuQor-TEqizG0knaVmrioOfZr0Xdx-c.webp?r=314",
+      "trailer": "Ov0PdD5c7m0",
     },
     {
+      _id:8,
       title:"El rey",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABcfzQ5w12eeSxKXL4wb5NA5OsUUEbAP9yoD6iMyBZyU5N4X9v5N5PsFC7tgFrL4H8Y092maH4BaDz3ZQDCub5R69twJ89ZVKJgulatAiCgQGBeqZLuPIEMMJ47eF.jpg?r=63e"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABcfzQ5w12eeSxKXL4wb5NA5OsUUEbAP9yoD6iMyBZyU5N4X9v5N5PsFC7tgFrL4H8Y092maH4BaDz3ZQDCub5R69twJ89ZVKJgulatAiCgQGBeqZLuPIEMMJ47eF.jpg?r=63e",
+      "trailer": "VkrbZqCJaEk",
     },
     {
+      _id:9,
       title:"Vikingos",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABVBgaj6Nj7-1SnWCXvNMSZItnzVfNKGT_seNrcQIaABgxgyo4RGbvLgocOcqxeD1qtiM23QWj5I4U002vL8BF3hcgAk.webp?r=e15"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABVBgaj6Nj7-1SnWCXvNMSZItnzVfNKGT_seNrcQIaABgxgyo4RGbvLgocOcqxeD1qtiM23QWj5I4U002vL8BF3hcgAk.webp?r=e15",
+      "trailer": "0DZKZ0qktU4",
     },
     {
+      _id:10,
       title:"Versalles",
-      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABfe59Ij8cEeFdo1awW7lUSO1D8TZuHrAb7SlzAIpic6gfgmdiypSQyL9ByUU1210i0stcJ_bLQUcWhBfX1RR57s5F4k.webp?r=991"
+      img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABfe59Ij8cEeFdo1awW7lUSO1D8TZuHrAb7SlzAIpic6gfgmdiypSQyL9ByUU1210i0stcJ_bLQUcWhBfX1RR57s5F4k.webp?r=991",
+      "trailer": "ov7MV6V2aa0",
     },
 ];
 const exampleMediaListLong = [
   {
+    _id:1,
     "title":"Emily in Paris",
     "img":"https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABYbm_s-qPryvSAZT6y6sSbp054hrmjEEdw4xKabBUM-BUGNniw9vYkCSrWOd2-IaVfMr6B7L91JZPhs852JicovS7LmC9KSsBjP-o-ApgPnQWseV8nL130HoJZ3hixeseB9H.jpg?r=8e3",
     "resourceUrl": "",
@@ -55,6 +76,7 @@ const exampleMediaListLong = [
     "type": "serie"
   },
   {
+    _id:2,
     "title":"Fin de semana en Croacia",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABezpQUda_XVtPmmtYQEGK-iR9B3zss0Zsay1wOkR9pBT5ipxtM86IonFuT6tjGbIm3tSh1KP_SsgP1gRaKKjFgOVlciFekWfIusKjSTzxcCcZeiF4nahcingdnm6.jpg?r=4d3",
     "resourceUrl": "",
@@ -64,6 +86,7 @@ const exampleMediaListLong = [
     "type": "movie"
   },
   {
+    _id:3,
     "title":"Estamos muertos",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABeoK2tWCAEVCngkmcH6kC6HZ38st4knkVprMpHqknYoHeQxoVos44chJXxvwoe4LEsvkSxUhXATsZ4YNCtEwSUuoXtVxS_BKF5ZqdCVqwKL_2qJEsVax2Sz4iwFk.jpg?r=f88",
     "resourceUrl": "",
@@ -73,6 +96,7 @@ const exampleMediaListLong = [
     "type": "serie"
   },
   {
+    _id:4,
     "title":"Ouija",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABc9iltqEjIxEL-ACvhEjhdLDXOOEHbgs0z716BT7ToP0xcxS9S61LwNqkrpz60bBWwDf5bApxxWrlbRDOIBUcd8jAoc.webp?r=37b",
     "resourceUrl": "",
@@ -82,6 +106,7 @@ const exampleMediaListLong = [
     "type": "movie"
   },
   {
+    _id:5,
     "title":"The Crown",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABWB_KjvPQ6PqGsdyJN55lnNBB_RR2HfB1WaiWDqV0SYoBLojWnYuQKm59gdJQ5qnvvIADXTADlFV5N8tIxZpocOPBKUJUbqVXBaHLrANxAm-NaUmQqLbWHtIiClN.jpg?r=dcd",
     "resourceUrl": "",
@@ -91,6 +116,7 @@ const exampleMediaListLong = [
     "type": "serie"
   },
   {
+    _id:6,
     "title":"Orgullo y prejuicio",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABZuJsqGP9XtQLU2SVpU0IngGiXaBV8hz33OPuZE226OwtRiV_eMAwMrgfWUrWuQor-TEqizG0knaVmrioOfZr0Xdx-c.webp?r=314",
     "resourceUrl": "",
@@ -100,6 +126,7 @@ const exampleMediaListLong = [
     "type": "movie"
   },
   {
+    _id:7,
     "title":"Outlander",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABfxoE8peGqSCmmldIAPxVlfJ6Vb_nBqPoKP03Zsv15OCtGE8KnhtXNdki8aGYrJ7T5CpIBq2t9k3eHgniBsi8qLagPM.webp?r=c5f",
     "resourceUrl": "",
@@ -109,6 +136,7 @@ const exampleMediaListLong = [
     "type": "serie"
   },
   {
+    _id:8,
     "title":"El rey",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABcfzQ5w12eeSxKXL4wb5NA5OsUUEbAP9yoD6iMyBZyU5N4X9v5N5PsFC7tgFrL4H8Y092maH4BaDz3ZQDCub5R69twJ89ZVKJgulatAiCgQGBeqZLuPIEMMJ47eF.jpg?r=63e",
     "resourceUrl": "",
@@ -118,6 +146,7 @@ const exampleMediaListLong = [
     "type": "movie"
   },
   {
+    _id:9,
     "title":"Versalles",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABfe59Ij8cEeFdo1awW7lUSO1D8TZuHrAb7SlzAIpic6gfgmdiypSQyL9ByUU1210i0stcJ_bLQUcWhBfX1RR57s5F4k.webp?r=991",
     "resourceUrl": "",
@@ -127,6 +156,7 @@ const exampleMediaListLong = [
     "type": "movie"
   },
   {
+    _id:10,
     "title":"Vikingos",
     "img":"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABVBgaj6Nj7-1SnWCXvNMSZItnzVfNKGT_seNrcQIaABgxgyo4RGbvLgocOcqxeD1qtiM23QWj5I4U002vL8BF3hcgAk.webp?r=e15",
     "resourceUrl": "",
