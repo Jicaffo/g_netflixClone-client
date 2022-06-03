@@ -172,6 +172,7 @@ const UserLogin = () => {
     const history = useHistory();
     const searchParams = useSearchParams();
 
+    const [requestError, setRequestError] = useState(false) 
     const [remember, setRemember] = useState(false);
     
     const validations = yup.object({
@@ -239,7 +240,7 @@ const UserLogin = () => {
 
             if (res === undefined){
                 history.push("/login") //?email=""
-                alert("Error en la petición, logueese nuevamente.") // Debería ser un modal
+                setRequestError(true);
                 
             } else if (res.status >= 200 && res.status < 300) {
                 localStorage.setItem("token", res.data.token)
@@ -261,17 +262,14 @@ const UserLogin = () => {
                         <form onSubmit={formik.handleSubmit}>
                             <Typography variant="h4" className={classes.title}>Inicia sesión</Typography>
                             <Box className={classes.columnContent}>
-
-{/* Ver como controlar estos mensajes cuando no encuentre el mail o la contraseña en la BDD */}
-                            <Box className={`${classes.uiMessageContainer}`}>
-                            <Typography className={classes.uiMessageContents}>No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <Link className={classes.formatLinkMessage} to="/">crea una cuenta nueva</Link>.</Typography>
-                            </Box>    
-                            {/* <div data-uia="error-message-container" class="ui-message-container ui-message-error"><div data-uia="text" class="ui-message-contents">No podemos encontrar una cuenta con esta dirección de email. Reinténtalo o <a href="/">crea una cuenta nueva</a>.</div></div> */}
-                            {/* <div data-uia="text" class="ui-message-contents"><b>Contraseña incorrecta.</b> Reinténtalo o <a href="/loginHelp">restablece la contraseña</a>.</div> */}
-
-                            <Box className={`${classes.uiMessageContainer}`}>
-                            <Typography className={classes.uiMessageContents}><b>Contraseña incorrecta.</b> Reinténtalo o <Link className={classes.formatLinkMessage} to="/loginHelp">restablece la contraseña</Link>.</Typography>
-                            </Box>    
+                                {
+                                    requestError === true ?(
+                                        <Box className={`${classes.uiMessageContainer}`}>
+                                        <Typography className={classes.uiMessageContents}>No podemos encontrar una cuenta con esta dirección de email y contraseña. Reinténtalo o <Link className={classes.formatLinkMessage} to="/">crea una cuenta nueva</Link>.</Typography>
+                                        </Box>)
+                                        :
+                                        (null)
+                                }
 
                                 <TextField
                                     variant="filled"

@@ -1,25 +1,19 @@
-import { React, useState, useEffect } from "react";
+import { useState, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 import {
   Typography,
   Container,
   Box,
   Button,
-  capitalize,
+  TextField,
 } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 // import { useProfiles } from "../../Contexts/profilesContext";
-
+import ApiCallsContext from "../../Contexts/ApiCallsContext";
+import { post } from "../../Services/apiCalls"
 import "../../Styles/index.css";
-import Checkbox from "@material-ui/core/Checkbox";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,18 +79,18 @@ const useStyles = makeStyles((theme) => ({
   },
   profileNameEntry: {
     width: "15em",
-    height: "1.5em",
+    height: "2em",
     backgroundColor: "#666",
     border: "1px solid transparent",
-    outline: "none",
     margin: "0 0.8em 0 0",
-    padding: "0.2em 0.6em",
-    color: "#fff",
+    // padding: "0em 0.3em",
+    color: "#b9090b",
     fontSize: "1.3vw",
     // boxSizing: "border-box",
     textIndent: "0.1vw",
     lineHeight: "normal",
   },
+
   // profileDropDownLabel: {
   //   marginTop: "1rem",
   //   fontSize: "1.3vw",
@@ -181,9 +175,9 @@ const useStyles = makeStyles((theme) => ({
   },
   ProfileButton: {
     display: "inline-block",
-    margin: "2.5em 1.5em 1em 0",
+    margin: "2em 1.5em 1em 0",
     fontSize: "15px",
-    padding: "0.7em 1.5em",
+    padding: "0.3em 2em",
     letterSpacing: "2px",
     cursor: "pointer",
     transition: "none",
@@ -193,6 +187,7 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid #fff",
     borderRadius: "0",
     fontWeight: "600",
+    width: "150px",
     "&:hover": {
       backgroundColor: "#c00",
       border: "1px solid #c00",
@@ -207,14 +202,15 @@ const useStyles = makeStyles((theme) => ({
   ProfileCancelButton: {
     color: theme.palette.gray3,
     border: `solid 1px ${theme.palette.gray3}`,
-    margin: "2.5em 1.5em 1em 0",
+    margin: "2em 1.5em 1em 0",
     transition: "none",
     display: "inline-block",
     fontSize: "15px",
     borderRadius: "0",
     textTransform: "capitalize",
-    padding: "0.7em 1.5em",
+    padding: "0.3em 2em", 
     letterSpacing: "2px",
+    width: "135px",
     "&:hover": {
       color: theme.palette.contrastText,
       border: `solid 1px ${theme.palette.contrastText}`,
@@ -224,7 +220,9 @@ const useStyles = makeStyles((theme) => ({
 
 const AddUserProfile = () => {
   const classes = useStyles();
-
+  const { BASE_URL } = useContext(ApiCallsContext)
+  // const createProfile = useProfiles();
+  const history = useHistory();
   const [checked, setChecked] = useState(false);
 
   // const [input, setInput] = useState("");
@@ -236,29 +234,31 @@ const AddUserProfile = () => {
     setChecked(event.target.checked);
   };
 
-  // const createProfile = useProfiles();
-  const history = useHistory();
+  const handleClick = async (values) => {
+    // const url = BASE_URL + "/profiles"
+    // const newProfile = values
+    // const res = await post(url, newProfile)
+  }
 
   return (
     <>
       <Formik
         initialValues={{
-          // userName: "",
           name: "",
-          img: "",
         }}
         validationSchema={Yup.object({
-          userName: Yup.string().required(
-            "El nombre de usuario es obligatorio"
+          name: Yup.string().required(
+            "Ingresa un nombre"
           ),
         })}
-        onSubmit={async (values, actions) => {
-          // console.log(values);
-          // await createProfile(values);
-          history.push("/manage-profiles");
+        onSubmit={async (values) => {
+          const url = BASE_URL + "/profiles"
+          const newProfile = values // Por el momento solo trae Nombre.
+          const res = await post(url, newProfile)
+          history.push(`/profiles`);
         }}
       >
-        {({ values, handleSubmit }) => (
+        {({ values, handleSubmit,handleChange, handleBlur, touched, errors }) => (
           <Form onSubmit={handleSubmit}>
             <Box className={classes.root}>
               <Container maxWidth="xs">
@@ -279,17 +279,21 @@ const AddUserProfile = () => {
                           />
                         </Box>
 
-                        <Field
-                          type="text"
-                          name="userName"
+                        <TextField
+                          // type="text"
+                          name="name"
                           // value={input.name}
-                          value={values.name}
-                          // onChange={handleInputChange}
+                          value={values.name || ""}
+                          onChange={handleChange}
                           className={classes.profileNameEntry}
                           placeholder="Nombre"
+                          InputProps={{ disableUnderline: true }}
+                          onBlur={handleBlur}                           
+                          helperText={touched.name && errors.name}
+                          error={touched.name && Boolean(errors.name)}
+                          inputProps={ values.name ? { style: { paddingLeft: "10px", border: "1px solid transparent", fontSize: 18, color: "white" } } : { style: { paddingLeft: "10px", border: "1px solid transparent", fontSize: 18, color: "white" } }} // ver esto porque no puedo poner el borde en rojo
                         />
-                        {/* <Typography className={classes.profileDropDownLabel}>
-          </Typography>  */}
+                        {/* <Typography className={classes.profileDropDownLabel}></Typography>  */}
                         <div className={classes.AddKidsOption}>
                           <input
                             type="checkbox"
@@ -324,7 +328,7 @@ const AddUserProfile = () => {
                             className={classes.AddKidsMarker}
                             role="checkbox"
                             aria-checked="true"
-                            tabindex="0"
+                            // tabindex="0"
                           >
                             ¿Niños?
                             <span className={classes.KidsProfileTooltip}>
@@ -337,32 +341,28 @@ const AddUserProfile = () => {
                       </div>
                     </Box>
 
-                    {/* <Link
-                      to="/manage-profiles"
-                      style={{ textDecoration: "none" }}
-                    > */}
-                    <button
+                    <Button
                       className={classes.ProfileButton}
-                      tabindex="0"
+                      // tabindex="0"
                       role="button"
                       type="submit"
                     >
                       Continuar
-                    </button>
-                    {/* </Link> */}
+                    </Button>
 
-                    <Link
+                    {/* <Link
                       to="/manage-profiles"
                       style={{ textDecoration: "none" }}
-                    >
-                      <span
+                    > */}
+                      <Button
                         className={classes.ProfileCancelButton}
-                        tabindex="0"
+                        // tabindex="0"
                         role="button"
+                        onClick={() => history.push("/profiles")}
                       >
                         Cancelar
-                      </span>
-                    </Link>
+                      </Button>
+                    {/* </Link> */}
                   </div>
                 </div>
               </Container>

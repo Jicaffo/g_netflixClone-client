@@ -207,18 +207,11 @@ const UserProfiles = () => {
   const classes = useStyles();
   const [profiles, setProfiles] = useState([]);
 
-    useEffect(async() => {
-      const url = BASE_URL + "/profiles"
-      const res = await get(url)
-      setProfiles(res.data.userProfiles) //res.data.userProfiles dummyProfiles
-    }, []); 
-
-    useEffect(() => {
-      setCurrentProfile(profiles[0]) // TODO: pasar a handleClick correspondiente
-    }, [profiles])
-
-    // console.log(profiles) // Hasta acá llegan los valores
-    // console.log("current:", currentProfile)
+  useEffect(async() => {
+    const url = BASE_URL + "/profiles"
+    const res = await get(url)
+    setProfiles(res.data.userProfiles) //res.data.userProfiles dummyProfiles
+  }, []); 
 
   // Si el arreglo de perfiles se encuentra vacio, mostrar mensaje
   if (profiles.length === 0)
@@ -254,10 +247,9 @@ const UserProfiles = () => {
       </>
     );
 
-    // const handleClickProfile = (e) => {
-    //   console.log(e.target)
-    // }
-
+  const handleClick = (profile) => {
+    setCurrentProfile(profile)
+  }
 
   return (
     <div style={{ backgroundColor: "#141414" }}>
@@ -271,12 +263,11 @@ const UserProfiles = () => {
         </Container>
 
         <Container maxWidth="md" className={classes.itemsAvatar}>
-          {profiles.map((avatarProfiles) => {
-            const { _id , name, img } = avatarProfiles;
+          {profiles.map((avatarProfile) => {
+            const { _id , name, img } = avatarProfile;
             return (
               <Box key={_id} className={classes.itemsProfiles}>
-               {/* <div key={_id} className={classes.itemsProfiles} onClick={handleClickProfile}> */}
-              <Link to= "/browse">
+                <Link to= "/browse" onClick={() => handleClick(avatarProfile)}>
                   {location.pathname === "/profiles" ? (
                     <img
                       className={classes.itemsGrid}
@@ -319,18 +310,15 @@ const UserProfiles = () => {
                   </Box>
                 )}
               </Box>
-              // </div>
             );
           })}
 
           <Box className={classes.itemsGridAddCircle}>
             <Link to="/add-profile" className={classes.linkAddProfile}>
-              {/* <a href={`/browse`}> */}
               <AddCircleIcon className={classes.AddCircle} />
               <Typography variant="h6" className={classes.TypographyAddCircle}>
                 Agregar perfil
               </Typography>
-              {/* </a> */}
             </Link>
           </Box>
         </Container>
