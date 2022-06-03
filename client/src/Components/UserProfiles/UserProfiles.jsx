@@ -175,6 +175,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const dummyProfiles = [
+  {
+    _id: "629528a593fc5c50a6f475a5",
+    name: "Hardco1",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71",
+  
+  },
+  {
+    _id: "629528be93fc5c50a6f475ae",
+    name: "Hardco2",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABcmNAN9bHNZNT9Fm3f-YF1y3Bgj-x3Z9dWYar46_6wAOcR4q5NZS3MUf7SQjkqtVdyWz2DX6SfBHiNourzUjMbGTdDEW.png?r=abe",
+  },
+  {
+    _id: "62951bbdd879df1673cc58b3",
+    name: "Hardco3",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQ2KWouF1OCDAtpdNIETPtEAVAywuZcnNb2gJhGfIzhaju9kWWAguLvUkNg_1Y57iTUFVn9_6a9ZmNrdxCHxxzM8yRqX.png?r=c08",
+  },
+  {
+    _id: "4",
+    name: "Hardco4",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUngvSNL3ED6g9NsWhW9_FdDDzKC1gZCmLxi7mim9httnXRVYSxNJHJpbvblu0K_S94YoyPlkA2dja-zfL17UYw6WHkC.png?r=d26",
+  },
+];
+
 const UserProfiles = () => {
 
   const {BASE_URL} = useContext(ApiCallsContext);
@@ -186,7 +210,7 @@ const UserProfiles = () => {
     useEffect(async() => {
       const url = BASE_URL + "/profiles"
       const res = await get(url)
-      setProfiles(res.data.userProfiles)
+      setProfiles(res.data.userProfiles) //res.data.userProfiles dummyProfiles
     }, []); 
 
     useEffect(() => {

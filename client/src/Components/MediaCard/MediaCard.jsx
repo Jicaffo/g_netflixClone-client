@@ -1,61 +1,39 @@
 import React from 'react'
-import { Swiper, SwiperSlide } from "swiper/react";
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
-
 import { Box, Typography } from "@material-ui/core"
-import { Navigation, Pagination, Grid } from "swiper";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
 
 const useStyles = makeStyles( (theme) => ({
-    swiperSlide: {
-        textAlign: "center",
-        fontSize: "18px",
-        background: "#141414",
-        transition: "250ms all",
-        alignItems: "center",
-        justifyContent: "center",
-        display: "flex",
-        transition: "250ms all",
-        "&:hover":{
-          transform: "scale(1.2)",
-          zIndex:"1"
-        },
-        "&:first-child:hover":{
-          margin: "0 30px",
-        },
-        "&:last-child:hover":{
-          margin: "0 -30px",
-        },
-        "&:nth-child(6):hover":{
-          margin: "0 -30px",
-        },
-    },
-    swiperSlideImg:{
-        display: "block",
-        width: "100%",
-        height: "auto",
-        objectFit: "cover",
-        borderRadius: "2px",
-    },
-    
-    
+  swiperSlideImg:{
+    width: "100%",
+    borderRadius: "2px",
+    //display: "block",
+    //objectFit: "cover",
+  },
 }));
+
+const handleClick = (media) => {
+  //console.log(media);
+  const trailerUrl = "https://www.youtube.com/watch?v="+ media.trailer
+  window.open(trailerUrl) // Abre la url en una nueva pestaña
+}
 
 const MediaCard = ({media}) => {
 
-    const classes = useStyles();
+  const classes = useStyles();
+  const history = useHistory();
 
   return (
-    <SwiperSlide
-    key={media.title}
-    className={classes.swiperSlide}
-  >
-    <img className={classes.swiperSlideImg} src={media.img} alt={media.title}/>
-  </SwiperSlide>
+    <>
+      <img
+        className={classes.swiperSlideImg}
+        src={media.img}
+        alt={media.title}
+        id={media._id}
+        onClick={ () => handleClick(media) }
+        // style={{border: "2px solid green", padding: "5px"}}
+      />
+    </>
   )
 }
 
