@@ -86,7 +86,7 @@ const HighlightedMedia = ({ media }) => {
                             variant="contained"
                             className={classes.button}
                             startIcon={<PlayArrowIcon className={classes.btnIcon}/>}
-                            href={media.link}
+                            href={media.trailer}
                             disableElevation
                         >
                             Reproducir
@@ -95,7 +95,7 @@ const HighlightedMedia = ({ media }) => {
                             variant="contained"
                             className={classes.button}
                             startIcon={<InfoOutlinedIcon className={classes.btnIcon}/>}
-                            href="#"
+                            href={media.trailer}
                             disableElevation
                             disableFocusRipple
                         >
