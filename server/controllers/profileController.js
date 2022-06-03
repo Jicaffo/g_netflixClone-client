@@ -7,11 +7,12 @@ const getAllProfiles = async(req, res) => {
        
     try {
         const user = await User.findById({"_id":req.userId})
-        res.status(200).json({data: user.profiles})
+        const userProfiles = user.profiles;
+        res.status(200).json({msg: 'Profiles retrieved OK', userProfiles })
         
     } catch (error) {
         console.log(error)
-        res.status(500).json({msg: 'Internal server error', data: error})
+        res.status(500).json({msg: 'Internal server error', error})
     }
 }
 
