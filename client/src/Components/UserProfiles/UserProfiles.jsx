@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import {
   Typography,
@@ -10,10 +10,9 @@ import {
 import { makeStyles } from "@material-ui/core/styles";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import { useLocation } from "react-router-dom";
-import EditUserProfile from "../EditUserProfile/EditUserProfile";
-// import { useContext } from "react";
-// import { contextProfiles } from "../../Contexts/profilesContext";
-import { useProfiles } from "../../Contexts/profilesContext";
+import ApiCallsContext from '../../Contexts/ApiCallsContext'
+import UserDataContext from '../../Contexts/UserDataContext'
+import { get, post } from '../../Services/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -176,45 +175,50 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const UserProfiles = ({ stateUserName }) => {
-  // const { profiles } = useProfiles(); // Hasta acá deberíamos tener los datos
+const dummyProfiles = [
+  {
+    _id: "629528a593fc5c50a6f475a5",
+    name: "Hardco1",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71",
+  
+  },
+  {
+    _id: "629528be93fc5c50a6f475ae",
+    name: "Hardco2",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABcmNAN9bHNZNT9Fm3f-YF1y3Bgj-x3Z9dWYar46_6wAOcR4q5NZS3MUf7SQjkqtVdyWz2DX6SfBHiNourzUjMbGTdDEW.png?r=abe",
+  },
+  {
+    _id: "62951bbdd879df1673cc58b3",
+    name: "Hardco3",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQ2KWouF1OCDAtpdNIETPtEAVAywuZcnNb2gJhGfIzhaju9kWWAguLvUkNg_1Y57iTUFVn9_6a9ZmNrdxCHxxzM8yRqX.png?r=c08",
+  },
+  {
+    _id: "4",
+    name: "Hardco4",
+    img: "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUngvSNL3ED6g9NsWhW9_FdDDzKC1gZCmLxi7mim9httnXRVYSxNJHJpbvblu0K_S94YoyPlkA2dja-zfL17UYw6WHkC.png?r=d26",
+  },
+];
 
-  const classes = useStyles();
+const UserProfiles = () => {
 
-  console.log({ stateUserName });
-
-  const profiles = [
-    {
-      id: "1",
-      profileUser: "browse",
-      nameUser: "José",
-      imgUser:
-        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71",
-    },
-    {
-      id: "2",
-      profileUser: "browse",
-      nameUser: "Jimena",
-      imgUser:
-        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABcmNAN9bHNZNT9Fm3f-YF1y3Bgj-x3Z9dWYar46_6wAOcR4q5NZS3MUf7SQjkqtVdyWz2DX6SfBHiNourzUjMbGTdDEW.png?r=abe",
-    },
-    {
-      id: "3",
-      profileUser: "browse",
-      nameUser: "Riquelme",
-      imgUser:
-        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQ2KWouF1OCDAtpdNIETPtEAVAywuZcnNb2gJhGfIzhaju9kWWAguLvUkNg_1Y57iTUFVn9_6a9ZmNrdxCHxxzM8yRqX.png?r=c08",
-    },
-    {
-      id: "4",
-      profileUser: "browse",
-      nameUser: "Susana",
-      imgUser:
-        "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUngvSNL3ED6g9NsWhW9_FdDDzKC1gZCmLxi7mim9httnXRVYSxNJHJpbvblu0K_S94YoyPlkA2dja-zfL17UYw6WHkC.png?r=d26",
-    },
-  ];
-
+  const {BASE_URL} = useContext(ApiCallsContext);
+  const {currentProfile, setCurrentProfile} = useContext(UserDataContext);
   const location = useLocation();
+  const classes = useStyles();
+  const [profiles, setProfiles] = useState([]);
+
+    useEffect(async() => {
+      const url = BASE_URL + "/profiles"
+      const res = await get(url)
+      setProfiles(res.data.userProfiles) //res.data.userProfiles dummyProfiles
+    }, []); 
+
+    useEffect(() => {
+      setCurrentProfile(profiles[0]) // TODO: pasar a handleClick correspondiente
+    }, [profiles])
+
+    // console.log(profiles) // Hasta acá llegan los valores
+    // console.log("current:", currentProfile)
 
   // Si el arreglo de perfiles se encuentra vacio, mostrar mensaje
   if (profiles.length === 0)
@@ -250,6 +254,11 @@ const UserProfiles = ({ stateUserName }) => {
       </>
     );
 
+    // const handleClickProfile = (e) => {
+    //   console.log(e.target)
+    // }
+
+
   return (
     <div style={{ backgroundColor: "#141414" }}>
       <Box className={classes.root}>
@@ -263,30 +272,30 @@ const UserProfiles = ({ stateUserName }) => {
 
         <Container maxWidth="md" className={classes.itemsAvatar}>
           {profiles.map((avatarProfiles) => {
-            const { id, profileUser, nameUser, imgUser } = avatarProfiles;
+            const { _id , name, img } = avatarProfiles;
             return (
-              <Box key={nameUser} className={classes.itemsProfiles}>
-                <a href={`/${profileUser}`}>
+              <Box key={_id} className={classes.itemsProfiles}>
+               {/* <div key={_id} className={classes.itemsProfiles} onClick={handleClickProfile}> */}
+              <Link to= "/browse">
                   {location.pathname === "/profiles" ? (
                     <img
                       className={classes.itemsGrid}
-                      src={imgUser}
-                      alt={imgUser}
+                      src={img}
+                      alt={img}
                     />
                   ) : (
-                    // <a href={`/manage-profiles/${id}`}>
-                    <a href={`/manage-profiles/${nameUser}`}>
+                    <Link to={`/manage-profiles/${_id}`}>
                       <img
                         className={classes.itemsGridManageProfiles}
-                        src={imgUser}
-                        alt={imgUser}
+                        src={img}
+                        alt={img}
                       />
-                    </a>
+                    </Link>
                   )}
-                </a>
+                </Link>
 
                 <Typography variant="h6" className={classes.titleProfiles}>
-                  {nameUser}
+                  {name}
                   {/* {handleChangeUserName} */}
                 </Typography>
 
@@ -310,6 +319,7 @@ const UserProfiles = ({ stateUserName }) => {
                   </Box>
                 )}
               </Box>
+              // </div>
             );
           })}
 

@@ -9,12 +9,12 @@ import {
   EditProfile,
   AddProfile,
 } from "../Pages";
-import { ProfilesProvider } from "../Contexts/profilesContext";
+// import { ProfilesProvider } from "../Contexts/profilesContext";
 
 function Routes() {
   return (
     <Switch>
-      <ProfilesProvider>
+      {/* <ProfilesProvider> */}
         <Route exact component={Home} path="/" />
         <Route exact component={Register} path="/register" />
         <Route exact component={Login} path="/login" />
@@ -28,7 +28,7 @@ function Routes() {
         /> */}
         <Route exact component={AddProfile} path="/add-profile/" />
         <Route exact component={Browse} path="/browse" />
-      </ProfilesProvider>
+      {/* </ProfilesProvider> */}
     </Switch>
   );
 }

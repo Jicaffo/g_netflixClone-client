@@ -13,28 +13,6 @@ const useStyles = makeStyles( (theme) => ({
     }
 }));
 
-const allMediaList = {
-    name: "Todas las películassss",
-    items: [
-        {
-            title:"Emily in Paris",
-            img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABd4okK-9R6vjvoPkB6Msrd44BUNHa5WZhyZDXeldFOXHinLPDExremWPt334t8zg1SAezDERP4OwERhB5tLEjVB20Wb3g71OJ7OfH-doY16O4zPqfboghX_DaV9h.jpg?r=cd9"
-        },
-        {
-            title:"Fin de semana en Croacia",
-            img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABezpQUda_XVtPmmtYQEGK-iR9B3zss0Zsay1wOkR9pBT5ipxtM86IonFuT6tjGbIm3tSh1KP_SsgP1gRaKKjFgOVlciFekWfIusKjSTzxcCcZeiF4nahcingdnm6.jpg?r=4d3"
-        },
-        {
-            title:"Estamos muertos",
-            img:"https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/X194eJsgWBDE2aQbaNdmCXGUP-Y/AAAABeoK2tWCAEVCngkmcH6kC6HZ38st4knkVprMpHqknYoHeQxoVos44chJXxvwoe4LEsvkSxUhXATsZ4YNCtEwSUuoXtVxS_BKF5ZqdCVqwKL_2qJEsVax2Sz4iwFk.jpg?r=f88"
-        }
-    ]
-}
-
-// const getAllMedia = async () => {
-
-// }
-
 const ListContainer = ({ listArray }) => {
 
     const classes = useStyles();
@@ -65,7 +43,9 @@ const ListContainer = ({ listArray }) => {
         <Container maxWidth="xl" className={classes.root}>
             {/* { console.log("(return) dataFetched = ", dataFetched) } */}
             {/* // NTH: Mejorar con un loader */}
-            { !dataFetched ? `Cargando lista para ${currentProfile.name}...` : <SwiperBrowse list={mediaList} key={mediaList.name}></SwiperBrowse> }
+            { /*console.log("currentProfile", currentProfile) /*No encontré una mejor forma de loguearlo, se repite 3veces al cargar */}
+
+            { !dataFetched ? `Cargando lista...` : <SwiperBrowse list={mediaList} key={mediaList.name}></SwiperBrowse> }
 
             {/* { console.log("mediaList (return), 1ro, [3 items]: ", mediaList) } */}
             {   

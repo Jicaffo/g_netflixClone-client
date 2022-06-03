@@ -3,11 +3,13 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from "@material-ui/core"
 import { Navigation, Pagination, Grid } from "swiper";
+import { MediaCard } from "../";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
 
 const useStyles = makeStyles( (theme) => ({
     root:{
@@ -76,18 +78,8 @@ const useStyles = makeStyles( (theme) => ({
         msFlex: "center",
         WebkitJustifyContent: "center", 
         WebkitBoxAlign: "center",
-        WebkitAlignItems: "center", */
-        
-    },
-    swiperSlideImg:{
-        display: "block",
-        width: "100%",
-        height: "auto",
-        objectFit: "cover",
-        borderRadius: "2px",
-    },
-    
-    
+        WebkitAlignItems: "center", */   
+    }   
 }));
 
 const customPagination = {
@@ -117,7 +109,7 @@ const SwiperBrowse = ({ list, multipleRows }) => {
 
   // TODO: Revisar multirow (grid.rows no está funcionando): https://swiperjs.com/demos#slides-grid
   return (
-    <Box className={classes.root}>
+    <Box className={classes.root} key={list.name}>
       <Typography variant="h6">{list.name}</Typography>
       <Swiper
         modules={[Navigation, Pagination, Grid]}
@@ -135,10 +127,13 @@ const SwiperBrowse = ({ list, multipleRows }) => {
         list.items.map( (media) => {
           return (
             <SwiperSlide
-              key={media.title}
+              key={media._id}
               className={classes.swiperSlide}
+              //style={{border: "2px solid red", padding: "5px"}}
             >
-              <img className={classes.swiperSlideImg} src={media.img} alt={media.title}/>
+              <MediaCard
+                media={media}
+              />
             </SwiperSlide>
           )
         })
