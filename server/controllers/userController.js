@@ -19,7 +19,7 @@ const getUser = async (req, res) => {
         
         } catch (error) {
             console.log(error)
-            res.status(404).json({msg: 'User not found', data: error})
+            res.status(404).json({msg: 'User not found', error})
         }
 }
 
@@ -52,12 +52,12 @@ const postUser = async(req,res) => {
  
         
         await user.save()
-        return res.status(201).json({ msg: 'User has been created correctly'})
+        return res.status(201).json({ msg: 'User has been created correctly', user})
 
 
     } catch (error) {
         console.log(error)
-        res.status(400).json({ msg: "Something went wrong...", data: error });
+        res.status(400).json({ msg: "Something went wrong...", error });
     }
 
 }
@@ -66,11 +66,11 @@ const patchUser = async (req, res) => {
     try {
         const updatedUser = await User.findByIdAndUpdate( req.params.id, req.body, { new: true } );
 
-        res.status(200).json({ msg: "User updated", data: updatedUser });
+        res.status(200).json({ msg: "User updated", updatedUser });
 
     } catch (error) {
 
-        res.status(400).json({ msg: "Something went wrong...", data: error });
+        res.status(400).json({ msg: "Something went wrong...", error });
     }
 }
 

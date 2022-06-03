@@ -6,9 +6,9 @@ import { LanguageSelector } from '..';
 
 const handleClick = (e) => {
     //e.preventDefault()
-    console.log(localStorage.getItem("token"))
+    //console.log(localStorage.getItem("token"))
     localStorage.removeItem("token")
-    console.log(localStorage.getItem("token"))
+    //console.log(localStorage.getItem("token"))
 }
 
 const Header = () => {

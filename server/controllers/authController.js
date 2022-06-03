@@ -76,7 +76,7 @@ const register = async (req, res) => {
     }
   } catch (error) {
     res.status(400).json({
-      msg: "Something went wrong... " + error ,
+      msg: "Something went wrong... ",
       error
     });
     //console.log(error);
