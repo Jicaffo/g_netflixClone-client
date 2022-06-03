@@ -198,16 +198,20 @@ const sweeperArray = [
 const highlightedExample1 = {
   backgroundImgUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABb9zrJZCzWWOWP5CIL2SdDpBx-4JLVaJO0LJ-u8_BDW_sdIxq5b-lKooj4SSP9QwVBtXSkk-EKTaM6flxnHsKq6DMMZw.jpg?r=be2",
   titleImgUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABZKs5-soLOHmu6m6EyWtdg0guNI5VwLCHQOqn7U7tlAHroNHELlws9qCxOOgf1Xq-6nCkCG-2VjtQ08DzHAsDb545N2vMCdtjzCbNzZzM9zPa1AbCBdEoQfUo4NMj-ZVNhtd5lHVo_ASMH6zcy6BorxtccPuDN1EnZz9OxAz2WHXJA.png?r=05f",
+  titleText: "¿Sabes quien es?",
   subtitleText: "Nº2 en Argentina hoy",
   descriptionText: "Cuando un violento ataque en su pueblo saca a la luz amenazas ocultas y secretos mortales, una mujer comienza a descifrar el oscuro pasado de su madre.",
   link: "https://www.netflix.com/watch/81056342?trackId=254015180&tctx=0%2C0%2C45a78b47-5bdd-4b40-a53d-4e39cce5f9ce-235618663%2C30449431-79ca-4fb7-927a-f9fae0dc8c03_49811758X20XX1646873762874%2C30449431-79ca-4fb7-927a-f9fae0dc8c03_ROOT%2C%2C%2C",
+  trailer: "https://www.youtube.com/watch?v=ueZq2SHcE1A"
 };
 const highlightedExample2 = {
   backgroundImgUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABY3-lXaMRMJpy-zdR4inwi82GzFqU8VHTjDKKYQqvBTMx3VWuDj0LEmR1LpDxKud-UpkeIA97EtLktl4leC_pIgq9ReU.jpg?r=6e4",
   titleImgUrl: "https://occ-0-5386-185.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABc81Y9B_WQtmDr8lNhT6lFbxRP-zkf4Tpm1ri7Xc8F55A8sVu4w8LM325LJPw9Zf18mECfUqbz_va2sameo_6B5AzVCx8KDEKGrNNaY76kom-bmOsRIvn7tLp2iEZPMwgRg1n1nu6HwWARdZI2Tp2ytfxDS12Yyp81yS2XsGFPRIIg.png?r=cdb",
+  titleText: "ARQ",
   subtitleText: "",
   descriptionText: "Presa de un laboratorio y del tiempo, una pareja confundida elude a intrusos enmascarados mientras protege una nueva fuente de energía que podría salvar a la humanidad",
   link: "https://www.netflix.com/watch/80092885?trackId=254015180&tctx=0%2C0%2C1964f4be-4aa7-4d89-bb01-81ddc0459403-11878621%2C436ba6c5-b475-40c5-bd98-475342f5e49b_7639256X20XX1647292028747%2C436ba6c5-b475-40c5-bd98-475342f5e49b_ROOT%2C%2C%2C",
+  trailer: "https://www.youtube.com/watch?v=JY0DGLrd9GY"
 };
 
 // Para poder cambiar fácilmente entre highlightedExample1 y highlightedExample2 
