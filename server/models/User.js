@@ -10,7 +10,7 @@ const profileImg = [
     "https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUngvSNL3ED6g9NsWhW9_FdDDzKC1gZCmLxi7mim9httnXRVYSxNJHJpbvblu0K_S94YoyPlkA2dja-zfL17UYw6WHkC.png?r=d26",
 ];
 
-function getRandomProfileImg() {
+const getRandomProfileImg = () => {
     const randomNumber = Math.floor(Math.random() * profileImg.length);
     return profileImg[randomNumber];
 }
@@ -31,7 +31,7 @@ const profileSchema = mongoose.Schema({
     },
     img: {
         type: String,
-        default: getRandomProfileImg(),
+        default: getRandomProfileImg,
         trim: true
     },
     mainProfile: {
@@ -105,7 +105,7 @@ usersSchema.statics.encryptPassword = async (password) => {
 
 //desencripta y compara
 usersSchema.statics.comparePassword = async (password, passwordRecibido) => {
-return await bcrypt.compare(password, passwordRecibido);
+    return await bcrypt.compare(password, passwordRecibido);
 };
 
 export default mongoose.model('User', usersSchema)
