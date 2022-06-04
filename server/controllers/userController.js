@@ -1,11 +1,29 @@
-import User from '../models/User.js';
 import bcryptjs from 'bcryptjs';
 import { validationResult } from 'express-validator';
-import jwt from 'jsonwebtoken';
+import User from '../models/User.js';
+import profileController from "./profileController.js"
 
-//This function will create a new user from users collection.
+const getAllUsers = async (req, res) => {
+    try {
+        const allUsers = await User.find()    
+        res.status(200).json({ msg: "Users retrieved", allUsers });
+    } catch (error) {
+        res.status(400).json({ msg: "Something went wrong...", error });
+    }
+}
 
-const makeUser = async(req,res) => {
+const getUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id)
+        res.status(200).json({data: user})
+        
+        } catch (error) {
+            console.log(error)
+            res.status(404).json({msg: 'User not found', error})
+        }
+}
+
+const postUser = async(req,res) => {
 
     //Checking Errors
     const errors = validationResult(req);
@@ -34,13 +52,48 @@ const makeUser = async(req,res) => {
  
         
         await user.save()
-        return res.status(200).json({ msg: 'User has been created correctly'})
+        return res.status(201).json({ msg: 'User has been created correctly', user})
 
 
     } catch (error) {
         console.log(error)
-        res.status(500).send('Something wrong')
+        res.status(400).json({ msg: "Something went wrong...", error });
+    }
+
+}
+
+const patchUser = async (req, res) => {
+    try {
+        const updatedUser = await User.findByIdAndUpdate( req.params.id, req.body, { new: true } );
+
+        res.status(200).json({ msg: "User updated", updatedUser });
+
+    } catch (error) {
+
+        res.status(400).json({ msg: "Something went wrong...", error });
     }
 }
 
-export { makeUser };
+const deleteUser = async (req, res) => {
+    try {
+
+        const deletedUser = await User.findByIdAndRemove(req.params.id);
+        if(!deletedUser) return res.status(404).json({ msg: "User Not Found"});
+        
+        res.status(200).json({ msg: "User deleted", deletedUser });
+    } catch (error) {
+        res.status(400).json({ msg: "Something went wrong...", error });
+    }
+}
+
+const userController = { 
+    ...profileController,
+    getAllUsers, 
+    getUser, 
+    postUser,
+    patchUser,
+    deleteUser
+}
+
+
+export default userController;

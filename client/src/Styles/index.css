@@ -1,0 +1,13 @@
+/*Reseteo general*/
+body {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    background-color: black;
+    color: white;
+    font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+
+/* Lo utilizamos por ahora en un placeholder para el agregado de los perfiles*/
+  ::-webkit-input-placeholder { color: rgba(255, 255, 255, 0.600); }

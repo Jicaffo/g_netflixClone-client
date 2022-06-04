@@ -4,12 +4,14 @@
   "description": "Netflix Clone de Guayerd",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "dev": "nodemon index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -17,15 +19,16 @@
     "express-validator": "^6.14.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.3",
-    "morgan": "^1.10.0",
     "nodemon": "^2.0.15"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "morgan": "^1.10.0"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jpromanonet/guayerd_netflixClone.git"
   },
-  "type":"module",
+  "type": "module",
   "bugs": {
     "url": "https://github.com/jpromanonet/guayerd_netflixClone/issues"
   },
