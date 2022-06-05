@@ -217,6 +217,7 @@ const highlightedExample2 = {
 // Para poder cambiar fácilmente entre highlightedExample1 y highlightedExample2 
 const highlightedMedia = highlightedExample1;
 
+// TODO: Si no recibe un currentProfile, no debería renderizar, debería redirigir a /profiles para setearlo
 // TODO: Mejorar responsiveness
 const Browse = () => {
   return (

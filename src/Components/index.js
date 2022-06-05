@@ -14,6 +14,25 @@ import ListContainer from './ListContainer/ListContainer';
 import EditUserProfile from './EditUserProfile/EditUserProfile';
 import AddUserProfile from './AddUserProfile/AdduserProfile';
 import MediaCard from './MediaCard/MediaCard';
+import AuthRequiredWrapper from './AuthRequiredWrapper/AuthRequiredWrapper';
 
 
-export { Welcome, MailLogin, FeatureGroup, SeccionPreguntasFrecuentes, UserRegister ,UserLogin, Header, UserProfiles,EditUserProfile, AddUserProfile, HighlightedMedia, SwiperBrowse, Footer, LanguageSelector, ListContainer, MediaCard };
+export {
+    Welcome,
+    MailLogin,
+    FeatureGroup,
+    SeccionPreguntasFrecuentes,
+    UserRegister,
+    UserLogin,
+    Header,
+    UserProfiles,
+    EditUserProfile,
+    AddUserProfile,
+    HighlightedMedia,
+    SwiperBrowse,
+    Footer,
+    LanguageSelector,
+    ListContainer,
+    MediaCard,
+    AuthRequiredWrapper,
+};
