@@ -15,6 +15,7 @@ import EditUserProfile from './EditUserProfile/EditUserProfile';
 import AddUserProfile from './AddUserProfile/AdduserProfile';
 import MediaCard from './MediaCard/MediaCard';
 import AuthRequiredWrapper from './AuthRequiredWrapper/AuthRequiredWrapper';
+import Error404 from './Error404/Error404';
 
 
 export {
@@ -35,4 +36,5 @@ export {
     ListContainer,
     MediaCard,
     AuthRequiredWrapper,
+    Error404
 };
