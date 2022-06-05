@@ -5,6 +5,16 @@ import Profiles from './Profiles/Profiles';
 import EditProfile from './EditProfile/EditProfile';
 import AddProfile from './AddProfile/AddProfile';
 import Browse from './Browse/Browse';
+import NotFound from './NotFound/NotFound';
 
 
-export { Home, Register, Login, Profiles,EditProfile, AddProfile, Browse };
+export {
+    Home,
+    Register,
+    Login,
+    Profiles,
+    EditProfile,
+    AddProfile,
+    Browse,
+    NotFound,
+};

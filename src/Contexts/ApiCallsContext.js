@@ -5,7 +5,7 @@ const ApiCallsContext = createContext({});
 export const ApiCallsProvider = ({ children }) => {
 
     const apiData = {
-        BASE_URL: "http://www.localhost:5050/api",
+        BASE_URL: "https://g-netflix-clone-server.herokuapp.com/api",
     }
 
     return (
