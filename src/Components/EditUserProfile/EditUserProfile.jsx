@@ -1,21 +1,20 @@
-import { React, useState, useEffect } from "react";
+import { React, useState, useEffect, useContext} from "react";
 import {
   Typography,
   Container,
   Box,
   Button,
-  capitalize,
+  TextField,
+  FormControl
 } from "@material-ui/core";
-import { useParams } from "react-router-dom";
+import { useParams, Link, useHistory, useLocation } from "react-router-dom";
 // import { useProfiles } from "../../Contexts/profilesContext";
-
 import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
-import InputLabel from "@material-ui/core/InputLabel";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
-import NativeSelect from "@material-ui/core/NativeSelect";
+import { Formik, Form } from "formik";
+import * as Yup from "yup";
+import ApiCallsContext from "../../Contexts/ApiCallsContext";
+import { get, patch, deleteResource } from "../../Services/apiCalls"
+import "../../Styles/index.css";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -82,13 +81,13 @@ const useStyles = makeStyles((theme) => ({
     top: "-2%",
   },
   profileNameEntry: {
-    width: "15em",
-    height: "1.5em",
+    width: "17em",
+    height: "2em",
     backgroundColor: "#666",
-    border: "1px solid transparent",
-    outline: "none",
+    // border: "1px solid transparent",
+    // outline: "none",
     margin: "0 0.8em 0 0",
-    padding: "0.2em 0.6em",
+    padding: "0em 0.6em",
     color: "#fff",
     fontSize: "1.3vw",
     // boxSizing: "border-box",
@@ -272,21 +271,29 @@ const useStyles = makeStyles((theme) => ({
 
 const EditUserProfile = ({ onAction }) => {
   const classes = useStyles();
+  const { BASE_URL } = useContext(ApiCallsContext)
+  const history = useHistory();
+  const { id } = useParams();
 
-  // const { userName } = useParams();
-  const { userId } = useParams();
-
-  const [stateUserName, stateSetUserName] = useState("userName");
+  // const [stateUserName, stateSetUserName] = useState("");
+  const [profile, setProfile] = useState({});
+  const [profileName, setProfileName] = useState({});
+  const [profileImg, setProfileImg] = useState({});
   const [checkedNextEpisode, setNextEpisodeChecked] = useState(true);
   const [checkedVideoMerch, setVideoMerchChecked] = useState(true);
 
-  const handleChangeUserName = (e) => {
-    stateSetUserName(e.target.value);
-  };
+  // Obtiene un perfil en base al id obtenido por parámetro
+  useEffect(async() => {
+    const url = BASE_URL + `/profiles/${id}`        
+    const res = await get(url)
+    setProfile(res.data.profile)
+  }, []);
 
-  useEffect(() => {
-    console.log("Se modifico el USERNAME");
-  }, [stateUserName]);
+//  console.log("profile:",profileName)
+
+  const handleChangeUserName = async(e) => {
+    setProfileName(e.target.value);
+  };
 
   const handleChangeNextEpisode = (event) => {
     setNextEpisodeChecked(event.target.checked);
@@ -296,14 +303,38 @@ const EditUserProfile = ({ onAction }) => {
     setVideoMerchChecked(event.target.checked);
   };
 
-  // const { deleteProfile } = useProfiles();
-
-  const handleDelete = (userId) => {
-    // deleteProfile(userId);
+// Eliminar un perfil segun su id
+  const handleDelete = async (id) => {
+    const url = BASE_URL + `/profiles/${id}`        
+    const res = await deleteResource(url)
   };
 
   return (
-    <>
+   <>
+   {/* { console.log("formik:", profileName.profile.name)} */}
+   {/* { console.log("formik nombre:", nombre)} */}     
+   {/* {console.log(profileName.profile.name)} */}
+         
+      <Formik
+        initialValues={{
+          name: profile.name,
+        }}
+        // initialValues={{ 
+        //   name: "",
+        // }}
+        onSubmit={async (values) => {
+          // console.log(values)
+          const url = BASE_URL + `/profiles/${id}` 
+          // const url = BASE_URL + "/profiles/629d21dfb02969dfe30d0001"
+          const newProfile = values
+          const res = await patch(url,newProfile)
+          console.log("patch:", res.data)
+          history.push(`/profiles`);
+        }}
+      >
+
+      {({ values, handleSubmit,handleChange }) => (
+      <Form onSubmit={handleSubmit}>
       <div style={{ backgroundColor: "#141414" }}>
         <Box className={classes.root}>
           {/* <Container maxWidth="dm" className={classes.container}>      */}
@@ -321,7 +352,8 @@ const EditUserProfile = ({ onAction }) => {
             <Box className={classes.mainProfileAvatar}>
               <img
                 className={classes.itemsGrid}
-                src="https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71"
+                // src="https://occ-0-22-1740.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABWu33TcylnaLZwSdtgKR6mr0O63afqQLxZbzHYQZLkCJ9bgMTtsf6tzs_ua2BuTpAVPbhxnroiEA-_bqJmKWiXblO9h-.png?r=f71"
+                src={profile.img}
                 alt="Profile Image"
               />
               <svg
@@ -333,29 +365,40 @@ const EditUserProfile = ({ onAction }) => {
                 className={classes.svgEditIcon}
               >
                 <path
-                  fill-rule="evenodd"
-                  clip-rule="evenodd"
+                  // fill-rule="evenodd"
+                  // clip-rule="evenodd"
                   d="M22.2071 7.79285L15.2071 0.792847L13.7929 2.20706L20.7929 9.20706L22.2071 7.79285ZM13.2071 3.79285C12.8166 3.40232 12.1834 3.40232 11.7929 3.79285L2.29289 13.2928C2.10536 13.4804 2 13.7347 2 14V20C2 20.5522 2.44772 21 3 21H9C9.26522 21 9.51957 20.8946 9.70711 20.7071L19.2071 11.2071C19.5976 10.8165 19.5976 10.1834 19.2071 9.79285L13.2071 3.79285ZM17.0858 10.5L8.58579 19H4V14.4142L12.5 5.91417L17.0858 10.5Z"
                   fill="currentColor"
                 ></path>
               </svg>
             </Box>
+{/* {console.log("sep",profile)} */}
+{/* {console.log("handle", stateUserName)} */}
 
             <Box className={classes.root}>
               {/* <Container >    */}
-              <input
-                type="text"
-                name="userName"
+              <TextField
+                // type="text"
+                // name="userName"
+                // className={classes.profileNameEntry}
+                // onChange={(e) => handleChangeUserName(e)}
+                // value={stateUserName}
+                name="name"
+                //value={profileName || ""} //anda pero no se puede editar
+                value={profile.name}
+                onChange={handleChange}
+                // onChange={(e) => handleChangeUserName(e)}
                 className={classes.profileNameEntry}
-                onChange={(e) => handleChangeUserName(e)}
-                value={stateUserName}
+                placeholder="Nombre"
+                InputProps={{ disableUnderline: true }}
+                inputProps={ { style: {fontSize: 18, color: "white" } } }
               />
               <Typography className={classes.profileDropDownLabel}>
                 Idioma:
               </Typography>
 
               <FormControl className={classes.formControl}>
-                <select className={classes.selectIdioma}>
+                <select className={classes.selectIdioma} defaultValue={"Español"}>
                   <option
                     className={classes.optionIdioma}
                     value="Bahasa Indonesia>"
@@ -377,11 +420,7 @@ const EditUserProfile = ({ onAction }) => {
                   <option className={classes.optionIdioma} value="English">
                     English
                   </option>
-                  <option
-                    className={classes.optionIdioma}
-                    selected
-                    value="Español"
-                  >
+                  <option className={classes.optionIdioma} value="Español">
                     Español
                   </option>
                   <option className={classes.optionIdioma} value="Français">
@@ -497,8 +536,8 @@ const EditUserProfile = ({ onAction }) => {
                     >
                       {checkedNextEpisode ? (
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          // fill-rule="evenodd"
+                          // clip-rule="evenodd"
                           d="M8.68239 19.7312L23.6824 5.73115L22.3178 4.26904L8.02404 17.6098L2.70718 12.293L1.29297 13.7072L7.29297 19.7072C7.67401 20.0882 8.28845 20.0988 8.68239 19.7312Z"
                           fill="currentColor"
                         ></path>
@@ -510,7 +549,7 @@ const EditUserProfile = ({ onAction }) => {
                     className={classes.nextEpisodeMarker}
                     role="checkbox"
                     aria-checked="true"
-                    tabindex="0"
+                    // tabindex="0"
                   >
                     Reproducir automáticamente el siguiente episodio de una
                     serie en todos los dispositivos.
@@ -538,8 +577,8 @@ const EditUserProfile = ({ onAction }) => {
                     >
                       {checkedVideoMerch ? (
                         <path
-                          fill-rule="evenodd"
-                          clip-rule="evenodd"
+                          // fill-rule="evenodd"
+                          // clip-rule="evenodd"
                           d="M8.68239 19.7312L23.6824 5.73115L22.3178 4.26904L8.02404 17.6098L2.70718 12.293L1.29297 13.7072L7.29297 19.7072C7.67401 20.0882 8.28845 20.0988 8.68239 19.7312Z"
                           fill="currentColor"
                         ></path>
@@ -551,7 +590,7 @@ const EditUserProfile = ({ onAction }) => {
                     className={classes.videoMerchMarker}
                     role="checkbox"
                     aria-checked="true"
-                    tabindex="0"
+                    // tabindex="0"
                   >
                     Se reproducen automáticamente los avances mientras navegas
                     (en todos los dispositivos).
@@ -564,27 +603,29 @@ const EditUserProfile = ({ onAction }) => {
           </Box>
 
           {/* <Container maxWidth="md">    */}
-          <Button className={classes.buttonGuardar} href="/manage-profiles">
+          {/* <Button className={classes.buttonGuardar} href="/manage-profiles"> */}
+
+          <Button className={classes.buttonGuardar} role="button" type="submit">
             Guardar
           </Button>
+            
           <Button className={classes.buttonCancelar} href="/manage-profiles">
             Cancelar
           </Button>
-          {/* Por ahora para el renderizado se filtra por nombre "José" estatico, ya que el user principal no debe tener el boton de eliminar perfil */}
-          {/* {userName !== "José" ? ( */}
-          {userId !== "623ba68812028cc08244e506" ? (
             <Button
               className={classes.buttonEliminar}
               href="/manage-profiles"
-              onClick={() => handleDelete(userId)}
+              onClick={() => handleDelete(id)}
             >
               Eliminar perfil
             </Button>
-          ) : null}
 
           {/* </Container>             */}
         </Container>
       </div>
+      </Form>
+      )}
+      </Formik>
     </>
   );
 };
