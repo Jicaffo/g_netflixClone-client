@@ -2,13 +2,15 @@ import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { makeStyles } from '@material-ui/core/styles';
 import { Box, Typography } from "@material-ui/core"
-import { Navigation, Pagination, Grid } from "swiper";
+import { Navigation, Pagination, Grid, Autoplay } from "swiper";
 import { MediaCard } from "../";
 
 // Import Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+
+
 
 
 const useStyles = makeStyles( (theme) => ({
@@ -66,20 +68,13 @@ const useStyles = makeStyles( (theme) => ({
         fontSize: "18px",
         background: "#141414",
         transition: "250ms all",
-        alignItems: "center",
+        alignItems: "baseline",
         justifyContent: "center",
         display: "flex",
-
-        /* Center slide text vertically
-        display: "-webkit-box",
-        display: "-ms-flexbox",
-        display: "-webkit-flex", 
-        WebkitBoxPack: "center",
-        msFlex: "center",
-        WebkitJustifyContent: "center", 
-        WebkitBoxAlign: "center",
-        WebkitAlignItems: "center", */   
-    }   
+        position: "relative",
+        justifyContent: "flex-end"
+    },
+    
 }));
 
 const customPagination = {
@@ -107,13 +102,15 @@ const SwiperBrowse = ({ list, multipleRows }) => {
   
   const classes = useStyles();
 
+  
+
   // TODO: Revisar multirow (grid.rows no está funcionando): https://swiperjs.com/demos#slides-grid
   return (
     <Box className={classes.root} key={list.name}>
       <Typography variant="h6">{list.name}</Typography>
       <Swiper
         modules={[Navigation, Pagination, Grid]}
-        slidesPerView={6}
+        slidesPerView={5}
         spaceBetween={11}
         slidesPerGroup={6}
         speed={800}
@@ -129,11 +126,13 @@ const SwiperBrowse = ({ list, multipleRows }) => {
             <SwiperSlide
               key={media._id}
               className={classes.swiperSlide}
-              //style={{border: "2px solid red", padding: "5px"}}
+              
             >
               <MediaCard
                 media={media}
+                
               />
+              
             </SwiperSlide>
           )
         })
