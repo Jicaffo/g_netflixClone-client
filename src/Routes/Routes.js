@@ -9,7 +9,7 @@ import {
   Browse,
   EditProfile,
   AddProfile,
-  NotFound,
+  page404,
 } from "../Pages";
 
 
@@ -28,7 +28,7 @@ function Routes() {
           <Route exact component={AddProfile} path="/add-profile/" />
           <Route exact component={Browse} path="/browse" />
         </AuthRequiredWrapper>
-        <Route component={NotFound} path="/*" />
+        <Route component={page404} path="/*" />
         </>
     </Switch>
   );

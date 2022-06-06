@@ -5,7 +5,7 @@ import Profiles from './Profiles/Profiles';
 import EditProfile from './EditProfile/EditProfile';
 import AddProfile from './AddProfile/AddProfile';
 import Browse from './Browse/Browse';
-import NotFound from './NotFound/NotFound';
+import page404 from './page404/page404';
 
 
 export {
@@ -16,5 +16,5 @@ export {
     EditProfile,
     AddProfile,
     Browse,
-    NotFound,
+    page404,
 };
