@@ -19,17 +19,17 @@ function Routes() {
         <Route exact component={Home} path="/" />
         <Route exact component={Register} path="/register" />
         <Route exact component={Login} path="/login" />
-        <>
-        <AuthRequiredWrapper>
+        {/* <>
+        <AuthRequiredWrapper> */}
           <Route exact component={Profiles} path="/profiles" />
           <Route exact component={Profiles} path="/manage-profiles" />
           <Route exact component={EditProfile} path="/manage-profiles/:id" />
           {/* <Route exact component={EditProfile} path="/manage-profiles/:userName" /> */}
           <Route exact component={AddProfile} path="/add-profile/" />
           <Route exact component={Browse} path="/browse" />
-        </AuthRequiredWrapper>
+        {/* </AuthRequiredWrapper> */}
         <Route component={page404} path="/*" />
-        </>
+        {/* </> */}
     </Switch>
   );
 }
