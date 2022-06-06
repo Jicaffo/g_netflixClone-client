@@ -1,0 +1,1 @@
+export const BACKEND_HOST = "https://g-netflix-clone-server.herokuapp.com"; // https://g-netflix-clone-server.herokuapp.com / http://localhost:5050 

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BACKEND_HOST } from '../Constants'
 
 // ESTRUCTURA DE LA RESPUESTA PARA EL BACK, Debería poder accederse de la siguiente forma:
 // res.status // Código de respuesta. Ej: 200
@@ -9,6 +10,16 @@ import axios from 'axios';
 // res.data.savedUser // Detalle del recurso manipulado (savedUser, deletedUser, updatedProfile, etc)
 // res.data.token // Devuelve el JWT // NTH: Es correcto que viaje así o va por header también en la respuesta. "Bearer" en vez de "x-access-token"?
 // res.data.error // Objeto del error (en caso de petición fallida)
+
+
+// NTH: Ver si funciona Axios defaults para evitar tener que pasar baseURL y header en cada petición: https://axios-http.com/docs/config_defaults
+const BASE_URL = BACKEND_HOST + "/api";
+
+const setHeaders = () =>{
+    return {
+        'x-access-token': localStorage.getItem("token")
+    }
+}
 
 const setConfig = () =>{
     return {
@@ -51,9 +62,25 @@ const patch = async(url, data) => {
     return res;
 }
 
+// Desde esta función se puede hacer cualquier petición (GET, POST, PATCH, DELETE), pasandole la info correspondiente.
+const request = async ({method, url, data}) => {
+    console.log("Data recibida: ", method, url, data)
+    const res = await axios({
+        method: method ?? "GET",
+        baseURL: BASE_URL,
+        url, // Si es absoluta, sobreescribe baseURL, de lo contrario se suman (BASE_URL + url)
+        headers: setHeaders(),
+        data 
+    }).catch( err => {
+        console.error("Error en la petición al servidor..." + err /*+ ". Status:" + res.status*/)
+    })
+    return res;  
+}
+
 export {
     post,
     get,
     patch,
     deleteResource,
+    request,
 }

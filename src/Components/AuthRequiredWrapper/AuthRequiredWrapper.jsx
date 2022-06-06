@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 // TOFIX: Actualmente altera el comportamiento de todo lo que viene después.
 // - Si está activo pero el componente sólo pasa sus children como return, permite ver todas las páginas (no protege).
-//   - Si usamos Fragment 404 Funciona bien.
+//   - Si usamos Fragment 404 Funciona bien. // TOFIX: Al crear la página 404 con imagen de fondo rompió. Ver por qué/alternativas.
 //   - Si NO usamos el Fragment nunca se llega a mostrar cualquier cosa que esté despues (404 x ej) (no entra dentro del switch asumo).
 // - Si verifica token,
 //   - Si NO tenemos token (independiente de fragment o no), todas las rutas post wrapper son redirigidas a /login (están dentro o debajo).
